@@ -1,0 +1,54 @@
+---
+title: Hello Nextra
+date: 2025/09/21
+description: Welcome to my new blog powered by Next.js and Nextra
+tag: nextra, blog, migration
+author: Augustin Chan
+---
+
+# Hello Nextra
+
+Welcome to my new blog! I've migrated from Jekyll to a modern stack using Next.js and Nextra.
+
+## Why the Migration?
+
+After years of using Jekyll, I wanted to move to a more modern, performant stack that would give me:
+
+- **Better Developer Experience** - Hot reloading, TypeScript support
+- **Performance** - Next.js SSG with optimized builds
+- **Modern Tooling** - React ecosystem, better CI/CD
+- **Maintainability** - Active development vs aging Jekyll
+
+## Technical Details
+
+This site now uses:
+
+```javascript
+// next.config.mjs
+import nextra from 'nextra'
+
+const withNextra = nextra({
+  search: {
+    codeblocks: false
+  }
+})
+
+export default withNextra()
+```
+
+The migration involved:
+1. Setting up Next.js 15 with Nextra 4
+2. Configuring Pagefind for search
+3. Adding MDX support for rich content
+4. Deploying to Vercel
+
+## What's Next?
+
+I'll be migrating my existing blog posts and continuing to write about:
+
+- AI and machine learning
+- Web3 and blockchain development
+- Web development best practices
+- Product building experiences
+
+Stay tuned for more content!

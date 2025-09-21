@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//home/hosermage/projects/augustinchan.dev/app/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
