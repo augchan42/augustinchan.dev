@@ -1,0 +1,51 @@
+/* Easy Font Switching for augustinchan.dev */
+/* Uncomment one option at a time to test different fonts */
+
+/* Option 1: MS Sans Serif (Classic Windows) */
+html, body, * {
+  font-family: "MS Sans Serif", sans-serif !important;
+  font-size: 20px !important;
+}
+
+/* Option 2: Courier New (Typewriter style) */
+/* html, body, * {
+  font-family: "Courier New", monospace !important;
+} */
+
+/* Option 3: Verdana (90s web standard) */
+/* html, body, * {
+  font-family: "Verdana", sans-serif !important;
+} */
+
+/* Option 4: Terminal (DOS style monospace) */
+/* html, body, * {
+  font-family: "Terminal", monospace !important;
+  font-size: 20px !important;
+} */
+
+/* Option 5: Trebuchet MS (90s Microsoft) */
+/* html, body, * {
+  font-family: "Trebuchet MS", sans-serif !important;
+} */
+
+/* Option 6: Consolas (Modern retro monospace) */
+/* html, body, * {
+  font-family: "Consolas", monospace !important;
+} */
+
+/* Option 7: Comic Sans MS (Love it or hate it) */
+/* html, body, * {
+  font-family: "Comic Sans MS", cursive !important;
+} */
+
+/* Option 8: Impact (Bold 90s style) */
+/* html, body, * {
+  font-family: "Impact", sans-serif !important;
+} */
+
+/* Simple Black on Cream Theme */
+/* Ensure proper font rendering */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

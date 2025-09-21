@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Read(//home/hosermage/projects/augustinchan.dev/app/**)"
+      "Read(//home/hosermage/projects/augustinchan.dev/app/**)",
+      "mcp__browser-tools__takeScreenshot",
+      "Read(//home/hosermage/Downloads/mcp-screenshots/**)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []

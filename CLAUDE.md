@@ -81,3 +81,10 @@ The site uses Nextra's file-based routing with `_meta.json` files defining navig
 - Update navigation by modifying `pages/_meta.json`
 - Theme customization happens in `theme.config.tsx`
 - All pages support full MDX capabilities (markdown + React components)
+
+## Screenshots
+To check the latest screenshot from browser tools:
+```bash
+ls -la ~/Downloads/mcp-screenshots/*.png | tail -1
+```
+Then read the file with the Read tool using the full path.
