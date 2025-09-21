@@ -5,7 +5,9 @@
       "mcp__browser-tools__takeScreenshot",
       "Read(//home/hosermage/Downloads/mcp-screenshots/**)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(pnpm dev:*)",
+      "Bash(pnpm build:*)"
     ],
     "deny": [],
     "ask": []
