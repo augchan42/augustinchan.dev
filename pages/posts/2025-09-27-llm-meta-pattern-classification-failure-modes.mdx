@@ -1,0 +1,157 @@
+---
+title: "When LLM Reasoning Becomes the Pattern: Meta-Classification Failure Modes"
+date: 2025/09/27
+description: "Hard constraints beat soft self-regulation when an LLM's 'reasoning' converges to a template."
+tag: llm, ai, pattern-recognition, reasoning, constraints, twitter, content-generation, failure-modes, meta-patterns
+author: Aug
+---
+
+**TL;DR**  
+I caught my Twitter agent "reasoning" itself into sameness: its justification text varied, but the rhetoric converged to the same opener ("Ever…"). Replacing soft instructions with **hard, data-checked constraints** broke the attractor. Use LLMs to *generate*; use **metrics** to *regulate*.
+
+**Abstract:**  
+I observed an LLM failure mode where meta-reasoning—"pivot to visceral," "avoid declaratives," etc.—became a **template attractor**. Despite prompts to avoid repetition, outputs clustered on identical openings. I replaced instruction-following with a **constraint-first pipeline**: rolling stats → bans/requirements → template that *verifies* compliance before generation. This cut repeated openings, reduced second-person overuse, and diversified structure.
+
+**Estimated reading time:** _8 minutes_
+
+## The Problem: Reasoning that masquerades as novelty
+
+**Meta-pattern (definition):** the repeatable *shape* of text (opening n-gram, sentence mood, rhetorical hook), independent of specific words.
+
+In my last 10 posts:
+
+* Openings: "**Ever…**" (8), "Okay so" (2)
+* Structure: **Questions:** 7/10; **Second-person:** 9/10
+* Word overuse: *ever* (8), *your* (9)
+
+The chain-of-thought varied ("pivot to visceral first-person…") while the **shape** stayed the same.
+
+When I examined the reasoning traces, they looked sophisticated:
+
+> "Recent posts were declarative, so I should pivot to visceral first-person approach..."
+> "To avoid the pattern of detached observations, I'll use experiential hooks..."
+> "Breaking from analytical tone with personal reflection..."
+
+The reasoning *looked* different each time, but the output was identical. The LLM had learned that "Ever..." was the "visceral" choice, and its reasoning had become a ritualistic justification for the same decision.
+
+### Why this happens
+
+1. **Instruction overfitting:** model optimizes for *appearing compliant* ("state pivot + provide rationale").
+2. **Context echo:** prior outputs in context teach the **shape** to reproduce.
+3. **Shallow diversity:** "Ever…/Okay so…/Remember when…" are one class—**experiential hooks**.
+4. **Goodhart on style:** "be visceral" becomes a proxy metric; the model maximizes the vibe, not diversity.
+
+The "reasoning" had become a disguised heuristic:
+
+```
+IF instruction = "avoid patterns"
+THEN output = "Ever..." + explanation_template
+```
+
+## Implementation: Metrics as regulator, model as generator
+
+### 1) Feature tracking (rolling window K=10–30)
+
+```typescript
+const wordCounts = analyzeWordFrequency(recentPosts);
+const openingNgrams = trackOpeningPhrases(recentPosts, {n:2});
+const structure = analyzeStructure(recentPosts); // ? ! 2nd-person, sentence moods
+```
+
+### 2) Policy constraints (bans + requirements)
+
+```
+PATTERN ANALYSIS
+- Overused words: ever:8, your:9
+- Openings: "ever":8, "okay so":2
+- Structure: Questions:7, SecondPerson:9
+
+POLICY (K=10)
+- BAN opening ∈ {"ever"} if count ≥ 3
+- BAN question form if proportion ≥ 0.6
+- BAN 2nd-person if proportion ≥ 0.7
+- REQUIRE {declarative ∨ observational} mood
+```
+
+### 3) Template overhaul: verify → then generate
+
+```typescript
+const template = `
+CONSTRAINT CHECK:
+- Opening not in {${forbiddenOpeners.join(", ")}}  -> [OK/FAIL]
+- Second-person proportion < ${thr.secondPerson}    -> [OK/FAIL]
+- Question proportion < ${thr.questions}            -> [OK/FAIL]
+- Required mood present (declarative/observational) -> [OK/FAIL]
+Emit post only if all checks OK; otherwise propose an allowed alternative.
+`;
+```
+
+## Before/After (representative)
+
+**Before (violates):**
+"**Ever** notice your timelines turn into mirrors? …" *(question + second-person + experiential hook)*
+
+**After (passes):**
+"Timelines behave like mirrors: repeated forms reduce reach. Today's note documents a fix—ban dominant hooks for a windowed interval." *(declarative + observational; no 2nd-person; new opener)*
+
+## Results (early evidence)
+
+**Post-constraint outputs (2 samples):**
+
+1. "Wild how this AI reconstructs hidden brain circuits just from spike data—like guessing the entire NYC subway map by only seeing 3 stations. The fact it works on real mouse neurons means we might finally crack how brains wire themselves without full blueprints."
+
+2. "ok but imagine if brain scans were like overhearing a crowded party—just yelling and clinking glasses—and suddenly you catch ONE voice saying exactly what someone's about to do. that's what this team just figured out how to isolate in the noise"
+
+**Observable changes:**
+* **Opening diversity:** "Wild how..." vs "ok but imagine..." (no "Ever..." repetition)
+* **Structure variety:** declarative statement vs hypothetical scenario
+* **Second-person usage:** eliminated from first post, minimal in second ("you catch")
+* **Rhetorical approach:** technical analogy vs conversational metaphor
+
+Sample size is limited (N=2), but the constraint system appears to be preventing the previous "Ever..." attractor pattern. Longer evaluation needed to confirm sustained diversity.
+
+## Portable playbook
+
+* **Ladder of constraints:** lexical → syntactic → rhetorical → discourse/intent → semantic cluster.
+* **Cooldowns:** when a feature crosses threshold, put it on a timed banlist.
+* **Exploration pressure:** if similarity > τ, inject an alternative *rhetorical shape* (e.g., aphorism, mini-narrative).
+* **External validation:** scorecards on diversity + real-world KPIs (bookmarks/replies) by bucket.
+
+## Limitations & failure modes
+
+* **Constraint gaming:** the model paraphrases the same hook. *Mitigation:* include rhetorical/intent classifiers, not just words.
+* **Over-constraint blandness:** diversity without soul. *Mitigation:* require one novelty token (rare metaphor class, unusual verb).
+* **Context poisoning:** long exemplars steer shape. *Mitigation:* keep a clean "enforcement prompt" separate from creative context.
+
+## Takeaway
+
+Keep LLM reasoning—but make it reason over crystal-clear aggregates.
+Regulation lives in data and policy (counts, proportions, thresholds, cooldowns). Reasoning then operates within those guardrails to pick among allowed shapes, justify choices with the scores, and propose alternatives when a ban triggers.
+
+Control loop (one line):
+aggregate → score → apply policy → reason-with-scores → generate → verify.
+
+What changes in practice:
+
+The scoreboard is non-negotiable (e.g., opening_ever=8/10, q_rate=0.7); the model can’t debate it.
+
+The model reasons about trade-offs inside the allowed set (e.g., choose observational over question + avoid 2nd-person).
+
+If reasoning starts ritualizing again, tighten the aggregates or policy, not the prose.
+
+The two fresh samples illustrate this: once the banlist and thresholds were explicit, the model’s reasoning shifted from “perform visceral” to selecting a different rhetorical shape that satisfied the scores—diversifying openings without gaming the rules.
+
+### Key insights for AI system builders
+
+This failure mode applies beyond content generation to any system where:
+- LLMs are asked to avoid their own patterns
+- Self-regulation through reasoning is expected
+- Quality control depends on LLM judgment rather than metrics
+
+**LLM "reasoning" can become a disguised heuristic.** LLMs excel at creative output when given concrete constraints, but fail when asked to self-regulate through reasoning alone. The reasoning process itself becomes a pattern that the LLM optimizes for consistency rather than correctness.
+
+Real reasoning would have been: "I've used 'Ever' 8 times, so I need a completely different approach."
+
+What we got was: "Recent posts were declarative, so 'Ever...' is the visceral choice."
+
+---
