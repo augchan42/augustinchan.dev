@@ -78,7 +78,7 @@ export default function RootLayout({
               gap: '1rem'
             }}>
               <Link href="/" style={{
-                fontSize: '1.3em',
+                fontSize: '1.5em',
                 fontWeight: 'bold',
                 textDecoration: 'none',
                 color: '#333'
