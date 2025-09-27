@@ -112,6 +112,25 @@ export default function RootLayout({
         </div>
         <GoogleAnalytics />
         <Analytics />
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            // Service worker cleanup for legacy site versions
+            if ('serviceWorker' in navigator) {
+              navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for(let registration of registrations) {
+                  registration.unregister();
+                }
+              });
+
+              // Register cleanup service worker
+              navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                console.log('Cleanup SW registered');
+              }).catch(function(error) {
+                console.log('Cleanup SW registration failed');
+              });
+            }
+          `
+        }} />
       </body>
     </html>
   )
