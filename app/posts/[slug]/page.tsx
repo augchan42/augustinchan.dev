@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: PostPageProps) {
 
   const postUrl = `https://augustinchan.dev/posts/${slug}`
   const postDescription = post.description || `Blog post: ${post.title}`
-  const ogImageUrl = `https://augustinchan.dev/api/og?title=${encodeURIComponent(post.title)}&date=${post.date}`
+  const ogImageUrl = `https://augustinchan.dev/img/Xrn0Id68_400x400.jpg`
 
   return {
     title: `${post.title} | Augustin Chan`,
@@ -73,8 +73,8 @@ export async function generateMetadata({ params }: PostPageProps) {
       images: [
         {
           url: ogImageUrl,
-          width: 1200,
-          height: 630,
+          width: 400,
+          height: 400,
           alt: post.title,
         },
       ],

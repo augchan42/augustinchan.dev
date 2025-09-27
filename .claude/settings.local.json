@@ -20,7 +20,8 @@
       "Bash(curl -I \"https://augustinchan.dev/posts/2025-09-27-llm-reasoning-pattern-classification-failure-modes\")",
       "Bash(curl:*)",
       "Bash(pnpm add:*)",
-      "Bash(pnpm remove:*)"
+      "Bash(pnpm remove:*)",
+      "Bash(git rev-parse:*)"
     ],
     "deny": [],
     "ask": []
