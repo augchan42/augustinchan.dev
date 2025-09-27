@@ -3,8 +3,8 @@
 
 /* Option 1: MS Sans Serif (Classic Windows) */
 html, body, * {
-  font-family: "MS Sans Serif", sans-serif !important;
-  font-size: 20px !important;
+  font-family: "MS Sans Serif", sans-serif;
+  font-size: 20px;
 }
 
 /* Option 2: Courier New (Typewriter style) */

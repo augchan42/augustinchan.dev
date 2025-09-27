@@ -73,26 +73,30 @@ export default function RootLayout({
             <nav style={{
               display: 'flex',
               justifyContent: 'space-between',
-              alignItems: 'center'
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: '1rem'
             }}>
               <Link href="/" style={{
-                fontSize: '1.5em',
+                fontSize: '1.3em',
                 fontWeight: 'bold',
                 textDecoration: 'none',
                 color: '#333'
               }}>
                 Augustin Chan
               </Link>
-              <div style={{ display: 'flex', gap: '2rem' }}>
-                <Link href="/" style={{ textDecoration: 'none', color: '#666' }}>
+              <div style={{
+                display: 'flex',
+                gap: '1.5rem',
+                flexWrap: 'wrap',
+                fontSize: '1em'
+              }}>
+                <a href="/#projects" style={{ textDecoration: 'none', color: '#666' }}>
                   Portfolio
-                </Link>
+                </a>
                 <Link href="/blog" style={{ textDecoration: 'none', color: '#666' }}>
                   Blog
-                </Link>
-                <a href="mailto:aug@digitalrain.studio" style={{ textDecoration: 'none', color: '#666' }}>
-                  Contact
-                </a>
+                </Link>                
                 <a href="https://8bitoracle.ai" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: '#666' }}>
                   8-Bit Oracle
                 </a>
@@ -107,7 +111,7 @@ export default function RootLayout({
             textAlign: 'center',
             color: '#666'
           }}>
-            © 2025 Augustin Chan - Built with Next.js
+            © 2025 Augustin Chan aug@digitalrain.studio
           </footer>
         </div>
         <GoogleAnalytics />

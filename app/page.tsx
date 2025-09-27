@@ -1,7 +1,6 @@
 export default function HomePage() {
   return (
-    <div>
-      <h1>Augustin Chan</h1>
+    <div>      
       <p><strong>Building systems that reason</strong></p>
 
       <h2>About Me</h2>
@@ -60,7 +59,7 @@ export default function HomePage() {
         <li><a href="https://www.youtube.com/watch?v=8N3PqINBBeY" target="_blank" rel="noopener noreferrer"><strong>A more expansive interview</strong></a> covering influences for the 8-Bit Oracle, life growing up, and nostalgia with my friend Eddylive</li>
       </ul>
 
-      <h2>Projects</h2>
+      <h2 id="projects">Projects</h2>
 
       <h3>🎮 8-Bit Oracle - Tech Noir I-Ching</h3>
       <p>
