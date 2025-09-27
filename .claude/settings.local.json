@@ -7,7 +7,9 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(pnpm dev:*)",
-      "Bash(pnpm build:*)"
+      "Bash(pnpm build:*)",
+      "mcp__browser-tools__getConsoleLogs",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []
