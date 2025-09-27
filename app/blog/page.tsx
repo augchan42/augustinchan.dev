@@ -28,9 +28,9 @@ export const metadata = {
     siteName: 'Augustin Chan',
     images: [
       {
-        url: 'https://augustinchan.dev/og-image-blog.png',
-        width: 1200,
-        height: 630,
+        url: 'https://augustinchan.dev/img/Xrn0Id68_400x400.jpg',
+        width: 400,
+        height: 400,
         alt: 'Augustin Chan Blog - Technical posts about AI, Web3, and software development',
       },
     ],
@@ -39,7 +39,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Blog | Augustin Chan',
     description: 'Technical posts about AI, Machine Learning, Web3, and software development.',
-    images: ['https://augustinchan.dev/og-image-blog.png'],
+    images: ['https://augustinchan.dev/img/Xrn0Id68_400x400.jpg'],
     creator: '@augchan42',
   },
   alternates: {

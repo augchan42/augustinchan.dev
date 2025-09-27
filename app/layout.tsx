@@ -30,9 +30,9 @@ export const metadata = {
     siteName: 'Augustin Chan',
     images: [
       {
-        url: 'https://augustinchan.dev/og-image.png',
-        width: 1200,
-        height: 630,
+        url: 'https://augustinchan.dev/img/Xrn0Id68_400x400.jpg',
+        width: 400,
+        height: 400,
         alt: 'Augustin Chan - Building systems that reason',
       },
     ],
@@ -41,7 +41,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Augustin Chan',
     description: 'Building systems that reason',
-    images: ['https://augustinchan.dev/og-image.png'],
+    images: ['https://augustinchan.dev/img/Xrn0Id68_400x400.jpg'],
     creator: '@augchan42',
   },
   metadataBase: new URL('https://augustinchan.dev'),
