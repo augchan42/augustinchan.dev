@@ -1,29 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
-import { getPagesUnderRoute } from 'nextra/context'
+import { getAllPosts } from '../app/lib/posts'
 
 // Force cache invalidation - 2025-09-27T09:57:00Z
-
-type Page = ReturnType<typeof getPagesUnderRoute>[number]
-
-type BlogPost = {
-  route: string
-  title: string
-  date: string        // normalized YYYY-MM-DD
-  description?: string
-}
-
-function normalizeDate(metaDate?: unknown, route?: string): string | null {
-  // 1) Prefer front-matter: accept 2025-09-27 or 2025/09/27
-  if (typeof metaDate === 'string' && metaDate.trim()) {
-    const s = metaDate.trim().slice(0, 10).replace(/[/.]/g, '-')
-    if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s
-  }
-  // 2) Fallback: extract from filename prefix
-  const last = (route ?? '').split('/').pop() ?? ''
-  const m = last.match(/^(\d{4}-\d{2}-\d{2})/)
-  return m ? m[1] : null
-}
 
 function formatDateUTC(dateStr: string) {
   const [y, m, d] = dateStr.split('-').map(Number)
@@ -32,22 +11,9 @@ function formatDateUTC(dateStr: string) {
 }
 
 export default function BlogList() {
-  const pages = getPagesUnderRoute('/posts')
+  const posts = getAllPosts()
 
-  const posts = pages.map<BlogPost | null>((p: Page) => {
-    const date = normalizeDate(p.meta?.date, p.route)
-    if (!date) return null
-    return {
-      route: p.route, // don't strip .mdx; route is already clean in prod
-      title: (p.meta?.title as string) || (p.name as string),
-      date,
-      description: p.meta?.description as string | undefined
-    }
-  })
-  .filter((x): x is BlogPost => Boolean(x))
-  .sort((a, b) => b.date.localeCompare(a.date))
-
-  const postsByYear = posts.reduce<Record<string, BlogPost[]>>((acc, post) => {
+  const postsByYear = posts.reduce<Record<string, typeof posts>>((acc, post) => {
     const year = post.date.slice(0, 4)
     ;(acc[year] ||= []).push(post)
     return acc
@@ -71,7 +37,7 @@ export default function BlogList() {
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             {postsByYear[year].map(post => (
-              <article key={post.route} style={{
+              <article key={post.slug} style={{
                 padding: '1.25rem',
                 border: '1px solid var(--nx-colors-border)',
                 borderRadius: '8px',
@@ -81,7 +47,7 @@ export default function BlogList() {
               }}>
                 <div style={{ marginBottom: '0.75rem' }}>
                   <Link
-                    href={post.route}
+                    href={`/posts/${post.slug}`}
                     style={{
                       fontSize: '1.1em',
                       fontWeight: 'bold',
