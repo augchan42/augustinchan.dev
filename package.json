@@ -18,12 +18,20 @@
   },
   "homepage": "https://github.com/augchan42/augustinchan.dev#readme",
   "dependencies": {
+    "@mdx-js/loader": "^3.1.1",
+    "@mdx-js/react": "^3.1.1",
+    "@next/mdx": "^15.5.4",
     "@vercel/analytics": "^1.5.0",
+    "gray-matter": "^4.0.3",
     "next": "^13.5.11",
+    "next-mdx-remote": "^5.0.0",
     "nextra": "^2.13.0",
     "nextra-theme-docs": "^2.13.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "rehype-highlight": "^7.0.2",
+    "remark": "^15.0.1",
+    "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
     "@types/node": "18.11.10",
