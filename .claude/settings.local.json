@@ -13,7 +13,9 @@
       "Bash(pnpm list:*)",
       "WebFetch(domain:nextra.site)",
       "Bash(find:*)",
-      "WebFetch(domain:localhost)"
+      "WebFetch(domain:localhost)",
+      "WebFetch(domain:augustinchan.dev)",
+      "Bash(node:*)"
     ],
     "deny": [],
     "ask": []
