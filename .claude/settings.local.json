@@ -11,7 +11,9 @@
       "mcp__browser-tools__getConsoleLogs",
       "WebSearch",
       "Bash(pnpm list:*)",
-      "WebFetch(domain:nextra.site)"
+      "WebFetch(domain:nextra.site)",
+      "Bash(find:*)",
+      "WebFetch(domain:localhost)"
     ],
     "deny": [],
     "ask": []
