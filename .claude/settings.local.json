@@ -9,7 +9,9 @@
       "Bash(pnpm dev:*)",
       "Bash(pnpm build:*)",
       "mcp__browser-tools__getConsoleLogs",
-      "WebSearch"
+      "WebSearch",
+      "Bash(pnpm list:*)",
+      "WebFetch(domain:nextra.site)"
     ],
     "deny": [],
     "ask": []

@@ -19,10 +19,10 @@ export default function BlogList() {
       if (dateMatch) {
         return {
           route: page.route.replace('.mdx', ''),
-          title: page.meta?.title || page.frontMatter?.title || filename.replace(/^\d{4}-\d{2}-\d{2}-/, '').replace(/-/g, ' '),
+          title: page.meta?.title || filename.replace(/^\d{4}-\d{2}-\d{2}-/, '').replace(/-/g, ' '),
           date: dateMatch[1],
-          description: page.frontMatter?.description,
-          frontMatter: page.frontMatter
+          description: page.meta?.description,
+          frontMatter: page.meta
         }
       }
       return null
