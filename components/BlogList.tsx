@@ -2,6 +2,8 @@ import React from 'react'
 import Link from 'next/link'
 import { getPagesUnderRoute } from 'nextra/context'
 
+// Force cache invalidation - 2025-09-27T09:57:00Z
+
 type Page = ReturnType<typeof getPagesUnderRoute>[number]
 
 type BlogPost = {
