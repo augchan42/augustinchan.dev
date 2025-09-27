@@ -32,13 +32,63 @@ export async function generateMetadata({ params }: PostPageProps) {
 
   if (!post) {
     return {
-      title: 'Post Not Found'
+      title: 'Post Not Found | Augustin Chan',
+      description: 'The requested blog post could not be found.',
     }
   }
 
+  const postUrl = `https://augustinchan.dev/posts/${slug}`
+  const postDescription = post.description || `Blog post: ${post.title}`
+  const ogImageUrl = `https://augustinchan.dev/api/og?title=${encodeURIComponent(post.title)}&date=${post.date}`
+
   return {
     title: `${post.title} | Augustin Chan`,
-    description: post.description || `Blog post: ${post.title}`,
+    description: postDescription,
+    keywords: ['AI', 'Machine Learning', 'Web3', 'Software Engineering', 'React', 'Next.js', 'TypeScript', 'Blog'],
+    authors: [{ name: 'Augustin Chan', url: 'https://augustinchan.dev' }],
+    creator: 'Augustin Chan',
+    publisher: 'Augustin Chan',
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+    openGraph: {
+      type: 'article',
+      locale: 'en_US',
+      url: postUrl,
+      title: post.title,
+      description: postDescription,
+      siteName: 'Augustin Chan',
+      publishedTime: new Date(post.date).toISOString(),
+      authors: ['Augustin Chan'],
+      section: 'Technology',
+      tags: ['AI', 'Machine Learning', 'Web3', 'Software Engineering'],
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: postDescription,
+      images: [ogImageUrl],
+      creator: '@augchan42',
+    },
+    alternates: {
+      canonical: postUrl,
+    },
   }
 }
 

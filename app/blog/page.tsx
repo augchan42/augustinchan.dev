@@ -1,6 +1,52 @@
 import Link from 'next/link'
 import { getAllPosts } from '../lib/posts'
 
+export const metadata = {
+  title: 'Blog | Augustin Chan',
+  description: 'Technical posts about AI, Machine Learning, Web3, and software development.',
+  keywords: ['AI', 'Machine Learning', 'Web3', 'Software Engineering', 'React', 'Next.js', 'TypeScript', 'Blog'],
+  authors: [{ name: 'Augustin Chan', url: 'https://augustinchan.dev' }],
+  creator: 'Augustin Chan',
+  publisher: 'Augustin Chan',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://augustinchan.dev/blog',
+    title: 'Blog | Augustin Chan',
+    description: 'Technical posts about AI, Machine Learning, Web3, and software development.',
+    siteName: 'Augustin Chan',
+    images: [
+      {
+        url: 'https://augustinchan.dev/og-image-blog.png',
+        width: 1200,
+        height: 630,
+        alt: 'Augustin Chan Blog - Technical posts about AI, Web3, and software development',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Blog | Augustin Chan',
+    description: 'Technical posts about AI, Machine Learning, Web3, and software development.',
+    images: ['https://augustinchan.dev/og-image-blog.png'],
+    creator: '@augchan42',
+  },
+  alternates: {
+    canonical: 'https://augustinchan.dev/blog',
+  },
+}
+
 function formatDateUTC(dateStr: string) {
   const [y, m, d] = dateStr.split('-').map(Number)
   const dt = new Date(Date.UTC(y, m - 1, d)) // avoid TZ issues
