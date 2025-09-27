@@ -15,7 +15,10 @@
       "Bash(find:*)",
       "WebFetch(domain:localhost)",
       "WebFetch(domain:augustinchan.dev)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "mcp__browser-tools__getNetworkLogs",
+      "Bash(curl -I \"https://augustinchan.dev/posts/2025-09-27-llm-reasoning-pattern-classification-failure-modes\")",
+      "Bash(curl:*)"
     ],
     "deny": [],
     "ask": []
