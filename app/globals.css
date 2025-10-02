@@ -43,7 +43,31 @@ html, body, * {
   font-family: "Impact", sans-serif !important;
 } */
 
-/* Simple Black on Cream Theme */
+/* ai-2027.com Color Palette */
+:root {
+  --vivid-background: #fffff8;
+  --vivid-foreground: #000;
+  --dull-background: #f0f0f0;
+  --dull-foreground: #666;
+  --accent: #2a623d;
+}
+
+/* Apply color palette */
+html, body {
+  background-color: var(--vivid-background);
+  color: var(--vivid-foreground);
+}
+
+/* Links */
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 /* Ensure proper font rendering */
 * {
   -webkit-font-smoothing: antialiased;
@@ -55,20 +79,20 @@ html, body, * {
   display: block;
   overflow-x: auto;
   padding: 0.5em;
-  background: #f5f5f5;
-  color: #333;
+  background: var(--dull-background);
+  color: var(--vivid-foreground);
 }
 
 .hljs-comment,
 .hljs-quote {
-  color: #998;
+  color: var(--dull-foreground);
   font-style: italic;
 }
 
 .hljs-keyword,
 .hljs-selector-tag,
 .hljs-subst {
-  color: #333;
+  color: var(--accent);
   font-weight: bold;
 }
 
