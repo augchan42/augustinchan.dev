@@ -48,7 +48,7 @@ export default function HomePage() {
       <p>
         You can find more details on my projects here on the site, or <a href="https://github.com/augchan42/" target="_blank" rel="noopener noreferrer">dive into the code on GitHub</a>.
         <a href="/_assets/files/auchan_resume_2025.pdf" target="_blank" rel="noopener noreferrer">My CV has the full story</a>.
-        You can also find me on <a href="https://x.com/hosermage_" target="_blank" rel="noopener noreferrer">X (formerly Twitter)</a>.
+        You can also find me on <a href="https://x.com/aug_digitalrain" target="_blank" rel="noopener noreferrer">X (formerly Twitter)</a>.
       </p>
 
       <h3>Speaking & Interviews</h3>
