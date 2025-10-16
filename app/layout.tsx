@@ -61,9 +61,7 @@ export default function RootLayout({
         <div style={{
           maxWidth: '1000px',
           margin: '0 auto',
-          padding: '2rem',
-          fontFamily: '"MS Sans Serif", sans-serif',
-          fontSize: '20px'
+          padding: '2rem'
         }}>
           <header style={{
             borderBottom: '2px solid #333',
@@ -77,26 +75,30 @@ export default function RootLayout({
               flexWrap: 'wrap',
               gap: '1rem'
             }}>
-              <Link href="/" style={{
-                fontSize: '1.5em',
-                fontWeight: 'bold',
-                textDecoration: 'none',
-                color: '#333'
-              }}>
-                Augustin Chan
-              </Link>
+              <div>
+                <Link href="/" style={{
+                  fontSize: '1.6rem',
+                  fontWeight: 'bold',
+                  textDecoration: 'none',
+                  color: '#333'
+                }}>
+                  Augustin Chan
+                </Link>
+                <div style={{ marginTop: '0.5rem' }}>
+                  Building systems that reason
+                </div>
+              </div>
               <div style={{
                 display: 'flex',
                 gap: '1.5rem',
-                flexWrap: 'wrap',
-                fontSize: '1em'
+                flexWrap: 'wrap'
               }}>
                 <a href="/#projects" style={{ textDecoration: 'none', color: '#666' }}>
                   Portfolio
                 </a>
                 <Link href="/blog" style={{ textDecoration: 'none', color: '#666' }}>
                   Blog
-                </Link>                
+                </Link>
                 <a href="https://8bitoracle.ai" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: '#666' }}>
                   8-Bit Oracle
                 </a>

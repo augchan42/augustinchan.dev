@@ -33,8 +33,6 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
       />
       <div>
-        <p><strong>Building systems that reason</strong></p>
-
       <h2>About Me</h2>
       <p>
         Hi. I'm a builder who specializes in creating products from scratch, especially in spaces where there are no established patterns yet.
