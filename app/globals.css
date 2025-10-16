@@ -2,9 +2,29 @@
 /* Uncomment one option at a time to test different fonts */
 
 /* Option 1: MS Sans Serif (Classic Windows) */
-html, body, * {
+html, body {
   font-family: "MS Sans Serif", sans-serif;
-  font-size: 20px;
+  font-size: 20px; /* Base size - use rem everywhere else for simplicity */
+  line-height: 1.6; /* Comfortable reading line spacing */
+}
+
+* {
+  font-family: inherit;
+}
+
+/* Reset all headings and text to base font size */
+h1, h2, h3, h4, h5, h6, p, strong {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  margin: 1.5rem 0 1rem 0;
+}
+
+p {
+  margin: 0 0 1rem 0;
 }
 
 /* Option 2: Courier New (Typewriter style) */
