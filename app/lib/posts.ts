@@ -10,7 +10,7 @@ export interface BlogPost {
   content: string
 }
 
-const postsDirectory = path.join(process.cwd(), 'pages_backup/posts')
+const postsDirectory = path.join(process.cwd(), 'content/posts')
 
 export function getAllPosts(): BlogPost[] {
   const fileNames = fs.readdirSync(postsDirectory)
@@ -79,4 +79,19 @@ export function getPostBySlug(slug: string): BlogPost | null {
   } catch (error) {
     return null
   }
+}
+
+export function getRelatedPosts(currentSlug: string, limit: number = 3): BlogPost[] {
+  const allPosts = getAllPosts()
+  const currentPost = allPosts.find(post => post.slug === currentSlug)
+
+  if (!currentPost) {
+    return []
+  }
+
+  // Filter out current post and get recent posts
+  const otherPosts = allPosts.filter(post => post.slug !== currentSlug)
+
+  // For now, return the most recent posts (could be enhanced with tag-based similarity)
+  return otherPosts.slice(0, limit)
 }

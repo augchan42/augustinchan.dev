@@ -1,7 +1,39 @@
 export default function HomePage() {
+  // Structured data for Person schema
+  const personSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Augustin Chan',
+    url: 'https://augustinchan.dev',
+    image: 'https://augustinchan.dev/img/Xrn0Id68_400x400.jpg',
+    jobTitle: 'Software Engineer & Founder',
+    description: 'Building systems that reason. Founder of Digital Rain Studios, creator of 8-Bit Oracle.',
+    sameAs: [
+      'https://x.com/aug_digitalrain',
+      'https://x.com/augchan42',
+      'https://github.com/augchan42',
+      'https://8bitoracle.ai',
+    ],
+    knowsAbout: ['AI', 'Machine Learning', 'Web3', 'Software Engineering', 'React', 'Next.js', 'TypeScript'],
+    alumniOf: {
+      '@type': 'CollegeOrUniversity',
+      name: 'UC San Diego',
+    },
+    worksFor: {
+      '@type': 'Organization',
+      name: 'Digital Rain Studios',
+      url: 'https://digitalrain.studio',
+    },
+  }
+
   return (
-    <div>      
-      <p><strong>Building systems that reason</strong></p>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+      />
+      <div>
+        <p><strong>Building systems that reason</strong></p>
 
       <h2>About Me</h2>
       <p>
@@ -22,7 +54,7 @@ export default function HomePage() {
       <p>I build everything AI-assisted (currently Claude Code), a practice that's transformed my workflow.</p>
 
       <p>
-        Recently, I've been building the <strong>QDayAnon Content Engine</strong>, a sophisticated AI-powered content generation system for quantum computing research.
+        Recently, I've been building the <strong><a href="https://qdayanon.com" target="_blank" rel="noopener noreferrer">QDayAnon Content Engine</a></strong>, a sophisticated AI-powered content generation system for quantum computing research.
         The project has involved fascinating technical challenges around <a href="/posts/2025-09-02-dspy-voice-evolution-authenticity">systematic voice evolution in DSPy</a> using multi-dimensional lattices and Pareto optimization,
         as well as <a href="/posts/2025-09-14-trusting-instincts-ai-architecture">architectural decision-making</a> when balancing AI suggestions with engineering principles.
       </p>
@@ -72,6 +104,9 @@ export default function HomePage() {
 
       <h3>🧬 QDayAnon Content Engine - AI Research Platform</h3>
       <p>
+        <strong><a href="https://qdayanon.com" target="_blank" rel="noopener noreferrer">qdayanon.com</a></strong>
+      </p>
+      <p>
         Production AI content generation system with sophisticated DSPy voice evolution, agent workflow orchestration, and research paper management (170+ curated papers).
         Key tech: FastAPI, Next.js 15, PostgreSQL, DSPy optimization, WebSocket, MCP Protocol. Features multi-dimensional voice lattices with Pareto optimization and principled architectural patterns.
       </p>
@@ -86,6 +121,7 @@ export default function HomePage() {
         This integration allows divination data to be stored immutably on the knowledge graph,
         creating a permanent record of insights that can be referenced and built upon by the community.
       </p>
-    </div>
+      </div>
+    </>
   )
 }
