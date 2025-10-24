@@ -93,9 +93,9 @@ export default function RootLayout({
                 gap: '1.5rem',
                 flexWrap: 'wrap'
               }}>
-                <a href="/#projects" style={{ textDecoration: 'none', color: '#666' }}>
-                  Portfolio
-                </a>
+                <Link href="/about" style={{ textDecoration: 'none', color: '#666' }}>
+                  About
+                </Link>
                 <Link href="/blog" style={{ textDecoration: 'none', color: '#666' }}>
                   Blog
                 </Link>

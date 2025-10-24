@@ -1,3 +1,17 @@
+import Link from 'next/link'
+import { getAllPosts, getPostBySlug } from './lib/posts'
+
+function formatDateUTC(dateStr: string) {
+  const [y, m, d] = dateStr.split('-').map(Number)
+  const dt = new Date(Date.UTC(y, m - 1, d))
+  return dt.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'UTC'
+  })
+}
+
 export default function HomePage() {
   // Structured data for Person schema
   const personSchema = {
@@ -26,6 +40,13 @@ export default function HomePage() {
     },
   }
 
+  // Get featured post
+  const featuredPost = getPostBySlug('2025-09-02-dspy-voice-evolution-authenticity')
+
+  // Get recent posts (excluding featured)
+  const allPosts = getAllPosts()
+  const recentPosts = allPosts.filter(p => p.slug !== '2025-09-02-dspy-voice-evolution-authenticity').slice(0, 5)
+
   return (
     <>
       <script
@@ -33,92 +54,172 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
       />
       <div>
-      <h2>About Me</h2>
-      <p>
-        Hi. I'm a builder who specializes in creating products from scratch, especially in spaces where there are no established patterns yet.
-        Through <a href="https://digitalrain.studio/" target="_blank" rel="noopener noreferrer">Digital Rain Studios</a>, I'm exploring the frontiers of AI-powered experiences and Web3.
-        My journey into tech began with a BS in Cognitive Science (specializing in Computation) from UC San Diego, after graduating from the Bronx High School of Science.
+      <p style={{ fontSize: '1.1em', marginBottom: '3rem' }}>
+        Building systems that reason. Writing about AI, Web3, and software engineering.
       </p>
 
-      <p>
-        These days, you'll find me deep in the code for <a href="https://8bitoracle.ai" target="_blank" rel="noopener noreferrer">8-Bit Oracle</a>,
-        an I-Ching digital counselor in Open Beta and which <a href="https://x.com/origin_trail/status/1892543087479505352" target="_blank" rel="noopener noreferrer">won at the Consensus HK Hackathon</a>.
-        It's an immersive tech-noir divination experience available in multiple languages, where users can interact with their destiny using voice,
-        track their divination history, and share insights. The oracle's wisdom is powered by advanced LLMs like DeepSeek—ensuring high-quality readings —
-        with OpenRouter providing ongoing flexibility for the latest AI models. Web3 wallet integration unlocks exclusive token-gated features,
-        and users can even consult the I-Ching on active prediction market events via our live Polymarket integration, powered by the Gamma API.
-      </p>
+      {/* Featured Post */}
+      {featuredPost && (
+        <article style={{
+          marginBottom: '4rem',
+          padding: '2rem',
+          border: '2px solid #333',
+          borderRadius: '8px',
+          backgroundColor: '#fafafa',
+        }}>
+          <div style={{
+            fontSize: '0.85em',
+            fontWeight: 'bold',
+            color: '#666',
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+            marginBottom: '1rem'
+          }}>
+            Featured Post
+          </div>
+          <h2 style={{ fontSize: '2em', marginBottom: '0.5rem' }}>
+            <Link
+              href={`/posts/${featuredPost.slug}`}
+              style={{
+                textDecoration: 'none',
+                color: '#333',
+              }}
+            >
+              {featuredPost.title}
+            </Link>
+          </h2>
+          <div style={{
+            color: '#888',
+            fontSize: '0.9em',
+            marginBottom: '1rem'
+          }}>
+            {formatDateUTC(featuredPost.date)}
+          </div>
+          {featuredPost.description && (
+            <p style={{
+              fontSize: '1.1em',
+              color: '#555',
+              lineHeight: '1.6',
+              marginBottom: '1rem'
+            }}>
+              {featuredPost.description}
+            </p>
+          )}
+          <Link
+            href={`/posts/${featuredPost.slug}`}
+            style={{
+              display: 'inline-block',
+              padding: '0.75rem 1.5rem',
+              backgroundColor: '#333',
+              color: '#fff',
+              textDecoration: 'none',
+              borderRadius: '4px',
+              fontSize: '0.95em',
+              fontWeight: 'bold'
+            }}
+          >
+            Read Full Post →
+          </Link>
+        </article>
+      )}
 
-      <p>I build everything AI-assisted (currently Claude Code), a practice that's transformed my workflow.</p>
+      {/* Recent Posts */}
+      <section style={{ marginBottom: '4rem' }}>
+        <h2 style={{ fontSize: '1.8em', marginBottom: '2rem' }}>Recent Posts</h2>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1.5rem',
+        }}>
+          {recentPosts.map(post => (
+            <article key={post.slug} style={{
+              padding: '1.5rem',
+              border: '1px solid #ddd',
+              borderRadius: '8px',
+              backgroundColor: '#fafafa',
+            }}>
+              <h3 style={{ fontSize: '1.3em', marginBottom: '0.5rem' }}>
+                <Link
+                  href={`/posts/${post.slug}`}
+                  style={{
+                    textDecoration: 'none',
+                    color: '#333',
+                  }}
+                >
+                  {post.title}
+                </Link>
+              </h3>
+              <div style={{
+                color: '#888',
+                fontSize: '0.85em',
+                marginBottom: '0.75rem'
+              }}>
+                {formatDateUTC(post.date)}
+              </div>
+              {post.description && (
+                <p style={{
+                  color: '#555',
+                  fontSize: '0.95em',
+                  lineHeight: '1.5',
+                  margin: 0
+                }}>
+                  {post.description}
+                </p>
+              )}
+            </article>
+          ))}
+        </div>
+        <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+          <Link
+            href="/blog"
+            style={{
+              display: 'inline-block',
+              padding: '0.75rem 1.5rem',
+              border: '2px solid #333',
+              color: '#333',
+              textDecoration: 'none',
+              borderRadius: '4px',
+              fontSize: '0.95em',
+              fontWeight: 'bold'
+            }}
+          >
+            View All Posts →
+          </Link>
+        </div>
+      </section>
 
-      <p>
-        Recently, I've been building the <strong><a href="https://qdayanon.com" target="_blank" rel="noopener noreferrer">QDayAnon Content Engine</a></strong>, a sophisticated AI-powered content generation system for quantum computing research.
-        The project has involved fascinating technical challenges around <a href="/posts/2025-09-02-dspy-voice-evolution-authenticity">systematic voice evolution in DSPy</a> using multi-dimensional lattices and Pareto optimization,
-        as well as <a href="/posts/2025-09-14-trusting-instincts-ai-architecture">architectural decision-making</a> when balancing AI suggestions with engineering principles.
-      </p>
-
-      <p>
-        I thrive on designing and building products where the requirements aren't clear because the solution hasn't been tried before.
-        Using AI-assisted iteration, I can rapidly explore different approaches and create novel user experiences that feel intuitive even in unfamiliar territory.
-      </p>
-
-      <p>
-        I also lend my expertise to other startups, helping them with their MVPs – recent collaborations include <a href="https://www.peepsapp.ai/" target="_blank" rel="noopener noreferrer">People App</a> and <a href="https://www.travelbox.tech/" target="_blank" rel="noopener noreferrer">Travelbox</a>.
-      </p>
-
-      <p>
-        Prior to founding Digital Rain Studios, I spent over a decade at <a href="https://www.informatica.com/" target="_blank" rel="noopener noreferrer">Informatica</a>.
-        As a regional Development Architect in their Master Data Management division, I served large customers across APAC and sometimes Europe,
-        helping them with architecture reviews, systems design, performance challenges, and firefighting urgent bugs and product enhancements.
-        I was instrumental in enhancing core product performance, notably achieving significant speedups in the fuzzy match engine,
-        and served as a go-to expert for our largest global customers facing tough technical hurdles.
-        My earlier career spanned roles from Dun & Bradstreet to various tech consulting engagements.
-      </p>
-
-      <p>
-        You can find more details on my projects here on the site, or <a href="https://github.com/augchan42/" target="_blank" rel="noopener noreferrer">dive into the code on GitHub</a>.
-        <a href="/_assets/files/auchan_resume_2025.pdf" target="_blank" rel="noopener noreferrer">My CV has the full story</a>.
-        You can also find me on <a href="https://x.com/aug_digitalrain" target="_blank" rel="noopener noreferrer">X (formerly Twitter)</a>.
-      </p>
-
-      <h3>Speaking & Interviews</h3>
-      <p>I've had the pleasure of discussing my work and thoughts on several occasions:</p>
-      <ul>
-        <li><a href="https://youtu.be/SUXmMym8chk?si=PFfMz97gxkxa5WG8" target="_blank" rel="noopener noreferrer"><strong>5-minute demo of group divination at HKCEC</strong></a> as part of AI Tinkerers HK/GBA, where together with the audience we explored: "How can HK become Asia's Leading City in AI?"</li>
-        <li><a href="https://www.youtube.com/watch?v=MBI8GY9xGPY" target="_blank" rel="noopener noreferrer"><strong>Discussing AI Agent technology and speculation</strong></a> with my friend fullvaluedan</li>
-        <li><a href="https://www.youtube.com/watch?v=8N3PqINBBeY" target="_blank" rel="noopener noreferrer"><strong>A more expansive interview</strong></a> covering influences for the 8-Bit Oracle, life growing up, and nostalgia with my friend Eddylive</li>
-      </ul>
-
-      <h2 id="projects">Projects</h2>
-
-      <h3>🎮 8-Bit Oracle - Tech Noir I-Ching</h3>
-      <p>
-        <strong><a href="https://app.8bitoracle.ai" target="_blank" rel="noopener noreferrer">app.8bitoracle.ai</a> | <a href="https://x.com/8bitoracle" target="_blank" rel="noopener noreferrer">Follow on X</a></strong>
-      </p>
-      <p>
-        A tech-noir digital counselor. Key tech: Next.js 14, React, TypeScript, Zustand (state), Supabase (auth), Dynamic Labs (ETH/Solana wallets),
-        OpenRouter (AI), use-stt (voice input), Shadcn/Radix UI/Tailwind (UI), Recharts (data viz), next-intl (i18n), and PWA support via next-pwa.
-      </p>
-
-      <h3>🧬 QDayAnon Content Engine - AI Research Platform</h3>
-      <p>
-        <strong><a href="https://qdayanon.com" target="_blank" rel="noopener noreferrer">qdayanon.com</a></strong>
-      </p>
-      <p>
-        Production AI content generation system with sophisticated DSPy voice evolution, agent workflow orchestration, and research paper management (170+ curated papers).
-        Key tech: FastAPI, Next.js 15, PostgreSQL, DSPy optimization, WebSocket, MCP Protocol. Features multi-dimensional voice lattices with Pareto optimization and principled architectural patterns.
-      </p>
-      <p>
-        <a href="/posts/2025-09-02-dspy-voice-evolution-authenticity">Technical deep-dive on voice evolution</a> | <a href="/posts/2025-09-14-trusting-instincts-ai-architecture">Architecture insights</a>
-      </p>
-
-      <h3>🏆 DKG OriginTrail Integration - Hackathon Winner</h3>
-      <p><strong>(Consensus HK 2025 Hackathon Win, Feb 2025)</strong></p>
-      <p>
-        Built verifiable knowledge graph integration for 8-Bit Oracle using OriginTrail's DKG Protocol.
-        This integration allows divination data to be stored immutably on the knowledge graph,
-        creating a permanent record of insights that can be referenced and built upon by the community.
-      </p>
+      {/* Condensed About */}
+      <section style={{
+        marginTop: '4rem',
+        paddingTop: '2rem',
+        borderTop: '2px solid #ddd'
+      }}>
+        <h2 style={{ fontSize: '1.5em', marginBottom: '1.5rem' }}>About</h2>
+        <p>
+          I'm a builder specializing in AI-powered experiences and Web3 through <a href="https://digitalrain.studio/" target="_blank" rel="noopener noreferrer">Digital Rain Studios</a>.
+          Currently working on <a href="https://8bitoracle.ai" target="_blank" rel="noopener noreferrer">8-Bit Oracle</a> (tech-noir I-Ching) and the <a href="https://qdayanon.com" target="_blank" rel="noopener noreferrer">QDayAnon Content Engine</a> (AI research platform).
+        </p>
+        <p>
+          I build everything AI-assisted and write about the technical challenges along the way.
+          Find me on <a href="https://x.com/aug_digitalrain" target="_blank" rel="noopener noreferrer">X</a> or <a href="https://github.com/augchan42/" target="_blank" rel="noopener noreferrer">GitHub</a>.
+        </p>
+        <div style={{ marginTop: '1.5rem' }}>
+          <Link
+            href="/about"
+            style={{
+              display: 'inline-block',
+              padding: '0.75rem 1.5rem',
+              border: '1px solid #333',
+              color: '#333',
+              textDecoration: 'none',
+              borderRadius: '4px',
+              fontSize: '0.95em'
+            }}
+          >
+            More About Me →
+          </Link>
+        </div>
+      </section>
       </div>
     </>
   )
