@@ -188,3 +188,69 @@ a:hover {
 .hljs-strong {
   font-weight: bold;
 }
+
+/* Responsive styles for mobile */
+@media (max-width: 768px) {
+  html, body {
+    font-size: 18px; /* Slightly smaller base on mobile */
+  }
+
+  /* Reduce heading sizes on mobile */
+  h1 {
+    font-size: 1.5rem !important; /* Override inline styles */
+  }
+
+  h2 {
+    font-size: 1.3rem !important;
+  }
+
+  h3 {
+    font-size: 1.2rem !important;
+  }
+
+  /* Ensure content doesn't overflow */
+  * {
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Reduce code block padding on mobile */
+  .hljs {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  /* Allow horizontal scroll for code blocks if needed */
+  pre {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  /* Reduce padding on containers */
+  article {
+    padding: 0.5rem !important;
+  }
+
+  /* Make tables responsive */
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  html, body {
+    font-size: 16px; /* Even smaller on very small screens */
+  }
+
+  h1 {
+    font-size: 1.3rem !important;
+  }
+
+  h2 {
+    font-size: 1.15rem !important;
+  }
+}
