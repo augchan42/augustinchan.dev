@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: PostPageProps) {
 
   const postUrl = `https://augustinchan.dev/posts/${slug}`
   const postDescription = post.description || `Blog post: ${post.title}`
-  const ogImageUrl = `https://augustinchan.dev/api/og?title=${encodeURIComponent(post.title)}&description=${encodeURIComponent(postDescription)}`
+  const ogImageUrl = 'https://augustinchan.dev/img/Xrn0Id68_400x400.jpg'
 
   return {
     title: `${post.title} | Augustin Chan`,
