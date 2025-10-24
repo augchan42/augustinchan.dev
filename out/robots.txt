@@ -1,6 +1,0 @@
-User-Agent: *
-Allow: /
-Disallow: /api/private/
-Disallow: /admin/
-
-Sitemap: https://augustinchan.dev/sitemap.xml
