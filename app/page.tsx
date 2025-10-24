@@ -94,6 +94,12 @@ export default function HomePage() {
             marginBottom: '1rem'
           }}>
             {formatDateUTC(featuredPost.date)}
+            {featuredPost.readingTimeMinutes && (
+              <>
+                {' • '}
+                {featuredPost.readingTimeMinutes} min read
+              </>
+            )}
           </div>
           {featuredPost.description && (
             <p style={{
@@ -131,43 +137,79 @@ export default function HomePage() {
           flexDirection: 'column',
           gap: '1.5rem',
         }}>
-          {recentPosts.map(post => (
-            <article key={post.slug} style={{
-              padding: '1.5rem',
-              border: '1px solid #ddd',
-              borderRadius: '8px',
-              backgroundColor: '#fafafa',
-            }}>
-              <h3 style={{ fontSize: '1.3em', marginBottom: '0.5rem' }}>
-                <Link
-                  href={`/posts/${post.slug}`}
-                  style={{
-                    textDecoration: 'none',
-                    color: '#333',
-                  }}
-                >
-                  {post.title}
-                </Link>
-              </h3>
-              <div style={{
-                color: '#888',
-                fontSize: '0.85em',
-                marginBottom: '0.75rem'
+          {recentPosts.map(post => {
+            const tags = post.tag
+              ? post.tag.split(',').map(t => t.trim()).filter(Boolean).slice(0, 4)
+              : []
+
+            return (
+              <article key={post.slug} style={{
+                padding: '1.5rem',
+                border: '1px solid #ddd',
+                borderRadius: '8px',
+                backgroundColor: '#fafafa',
               }}>
-                {formatDateUTC(post.date)}
-              </div>
-              {post.description && (
-                <p style={{
-                  color: '#555',
-                  fontSize: '0.95em',
-                  lineHeight: '1.5',
-                  margin: 0
+                <h3 style={{ fontSize: '1.3em', marginBottom: '0.5rem' }}>
+                  <Link
+                    href={`/posts/${post.slug}`}
+                    style={{
+                      textDecoration: 'none',
+                      color: '#333',
+                    }}
+                  >
+                    {post.title}
+                  </Link>
+                </h3>
+                <div style={{
+                  color: '#888',
+                  fontSize: '0.85em',
+                  marginBottom: post.description || tags.length > 0 ? '0.75rem' : '0'
                 }}>
-                  {post.description}
-                </p>
-              )}
-            </article>
-          ))}
+                  {formatDateUTC(post.date)}
+                  {post.readingTimeMinutes && (
+                    <>
+                      {' • '}
+                      {post.readingTimeMinutes} min read
+                    </>
+                  )}
+                </div>
+                {post.description && (
+                  <p style={{
+                    color: '#555',
+                    fontSize: '0.95em',
+                    lineHeight: '1.5',
+                    margin: tags.length > 0 ? '0 0 0.75rem 0' : '0'
+                  }}>
+                    {post.description}
+                  </p>
+                )}
+                {tags.length > 0 && (
+                  <div style={{
+                    display: 'flex',
+                    gap: '0.5rem',
+                    flexWrap: 'wrap',
+                    marginTop: '0.5rem'
+                  }}>
+                    {tags.map(tag => (
+                      <span
+                        key={tag}
+                        style={{
+                          fontSize: '0.75em',
+                          padding: '0.25rem 0.5rem',
+                          backgroundColor: '#e0e0e0',
+                          color: '#555',
+                          borderRadius: '4px',
+                          textTransform: 'lowercase'
+                        }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </article>
+            )
+          })}
         </div>
         <div style={{ marginTop: '2rem', textAlign: 'center' }}>
           <Link

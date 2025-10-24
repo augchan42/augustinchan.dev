@@ -7,10 +7,20 @@ export interface BlogPost {
   title: string
   date: string
   description?: string
+  tag?: string
   content: string
+  readingTimeMinutes?: number
 }
 
 const postsDirectory = path.join(process.cwd(), 'content/posts')
+
+// Calculate reading time based on word count (assuming 250 words per minute)
+function calculateReadingTime(content: string): number {
+  const wordsPerMinute = 250
+  const wordCount = content.trim().split(/\s+/).length
+  const minutes = Math.ceil(wordCount / wordsPerMinute)
+  return Math.max(1, minutes) // Minimum 1 minute
+}
 
 export function getAllPosts(): BlogPost[] {
   const fileNames = fs.readdirSync(postsDirectory)
@@ -41,7 +51,9 @@ export function getAllPosts(): BlogPost[] {
         title: data.title || slug,
         date: date || '1970-01-01',
         description: data.description,
+        tag: data.tag,
         content,
+        readingTimeMinutes: calculateReadingTime(content),
       }
     })
     .filter(post => post.date !== '1970-01-01') // Filter out posts without valid dates
@@ -74,7 +86,9 @@ export function getPostBySlug(slug: string): BlogPost | null {
       title: data.title || slug,
       date: date || '1970-01-01',
       description: data.description,
+      tag: data.tag,
       content,
+      readingTimeMinutes: calculateReadingTime(content),
     }
   } catch (error) {
     return null

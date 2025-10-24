@@ -3,8 +3,8 @@ import { getAllPosts } from '../lib/posts'
 
 export const metadata = {
   title: 'Blog | Augustin Chan',
-  description: 'Technical posts about AI, Machine Learning, Web3, and software development.',
-  keywords: ['AI', 'Machine Learning', 'Web3', 'Software Engineering', 'React', 'Next.js', 'TypeScript', 'Blog'],
+  description: 'Thoughts on building systems that reason, AI architecture decisions, Web3 experiments, and the occasionally crushing anxiety of optimizing for search engines that might not exist in three years.',
+  keywords: ['AI', 'Machine Learning', 'Web3', 'Software Engineering', 'React', 'Next.js', 'TypeScript', 'Blog', 'DSPy', 'LLMs', 'Tech Noir'],
   authors: [{ name: 'Augustin Chan', url: 'https://augustinchan.dev' }],
   creator: 'Augustin Chan',
   publisher: 'Augustin Chan',
@@ -24,7 +24,7 @@ export const metadata = {
     locale: 'en_US',
     url: 'https://augustinchan.dev/blog',
     title: 'Blog | Augustin Chan',
-    description: 'Technical posts about AI, Machine Learning, Web3, and software development.',
+    description: 'Thoughts on building systems that reason, AI architecture decisions, Web3 experiments, and the occasionally crushing anxiety of optimizing for search engines that might not exist in three years.',
     siteName: 'Augustin Chan',
     images: [
       {
@@ -38,7 +38,7 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Blog | Augustin Chan',
-    description: 'Technical posts about AI, Machine Learning, Web3, and software development.',
+    description: 'Thoughts on building systems that reason, AI architecture decisions, Web3 experiments, and the crushing anxiety of optimizing for search engines that might not exist.',
     images: ['https://augustinchan.dev/img/Xrn0Id68_400x400.jpg'],
     creator: '@augchan42',
   },
@@ -71,10 +71,38 @@ export default function BlogPage() {
 
   const years = Object.keys(postsByYear).sort((a, b) => b.localeCompare(a))
 
+  // Breadcrumb schema for SEO
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://augustinchan.dev',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: 'https://augustinchan.dev/blog',
+      },
+    ],
+  }
+
   return (
-    <div>
-      <h1>Blog</h1>
-      <p>Technical posts about AI, Web3, and software development.</p>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <div>
+        <h1>Blog</h1>
+        <p style={{ maxWidth: '700px', lineHeight: '1.6' }}>
+          Thoughts on building systems that reason, AI architecture decisions, Web3 experiments,
+          and the occasionally crushing anxiety of optimizing for search engines that might not exist in three years.
+        </p>
 
       <div style={{ maxWidth: '800px', marginTop: '2rem' }}>
         {years.map(year => (
@@ -89,46 +117,82 @@ export default function BlogPage() {
               {year}
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              {postsByYear[year].map(post => (
-                <article key={post.slug} style={{
-                  padding: '1.25rem',
-                  border: '1px solid #ddd',
-                  borderRadius: '8px',
-                  backgroundColor: '#fafafa',
-                  transition: 'all 0.2s ease'
-                }}>
-                  <div style={{ marginBottom: '0.75rem' }}>
-                    <Link
-                      href={`/posts/${post.slug}`}
-                      style={{
-                        fontSize: '1.1em',
-                        fontWeight: 'bold',
-                        textDecoration: 'none',
-                        color: '#333'
-                      }}
-                    >
-                      {post.title}
-                    </Link>
-                  </div>
-                  <div style={{
-                    fontSize: '0.9em',
-                    color: '#666',
-                    marginBottom: post.description ? '0.75rem' : '0'
+              {postsByYear[year].map(post => {
+                const tags = post.tag
+                  ? post.tag.split(',').map(t => t.trim()).filter(Boolean).slice(0, 5)
+                  : []
+
+                return (
+                  <article key={post.slug} style={{
+                    padding: '1.25rem',
+                    border: '1px solid #ddd',
+                    borderRadius: '8px',
+                    backgroundColor: '#fafafa',
+                    transition: 'all 0.2s ease'
                   }}>
-                    {formatDateUTC(post.date)}
-                  </div>
-                  {post.description && (
-                    <p style={{
-                      fontSize: '0.95em',
-                      color: '#555',
-                      margin: '0',
-                      lineHeight: '1.5'
+                    <div style={{ marginBottom: '0.75rem' }}>
+                      <Link
+                        href={`/posts/${post.slug}`}
+                        style={{
+                          fontSize: '1.1em',
+                          fontWeight: 'bold',
+                          textDecoration: 'none',
+                          color: '#333'
+                        }}
+                      >
+                        {post.title}
+                      </Link>
+                    </div>
+                    <div style={{
+                      fontSize: '0.85em',
+                      color: '#666',
+                      marginBottom: post.description || tags.length > 0 ? '0.75rem' : '0'
                     }}>
-                      {post.description}
-                    </p>
-                  )}
-                </article>
-              ))}
+                      {formatDateUTC(post.date)}
+                      {post.readingTimeMinutes && (
+                        <>
+                          {' • '}
+                          {post.readingTimeMinutes} min read
+                        </>
+                      )}
+                    </div>
+                    {post.description && (
+                      <p style={{
+                        fontSize: '0.95em',
+                        color: '#555',
+                        margin: '0 0 0.75rem 0',
+                        lineHeight: '1.5'
+                      }}>
+                        {post.description}
+                      </p>
+                    )}
+                    {tags.length > 0 && (
+                      <div style={{
+                        display: 'flex',
+                        gap: '0.5rem',
+                        flexWrap: 'wrap',
+                        marginTop: '0.5rem'
+                      }}>
+                        {tags.map(tag => (
+                          <span
+                            key={tag}
+                            style={{
+                              fontSize: '0.75em',
+                              padding: '0.25rem 0.5rem',
+                              backgroundColor: '#e0e0e0',
+                              color: '#555',
+                              borderRadius: '4px',
+                              textTransform: 'lowercase'
+                            }}
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </article>
+                )
+              })}
             </div>
           </div>
         ))}
@@ -137,6 +201,7 @@ export default function BlogPage() {
       {posts.length === 0 && (
         <p>No blog posts found.</p>
       )}
-    </div>
+      </div>
+    </>
   )
 }
