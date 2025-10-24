@@ -10,6 +10,11 @@ export const metadata = {
   authors: [{ name: 'Augustin Chan', url: 'https://augustinchan.dev' }],
   creator: 'Augustin Chan',
   publisher: 'Augustin Chan',
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+  },
   robots: {
     index: true,
     follow: true,
