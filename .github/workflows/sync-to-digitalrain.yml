@@ -1,0 +1,75 @@
+name: Sync to Digital Rain
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'content/posts/**'
+      - 'app/lib/posts.ts'
+      - 'app/components/MDXContent.tsx'
+      - 'scripts/sync-to-digitalrain.js'
+
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout augustinchan.dev
+        uses: actions/checkout@v4
+        with:
+          path: augustinchan.dev
+
+      - name: Checkout digitalrain-site
+        uses: actions/checkout@v4
+        with:
+          repository: augchan42/digitalrain-site
+          token: ${{ secrets.DIGITALRAIN_SYNC_TOKEN }}
+          path: digitalrain-site
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run sync script
+        run: |
+          cd augustinchan.dev
+          node scripts/sync-to-digitalrain.js ../digitalrain-site
+
+      - name: Check for changes
+        id: git-check
+        run: |
+          cd digitalrain-site
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "changes=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push changes
+        if: steps.git-check.outputs.changes == 'true'
+        run: |
+          cd digitalrain-site
+          git config user.name "Digital Rain Sync Bot"
+          git config user.email "aug@digitalrain.studio"
+          git add -A
+          git commit -m "Sync content from augustinchan.dev
+
+          Auto-synced by GitHub Actions
+          Source commit: ${{ github.sha }}
+
+          🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+          Co-Authored-By: Claude <noreply@anthropic.com>"
+          git push
+
+      - name: Summary
+        run: |
+          if [ "${{ steps.git-check.outputs.changes }}" == "true" ]; then
+            echo "✅ Content synced successfully to digitalrain-site"
+          else
+            echo "ℹ️ No changes to sync"
+          fi
