@@ -105,6 +105,11 @@ export default async function PostPage({ params }: PostPageProps) {
   const postDescription = post.description || `Blog post: ${post.title}`
   const relatedPosts = getRelatedPosts(slug, 3)
 
+  // Parse tags from comma-separated string
+  const keywords = post.tag
+    ? post.tag.split(',').map(t => t.trim()).filter(Boolean)
+    : []
+
   // Structured data for SEO
   const structuredData = {
     '@context': 'https://schema.org',
@@ -133,6 +138,34 @@ export default async function PostPage({ params }: PostPageProps) {
       '@id': postUrl,
     },
     image: 'https://augustinchan.dev/img/Xrn0Id68_400x400.jpg',
+    ...(keywords.length > 0 && { keywords }),
+    ...(post.readingTimeMinutes && { timeRequired: `PT${post.readingTimeMinutes}M` }),
+  }
+
+  // Breadcrumb navigation for SEO
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://augustinchan.dev',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: 'https://augustinchan.dev/blog',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: post.title,
+        item: postUrl,
+      },
+    ],
   }
 
   return (
@@ -140,6 +173,10 @@ export default async function PostPage({ params }: PostPageProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <article>
         <header style={{ marginBottom: '2rem' }}>
@@ -152,6 +189,12 @@ export default async function PostPage({ params }: PostPageProps) {
             marginBottom: '1rem'
           }}>
             {formatDateUTC(post.date)}
+            {post.readingTimeMinutes && (
+              <>
+                {' • '}
+                {post.readingTimeMinutes} min read
+              </>
+            )}
           </div>
           {post.description && (
             <p style={{

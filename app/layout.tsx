@@ -121,7 +121,10 @@ export default function RootLayout({
             textAlign: 'center',
             color: '#666'
           }}>
-            © 2025 Augustin Chan aug@digitalrain.studio
+            <div>© 2025 Augustin Chan aug@digitalrain.studio</div>
+            <div style={{ marginTop: '0.5rem' }}>
+              <a href="/rss.xml" style={{ color: '#666', textDecoration: 'none' }}>RSS Feed</a>
+            </div>
           </footer>
         </div>
         <GoogleAnalytics />
