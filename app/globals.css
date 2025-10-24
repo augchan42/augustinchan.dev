@@ -6,6 +6,8 @@ html, body {
   font-family: "MS Sans Serif", sans-serif;
   font-size: 20px; /* Base size - use rem everywhere else for simplicity */
   line-height: 1.6; /* Comfortable reading line spacing */
+  -webkit-text-size-adjust: 100%; /* Respect user's font size settings on iOS */
+  text-size-adjust: 100%; /* Respect user's font size settings */
 }
 
 * {
