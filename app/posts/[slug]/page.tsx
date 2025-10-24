@@ -143,7 +143,7 @@ export default async function PostPage({ params }: PostPageProps) {
       />
       <article>
         <header style={{ marginBottom: '2rem' }}>
-          <h1 style={{ fontSize: '2.5em', marginBottom: '0.5rem' }}>
+          <h1 style={{ fontSize: '2em', marginBottom: '0.5rem' }}>
             {post.title}
           </h1>
           <div style={{

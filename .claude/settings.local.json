@@ -22,7 +22,10 @@
       "Bash(pnpm add:*)",
       "Bash(pnpm remove:*)",
       "Bash(git rev-parse:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Read(//home/hosermage/projects/8bitoracle-next/**)",
+      "Read(//home/hosermage/projects/digitalrain-site/**)",
+      "WebFetch(domain:digitalrain.studio)"
     ],
     "deny": [],
     "ask": []

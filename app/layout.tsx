@@ -61,7 +61,7 @@ export default function RootLayout({
         <div style={{
           maxWidth: '1000px',
           margin: '0 auto',
-          padding: '2rem'
+          padding: '1rem'
         }}>
           <header style={{
             borderBottom: '2px solid #333',
@@ -77,7 +77,7 @@ export default function RootLayout({
             }}>
               <div>
                 <Link href="/" style={{
-                  fontSize: '1.6rem',
+                  fontSize: '1.4rem',
                   fontWeight: 'bold',
                   textDecoration: 'none',
                   color: '#333'
