@@ -21,7 +21,8 @@
       "Bash(curl:*)",
       "Bash(pnpm add:*)",
       "Bash(pnpm remove:*)",
-      "Bash(git rev-parse:*)"
+      "Bash(git rev-parse:*)",
+      "Bash(mkdir:*)"
     ],
     "deny": [],
     "ask": []
