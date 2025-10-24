@@ -36,6 +36,6 @@ jobs:
           personal_token: ${{ secrets.PAGES_DEPLOY_TOKEN }}
           external_repository: augchan42/augchan42.github.io
           publish_dir: ./out
-          publish_branch: main
+          publish_branch: huxpro
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
