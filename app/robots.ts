@@ -7,7 +7,11 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/api/private/', '/admin/'],
+      disallow: [
+        '/api/',
+        '/_next/',
+        '/admin/',
+      ],
     },
     sitemap: 'https://augustinchan.dev/sitemap.xml',
   }
