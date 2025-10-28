@@ -22,6 +22,171 @@ So we analyzed them thoroughly—chunking strategies, deduplication logic, stora
 
 This is the story of what we actually ship, what we considered adding, and why we're shipping boring Postgres instead of exciting graph databases.
 
+## What 8-Bit Oracle Actually Ships Today
+
+Before we explore what we could build, let's be precise about what we have.
+
+**Single Source: Supabase Postgres**
+
+No Neo4j. No separate vector database. No external memory service. Just Postgres with JSONB columns and GIN indexes.
+
+**The Core Table: `divination_sessions`**
+
+```typescript
+// From src/lib/database.types.ts
+interface DivinationSession {
+  id: string;
+  anonymous_user_id: string;
+  user_id: string | null;
+  session_id: string;
+  sequence_number: number;
+
+  // The full conversation (JSONB)
+  message_history: Array<{
+    role: 'user' | 'assistant';
+    content: string;
+    timestamp: string;
+  }>;
+
+  // Hexagram context (JSONB)
+  hexagram_data: {
+    currentHexagram: {
+      number: number;
+      upperTrigram: { english: string };
+      lowerTrigram: { english: string };
+    };
+    transformedHexagram?: {
+      number: number;
+    };
+  } | null;
+
+  // Metadata
+  title: string;                        // Generated from question
+  summary: string | null;               // Column exists, currently unused
+  neutralized_question_text: string | null;
+
+  // LLM accounting
+  ai_provider: string | null;
+  ai_model: string | null;
+  input_tokens: number | null;
+  output_tokens: number | null;
+  finish_reason: string | null;
+
+  // Settings
+  locale: string;
+  counselor: string | null;
+  divination_mode: string | null;
+
+  timestamp: string | null;
+  is_active: boolean | null;
+}
+```
+
+The SQL schema confirms the shape:
+
+```sql
+CREATE TABLE divination_sessions (
+    id uuid PRIMARY KEY,
+    anonymous_user_id text NOT NULL,
+    user_id uuid REFERENCES auth.users(id),
+    session_id uuid NOT NULL,
+    sequence_number integer NOT NULL,
+
+    message_history jsonb NOT NULL,      -- Full conversation
+    hexagram_data jsonb,                 -- Structured I-Ching context
+
+    title varchar(255) NOT NULL,
+    summary text,                        -- Exists but unused
+    neutralized_question_text text,
+
+    ai_provider text,
+    ai_model text,
+    input_tokens integer,
+    output_tokens integer,
+    finish_reason text,
+
+    locale varchar(15) DEFAULT 'en',
+    counselor text DEFAULT 'MORPHEUS',
+    divination_mode text,
+
+    timestamp timestamptz DEFAULT now(),
+    is_active boolean DEFAULT true
+);
+```
+
+**The Conversation View**
+
+We expose a `conversation_history` view that aggregates messages per session:
+
+```sql
+CREATE VIEW conversation_history AS
+SELECT
+  s.id AS session_id,
+  s.session_type,
+  s.anonymous_user_id,
+  s.user_id,
+  json_agg(
+    json_build_object(
+      'id', m.id,
+      'role', m.role,
+      'content', m.content,
+      'name', m.name,
+      'function_call', m.function_call
+    ) ORDER BY m.sequence_number
+  ) AS message_history
+FROM sessions s
+JOIN messages m ON s.id = m.session_id
+GROUP BY s.id;
+```
+
+**The Profile Table**
+
+User profiles track identity and preferences, but no divination-specific memory:
+
+```typescript
+interface Profile {
+  id: string;
+  username: string | null;
+  full_name: string | null;
+  avatar_url: string | null;
+  bio: string | null;
+  website: string | null;
+
+  // Anonymous user tracking
+  active_anonymous_id: string | null;
+  anonymous_user_ids: string[] | null;   // Links to divination_sessions
+
+  // Preferences
+  theme_preference: string | null;
+  notification_preferences: Json | null;
+  privacy_settings: Json | null;
+
+  is_admin: boolean | null;
+  updated_at: string | null;
+}
+```
+
+Notice what's *not* here:
+- ❌ No `divination_profile` JSON with consolidated facts
+- ❌ No `extracted_facts` per session
+- ❌ No `related_sessions` array
+- ❌ No cross-session similarity graph
+- ❌ No fact extraction or LLM consolidation
+
+**What We Store vs. What We Could Store**
+
+| Data Type            | Currently Stored                    | Could Add (MemMachine/mem0 inspired) |
+|----------------------|-------------------------------------|--------------------------------------|
+| Full conversation    | ✅ `message_history` JSONB           | (already have)                       |
+| Hexagram context     | ✅ `hexagram_data` JSONB             | (already have)                       |
+| Session summary      | ⚠️ `summary` column exists, unused  | Populate with LLM summary            |
+| Extracted facts      | ❌ Not stored                       | `extracted_facts` JSONB column       |
+| Related sessions     | ❌ Not computed                     | `related_sessions` JSONB array       |
+| User profile facts   | ❌ Not consolidated                 | `divination_profile` in profiles     |
+| Vector embeddings    | ❌ Not generated                    | pgvector extension (if needed)       |
+
+This is boring technology. This is what we're running in production. This works[^2].
+
 ## The MemMachine Architecture
 
 MemMachine is what happens when you take memory seriously as a graph problem. The core insight: memories aren't isolated facts, they're *nodes in a temporal graph* connected by relationships.
@@ -399,8 +564,8 @@ Let's be precise about what ideas we're taking from each system:
 **What we're NOT taking:**
 
 1. ❌ Neo4j graph database
-2. ❌ Separate vector database
-3. ❌ Separate memory service
+2. ❌ Separate vector database (e.g., Qdrant)
+3. ❌ Separate memory service (hosted MemMachine)
 4. ❌ Graph traversal queries
 5. ❌ Complex deduplication logic
 
@@ -580,141 +745,153 @@ LIMIT 5;
 
 This is the classic adjacency list pattern. It's been solving graph-like problems in relational databases since the 1970s. It still works[^11].
 
-## The Implementation Plan
+## What We Deliberately Don't Have (Yet)
 
-Here's what we're actually building, stolen from MemMachine and mem0 but implemented entirely in Postgres + TypeScript:
+Let's be explicit about what we're *not* shipping:
 
-**Phase 1: Fact Extraction (Week 1)**
+- ❌ **Neo4j or any graph database** - No temporal relationship edges, no graph traversal
+- ❌ **External vector store** - No pgvector, no embeddings, no semantic search
+- ❌ **mem0-style fact store** - No extracted facts, no LLM consolidation loops
+- ❌ **Cross-session similarity** - No `related_sessions` column, no similarity graph
+- ❌ **Profile consolidation** - No `divination_profile` in the profiles table
+
+The `summary` column exists but is currently unused—not populated on insert, not read in UI or server code[^3].
+
+## Why We Didn't Ship MemMachine or mem0
+
+**Scope fit**: Our immediate need is storing complete conversations and hexagram context per reading. JSONB fits perfectly. We don't need multi-hop graph traversal when users just want "show me my past readings about career."
+
+**Operational simplicity**: One database (Supabase Postgres), one mental model (JSONB + GIN indexes), one set of backups. Adding Neo4j means another service to deploy, monitor, version, and maintain. Adding mem0 means managing consolidation loops and fact extraction pipelines.
+
+**Cost/benefit**: Graph traversal and LLM consolidation add complexity. What do users actually get? Faster follow-up responses? Better related reading suggestions? We haven't validated the user benefit yet, so we're not adding the infrastructure.
+
+**The boring technology principle**: When in doubt, ship the simplest thing that works. We can always add sophistication later if the use case emerges. We can't easily *remove* complexity once we've built dependencies on it[^4].
+
+## If/When We Add "Memory++"
+
+We kept the ideas on our roadmap. If we do add enhanced memory, here's how we'd do it—incrementally, Postgres-first, without new infrastructure:
+
+**Option 1: Fact Extraction per Session**
+
+Add `extracted_facts JSONB` beside `message_history`:
 
 ```sql
--- Migration
 ALTER TABLE divination_sessions
 ADD COLUMN extracted_facts JSONB,
 ADD COLUMN question_theme TEXT;
 
 CREATE INDEX idx_question_theme ON divination_sessions(question_theme);
-CREATE INDEX idx_extracted_facts_gin ON divination_sessions USING GIN (extracted_facts);
+CREATE INDEX idx_facts_gin ON divination_sessions USING GIN (extracted_facts);
 ```
 
 ```typescript
-// In useConversationPersistence.ts, after storeDivinationSession
-const facts = await extractDivinationFacts({
-  question: lastUserMessage.content,
-  interpretation: lastAssistantMessage.content,
-  hexagram: hexagramData,
-  locale: locale,
-});
+interface ExtractedFacts {
+  primary_concern: string;      // "Career transition"
+  emotional_state: string;      // "Anxious but hopeful"
+  key_themes: string[];         // ["timing", "patience"]
+  hexagram_themes: string[];    // ["waiting", "nourishment"]
+}
 
-await supabase
-  .from('divination_sessions')
-  .update({
-    extracted_facts: facts,
-    question_theme: facts.primary_concern
-  })
+// After storing session, extract facts
+const facts = await extractWithLLM(lastUserMessage, lastAssistantMessage);
+await supabase.from('divination_sessions')
+  .update({ extracted_facts: facts })
   .eq('id', sessionId);
 ```
 
-**Phase 2: Related Sessions (Week 2)**
+This enables fast filtering ("show readings about career") without full-text search on `message_history`.
+
+**Option 2: Shallow Related Links**
+
+Add a simple adjacency list for "similar past readings":
 
 ```sql
--- Migration
+CREATE TABLE session_links (
+  from_session UUID REFERENCES divination_sessions(id) ON DELETE CASCADE,
+  to_session UUID REFERENCES divination_sessions(id) ON DELETE CASCADE,
+  relationship_type TEXT,  -- 'same_hexagram', 'theme_related', 'temporal'
+  similarity_score FLOAT,
+  PRIMARY KEY (from_session, to_session)
+);
+
+CREATE INDEX idx_links_from ON session_links(from_session, similarity_score DESC);
+```
+
+Or denormalize into JSONB (fewer joins):
+
+```sql
 ALTER TABLE divination_sessions
 ADD COLUMN related_sessions JSONB DEFAULT '[]'::jsonb;
 
-CREATE INDEX idx_related_sessions_gin ON divination_sessions USING GIN (related_sessions);
+CREATE INDEX idx_related_gin ON divination_sessions USING GIN (related_sessions);
 ```
 
 ```typescript
-// Build related sessions after save
-const similarSessions = await findSimilarSessions(userId, newSessionId);
-const relatedSessions = similarSessions
-  .map(session => ({
-    session_id: session.id,
-    title: session.title,
-    hexagram_number: session.hexagram_data.currentHexagram.number,
-    relationship: determineRelationship(newSession, session),
-    similarity: calculateSimilarity(newSession, session),
-    timestamp: session.timestamp,
+// After saving new session, compute top 5 similar
+const similar = await findSimilarSessions(userId, newSessionId);
+const related = similar
+  .map(s => ({
+    session_id: s.id,
+    hexagram: s.hexagram_data.currentHexagram.number,
+    similarity: calculateSimilarity(newSession, s)
   }))
-  .filter(r => r.similarity > 0.5)
   .sort((a, b) => b.similarity - a.similarity)
   .slice(0, 5);
 
-await supabase
-  .from('divination_sessions')
-  .update({ related_sessions: relatedSessions })
+await supabase.from('divination_sessions')
+  .update({ related_sessions: related })
   .eq('id', newSessionId);
 ```
 
-**Phase 3: User Profiles (Week 3-4)**
-
-```sql
--- Migration
-ALTER TABLE profiles
-ADD COLUMN divination_profile JSONB;
-
-CREATE INDEX idx_divination_profile_gin ON profiles USING GIN (divination_profile);
-```
+Similarity calculation doesn't need Neo4j—just TypeScript:
 
 ```typescript
-// Background job (Vercel cron or Supabase function)
-export async function consolidateUserProfiles() {
-  const users = await supabase
-    .from('profiles')
-    .select('user_id, divination_profile')
-    .gte('session_count_since_consolidation', 5);
-
-  for (const user of users) {
-    const recentSessions = await fetchRecentSessions(user.user_id, 5);
-    const consolidated = await consolidateWithLLM(
-      user.divination_profile,
-      recentSessions
-    );
-
-    await supabase
-      .from('profiles')
-      .update({
-        divination_profile: consolidated,
-        session_count_since_consolidation: 0
-      })
-      .eq('user_id', user.user_id);
-  }
+function calculateSimilarity(s1: Session, s2: Session): number {
+  let score = 0;
+  if (s1.hexagram === s2.hexagram) score += 0.5;
+  if (s1.question_theme === s2.question_theme) score += 0.2;
+  // Temporal proximity boost
+  const daysDiff = Math.abs(s1.timestamp - s2.timestamp) / (24*60*60*1000);
+  if (daysDiff < 7) score += 0.15 * (1 - daysDiff/7);
+  return Math.min(score, 1.0);
 }
 ```
 
-**Phase 4: Enriched Context (Ongoing)**
+**Option 3: Periodic Profile Summary**
 
-```typescript
-// When generating follow-up response
-const context = {
-  // Current session (already have)
-  current_conversation: messages,
-  current_hexagram: hexagramData,
+Add a compact JSON summary per user in the existing `profiles` table:
 
-  // NEW: Recent sessions summary
-  recent_sessions: await getRecentSessionsSummary(userId),
+```sql
+ALTER TABLE profiles
+ADD COLUMN divination_profile JSONB;
 
-  // NEW: User profile context
-  user_profile: await getUserProfile(userId),
-
-  // NEW: Similar readings
-  similar_readings: currentSession.related_sessions,
-};
-
-const systemPrompt = buildEnrichedPrompt(context);
+CREATE INDEX idx_div_profile_gin ON profiles USING GIN (divination_profile);
 ```
 
-This gives us all the benefits of MemMachine and mem0:
-- ✅ Fact extraction (mem0)
-- ✅ Profile consolidation (MemMachine)
-- ✅ Related sessions (MemMachine's temporal graph, but denormalized)
-- ✅ Multi-level context (mem0's multi-level memory)
+```typescript
+interface DivinationProfile {
+  life_stage?: string;           // "Early career professional"
+  recurring_themes?: string[];   // ["career", "relationships"]
+  hexagram_affinity?: Array<{
+    number: number;
+    count: number;
+  }>;
+  last_consolidated?: string;
+}
 
-Without the costs:
-- ❌ No Neo4j ($65/month + maintenance)
-- ❌ No separate vector database
-- ❌ No additional services to deploy
-- ❌ No learning Cypher or graph query languages
+// Background job: consolidate after every 5 sessions
+async function consolidateProfile(userId: string) {
+  const recent = await getRecentSessions(userId, 5);
+  const existing = await getProfile(userId);
+  const consolidated = await llm.consolidate({
+    old: existing.divination_profile,
+    new: recent.map(s => s.extracted_facts)
+  });
+  await updateProfile(userId, { divination_profile: consolidated });
+}
+```
+
+Each step stays inside Supabase, leverages GIN indexes, and avoids introducing graph infrastructure until we truly need graph problems solved.
 
 ## The Philosophy
 
@@ -795,25 +972,35 @@ The JSONB version is:
 
 One requires a whiteboard. The other fits in a sentence[^13].
 
+## The Principle
+
+Steal ideas, not implementations. Keep the storage model boring, the queries legible, and the infrastructure minimal.
+
+MemMachine taught us: profile consolidation matters, temporal relationships have value, deduplication should be semantic not just structural.
+
+mem0 taught us: fact extraction reduces token costs, selective loading beats full-context dumping, LLM-powered consolidation works.
+
+What we're shipping: Postgres with JSONB, full conversations, hexagram context, zero external dependencies.
+
+What we're not shipping (yet): fact extraction, cross-session links, profile consolidation, graph traversal.
+
 ## Conclusion
 
-We started looking at MemMachine and mem0 because we wanted a proper memory system. We found two excellent implementations with different philosophies: MemMachine's graph-based temporal relationships, mem0's LLM-powered fact extraction.
+We started by analyzing MemMachine (graph-based temporal memory) and mem0 (LLM-powered fact extraction). Both are excellent. Both solve real problems. Both would work.
 
-What we realized is that the *ideas* are universal but the *implementations* are context-dependent. Graph databases are fantastic for graph problems. We don't have graph problems. We have relationship problems, which are different.
+But after mapping their architectures to our actual use cases, we realized: we don't need their implementations yet. We need their *ideas*, stored for when we validate the user benefit.
 
-The solution is to steal the best ideas from both systems:
-- Fact extraction from mem0
-- Profile consolidation from MemMachine
-- Multi-level context from mem0
-- Temporal relationships from MemMachine
+The current system is boring: one Postgres database, JSONB for conversations, JSONB for hexagram context, GIN indexes for fast queries. No Neo4j ($65/month + ops overhead). No separate vector store. No fact extraction pipelines. No consolidation loops.
 
-And implement them using the database we already have: Postgres with JSONB.
+This isn't "good enough for now." This is correct for the problem we're solving. Users want the oracle to remember their conversations. We remember them—in `message_history` JSONB, queryable by `session_id`, scoped by `user_id` or `anonymous_user_id`.
 
-No Neo4j. No separate vector store. No new infrastructure. Just JSONB columns, GIN indexes, and TypeScript similarity functions.
+When the day comes that we need multi-hop graph traversal ("show me how my thinking evolved from reading A through B to C"), we'll add it. When we need semantic search across all past readings, we'll add pgvector. When we need LLM-consolidated user profiles, we'll add the background job.
 
-Sometimes the journey from "we need a proper memory system" to "we already have the tools we need" requires researching graph databases, analyzing chunking strategies, comparing deduplication logic, and understanding what MemMachine and mem0 are actually doing. You have to understand *why* graph databases exist before you can confidently decide you don't need one.
+Until then, the oracle remembers through JSONB rows, typed columns, and very fast Postgres queries[^5].
 
-The memory layer was there all along, encoded in JSONB columns and Postgres indexes. We just had to stop trying so hard to build infrastructure and start actually solving the problem.
+Sometimes the journey from "we should use a memory system" to "we already have one" requires researching graph databases, analyzing chunking strategies, comparing deduplication logic, and understanding what MemMachine and mem0 actually do. You have to understand *why* Neo4j exists before you can confidently decide you don't need it.
+
+The memory layer was there all along. We just had to stop trying so hard to add sophistication and start shipping the simple thing.
 
 ---
 
@@ -821,42 +1008,46 @@ The memory layer was there all along, encoded in JSONB columns and Postgres inde
 
 [^1]: This is the core problem of "stateless" LLM APIs. Each request is independent. The model doesn't remember you. Context windows are temporary. If you want memory, you have to build it yourself. This is by design—statelessness scales better—but it means memory becomes the application's responsibility.
 
-[^2]: The field is called "memory-augmented neural networks" or "episodic memory for agents" depending on whether you're reading ML papers or cognitive architecture papers. Both groups independently discovered that AI systems need three types of memory: working (current context), episodic (past events), and semantic (learned facts). Humans figured this out in the 1960s. AI is catching up.
+[^2]: "Boring technology" per Dan McKinley's "Choose Boring Technology" (2015): use new tech for competitive advantage, use boring tech for everything else. Postgres is 30 years old. JSONB is 10 years old. They're boring. They work. This is exactly where you want boring.
 
-[^3]: Neo4j 5.x supports vector embeddings natively. This is clever: store the graph structure and the vector embeddings in the same database, so you can do hybrid queries: "Find sessions connected to this one AND semantically similar to this query." The integration is elegant. The operational complexity is not.
+[^3]: The `summary` column was created with optimistic foresight but never wired into the persistence or display logic. It exists in the schema snapshot and generated types, unused. This is fine. Empty columns cost almost nothing in Postgres. If we need it later, it's there. If we don't, it's ignored.
 
-[^4]: MemMachine comes from academic research on cognitive architectures for AI agents. The design shows: it's theoretically grounded, well-abstracted, and handles edge cases you wouldn't think of. This is a compliment. It's also why it might be overkill for a production app that just needs to remember user questions.
+[^4]: "Complexity is easy to add, hard to remove" is a corollary of Lehman's Laws of Software Evolution. Every dependency you add—Neo4j, mem0, vector stores—creates inertia. Teams build on it, monitoring depends on it, backups expect it. Removing it later means migration risk and coordination cost. Better to add complexity when you have validated user demand, not speculative architectural elegance.
 
-[^5]: Mem0's benchmarks show 10% higher accuracy (67% vs 61%) compared to RAG baseline, and 92% lower latency (1.44s vs 17s) compared to full-context approach. The latency improvement comes from storing facts instead of full conversations—smaller retrieval payload, smaller LLM prompt, faster inference. The accuracy improvement comes from LLM-powered consolidation that removes contradictions and duplicates.
+[^5]: JSONB performance at scale: Postgres JSONB with GIN indexes handles millions of rows efficiently. Our `message_history` arrays are small (typically 2-10 messages per session). GIN index lookups are O(log n) on keys, O(1) on row retrieval. For our data shape (thousands of users, tens of sessions each), this is sub-10ms query time. We're nowhere near needing distributed systems or specialized document stores.
 
 [^6]: GIN (Generalized Inverted Index) is Postgres's index type for JSONB, arrays, and full-text search. It's based on inverted indexes (like Lucene/Elasticsearch) but integrated into Postgres. For JSONB queries with containment operators (`@>`, `?`, etc.), GIN indexes are extremely fast—often faster than dedicated document stores because there's no network hop.
 
-[^7]: There's a beautiful simplicity to storing `extracted_facts` in the same table as `message_history`. You don't have to worry about consistency—they're in the same row, same transaction. You don't have to join tables—it's all right there. You don't have to manage separate lifecycles—delete the session, delete the facts. Denormalization gets a bad rap, but sometimes it's exactly right.
+[^7]: The field of memory systems for AI agents spans "memory-augmented neural networks" and "episodic memory for agents." Both research communities independently discovered that AI systems need three types of memory: working (current context), episodic (past events), and semantic (learned facts). Humans figured this out in cognitive psychology in the 1960s. AI is catching up. MemMachine and mem0 represent two different implementations of these principles.
 
-[^8]: MemMachine uses separate PostgreSQL for profiles and Neo4j for episodes. This makes sense if you're building a framework that integrates with existing systems. For 8-Bit Oracle, we already have Supabase Postgres with RLS, authentication, and profiles. Adding `divination_profile` as a JSONB column leverages what we have instead of adding what we don't.
+[^8]: MemMachine comes from academic research on cognitive architectures for AI agents. The design shows: theoretically grounded, well-abstracted, handles edge cases you wouldn't think of. This is a compliment. It's also why it might be overkill for a production app that just needs to remember user conversations without multi-hop graph traversal.
 
-[^9]: This is the key question: are you building features users want, or features that sound impressive? Graph traversal is impressive. "Find path from session A to C through intermediate sessions" is a cool query. But when was the last time you wanted to trace your thinking path through five levels of previous conversations? Usually you just want: "show me related past conversations." That's a similarity query, not a graph query.
+[^9]: Mem0's benchmarks: 10% higher accuracy (67% vs 61%) compared to RAG baseline, and 92% lower latency (1.44s vs 17s) compared to full-context approach. The latency improvement comes from storing facts instead of full conversations—smaller retrieval, smaller prompts, faster inference. The accuracy comes from LLM-powered consolidation that removes contradictions and duplicates. These are real benefits, if you need them.
 
-[^10]: Recursive CTEs in Postgres have depth limits (default 100) and performance degrades with depth. But user session graphs are shallow. Most users have dozens of sessions, not thousands. Most relationships are 1-2 hops, not 10. For this scale, recursive CTEs are perfectly adequate. You don't need Neo4j until you're doing multi-hop traversal on millions of nodes.
+[^10]: Recursive CTEs in Postgres have depth limits (default 100) and performance degrades with depth. But user session graphs are shallow. Most users have dozens of sessions, not thousands. Most relationships are 1-2 hops, not 10. For this scale, recursive CTEs are perfectly adequate. You don't need Neo4j until you're doing multi-hop traversal on millions of nodes with complex relationship types.
 
-[^11]: The adjacency list pattern (storing relationships in a separate table with from/to foreign keys) dates to the 1970s. It's in every database textbook. It's "boring technology" in the best sense—well-understood, widely supported, obviously correct. Modern graph databases offer query expressiveness and traversal optimizations. But for simple relationship queries, the old pattern still works fine.
+[^11]: The adjacency list pattern (relationships in a separate table with from/to foreign keys) dates to the 1970s. It's in every database textbook. It's "boring technology" in the best sense—well-understood, widely supported, obviously correct. Modern graph databases offer query expressiveness and traversal optimizations. But for simple relationship queries (top N similar sessions), the old pattern still works fine.
 
-[^12]: This parallels Rich Hickey's distinction in "Simple Made Easy": graph databases are *easy* to reach for because they're marketed as "the solution for connected data." JSONB is *simple* because it doesn't add dependencies, doesn't require new mental models, and solves the actual problem without extra machinery. Easy is what you think of first. Simple is what you wish you'd thought of first.
+[^12]: Rich Hickey's "Simple Made Easy" distinction applies: graph databases are *easy* to reach for because they're marketed as "the solution for connected data." Postgres + JSONB is *simple* because it doesn't add dependencies, doesn't require new mental models, solves the actual problem without extra machinery. Easy is what you think of first. Simple is what you wish you'd thought of first.
 
-[^13]: The "can you explain it without a whiteboard" test is surprisingly reliable. If the architecture requires diagrams to understand, it's probably too complex for the problem. If you can explain it in a sentence or two, it's probably about right. This isn't always true—sometimes complex problems require complex solutions—but it's true more often than we admit.
+[^13]: The "can you explain it without a whiteboard" test is surprisingly reliable. If the architecture requires diagrams to understand, it's probably too complex for the problem. If you can explain it in one sentence ("we store full conversations as JSONB in Postgres"), it's probably about right. This isn't always true—sometimes complex problems require complex solutions—but it's true more often than we admit.
 
 ---
 
-**Technical Specifications**
+**Technical Specifications (Current Production State)**
 
-- **Approach**: Hybrid memory system using Postgres JSONB
-- **Storage**: Single database (Supabase Postgres)
-- **Fact extraction**: LLM-powered (stolen from mem0)
-- **Profile consolidation**: LLM-powered (stolen from MemMachine)
-- **Relationship storage**: Denormalized JSONB arrays
-- **Indexing**: GIN indexes for JSONB queries
-- **Graph queries**: Recursive CTEs when needed
-- **Infrastructure cost**: $0 (using existing Supabase)
-- **New dependencies**: 0
+- **Database**: Supabase Postgres
+- **Primary table**: `divination_sessions`
+- **Conversation storage**: `message_history` JSONB (ordered by `sequence_number`)
+- **Context storage**: `hexagram_data` JSONB, plus `title` (schema has `summary`, currently unused)
+- **Identity**: `anonymous_user_id`, optional `user_id`, `session_id`
+- **LLM accounting**: `ai_provider`, `ai_model`, `input_tokens`, `output_tokens`, `finish_reason`
+- **Views**: `conversation_history` for aggregated messages
+- **External services for memory**: None
+- **Graph database**: None
+- **Vector database**: None
+- **Fact extraction**: Not implemented
+- **Profile consolidation**: Not implemented
+- **Infrastructure cost**: $0 additional (existing Supabase)
 
-The memory layer is deterministic. The memory layer is relational. The memory layer is already deployed.
+The oracle remembers. The oracle uses JSONB. The oracle ships boring technology.
