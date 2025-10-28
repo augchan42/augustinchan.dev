@@ -183,7 +183,7 @@ Notice what's *not* here:
 | Extracted facts      | ❌ Not stored                       | `extracted_facts` JSONB column       |
 | Related sessions     | ❌ Not computed                     | `related_sessions` JSONB array       |
 | User profile facts   | ❌ Not consolidated                 | `divination_profile` in profiles     |
-| Vector embeddings    | ❌ Not generated                    | pgvector extension (if needed)       |
+| Vector embeddings    | ⚠️ pgvector exists (for Cantonese slang) | Use for session semantic search   |
 
 This is boring technology. This is what we're running in production. This works[^2].
 
@@ -564,12 +564,12 @@ Let's be precise about what ideas we're taking from each system:
 **What we're NOT taking:**
 
 1. ❌ Neo4j graph database
-2. ❌ Separate vector database (e.g., Qdrant)
-3. ❌ Separate memory service (hosted MemMachine)
+2. ❌ Vector search for memory retrieval (we have pgvector for Cantonese slang, but not for session search)
+3. ❌ Separate memory service (hosted MemMachine or mem0)
 4. ❌ Graph traversal queries
 5. ❌ Complex deduplication logic
 
-Why? Because we don't actually need them.
+Why? Because we don't actually need them for the memory use cases we're solving.
 
 ## The Graph Question
 
@@ -750,7 +750,7 @@ This is the classic adjacency list pattern. It's been solving graph-like problem
 Let's be explicit about what we're *not* shipping:
 
 - ❌ **Neo4j or any graph database** - No temporal relationship edges, no graph traversal
-- ❌ **External vector store** - No pgvector, no embeddings, no semantic search
+- ❌ **Vector-based memory retrieval** - We have pgvector (used for Cantonese slang matching in HK commentary generation), but not for session/conversation retrieval
 - ❌ **mem0-style fact store** - No extracted facts, no LLM consolidation loops
 - ❌ **Cross-session similarity** - No `related_sessions` column, no similarity graph
 - ❌ **Profile consolidation** - No `divination_profile` in the profiles table
@@ -925,7 +925,7 @@ For this, JSONB + GIN indexes + TypeScript logic is sufficient. It's not just "g
 
 **Better Operations:**
 - Supabase Postgres (already deployed)
-- No Neo4j instance to maintain
+- No Neo4j or separate vector db instance to maintain
 - Backups are just Postgres backups
 
 The graph database version would be more "real engineering." More components, more complexity, more résumé bullet points. But the JSONB version is more *real*—it acknowledges what we actually need rather than what we think we should need[^12].
@@ -938,7 +938,7 @@ Just because data has relationships doesn't mean you need a graph database. Most
 
 **Lesson 2: Steal Ideas, Not Implementations**
 
-MemMachine's profile consolidation is brilliant. mem0's fact extraction is brilliant. Neo4j and separate vector stores are not essential to those ideas.
+MemMachine's profile consolidation is brilliant. mem0's fact extraction is brilliant. Neo4j and separate vector stores are not essential to those ideas.  AI Tooling lets you more easily extract what you need, rather than integrating entire frameworks.
 
 **Lesson 3: Denormalization Is Underrated**
 
@@ -1045,7 +1045,7 @@ The memory layer was there all along. We just had to stop trying so hard to add 
 - **Views**: `conversation_history` for aggregated messages
 - **External services for memory**: None
 - **Graph database**: None
-- **Vector database**: None
+- **Vector database**: pgvector enabled (used for Cantonese slang matching, not memory retrieval)
 - **Fact extraction**: Not implemented
 - **Profile consolidation**: Not implemented
 - **Infrastructure cost**: $0 additional (existing Supabase)
