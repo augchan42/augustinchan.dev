@@ -10,17 +10,17 @@ author: Aug
 
 ## The Memory Problem
 
-Here's what nobody tells you about building memory for AI agents: the word "memory" is deceptive. It sounds like one thing. It's actually four different things pretending to be one thing while wearing a trench coat.
+"Memory" sounds singular. In practice it spans: working context (what are we talking about right now), episodic history (what did we talk about before), and durable facts (what have I learned about you). These are different problems with different storage needs.
 
-You start with a simple requirement: the 8-Bit Oracle should remember what users ask about. When someone consults the I-Ching about their career transition on Monday, then comes back on Friday with a follow-up question, the oracle shouldn't respond like it's meeting them for the first time[^1]. This seems straightforward. This is not straightforward.
+You start simple: the 8-Bit Oracle should remember what users ask about. When someone consults the I-Ching about their career transition on Monday, then comes back Friday with a follow-up question, the oracle shouldn't start from scratch[^1].
 
-The naive approach is to stuff everything into `message_history` as JSONB and hope Postgres can handle it. Which it can. For a while. But then you read about "memory systems" and discover there's an entire field of research on how AI agents should remember things, and you realize you're doing it wrong[^2].
+The straightforward approach: store full conversations as JSONB, one row per divination session. This works. This is what 8-Bit Oracle ships today.
 
-So you go looking for a proper memory system. You want something production-ready, battle-tested, not your own hacky implementation. You find two interesting candidates: MemMachine and mem0. Both are open source. Both claim to solve the memory problem. Both have very different ideas about what "memory" means.
+But then you read about "memory systems" and discover an entire field dedicated to how AI agents should remember things. You find MemMachine (graph-based temporal relationships) and mem0 (LLM-powered fact extraction). Both are open source. Both solve memory elegantly. Both suggest we might be missing something.
 
-And here's where it gets interesting: after analyzing both systems thoroughly, understanding their chunking strategies, deduplication logic, and storage architectures, you realize you don't need either of them. You need their *ideas*, not their *implementations*.
+So we analyzed them thoroughly—chunking strategies, deduplication logic, storage architectures—and arrived at a realization: we need their *ideas*, not their *implementations*. Not yet, anyway.
 
-This is the story of that realization.
+This is the story of what we actually ship, what we considered adding, and why we're shipping boring Postgres instead of exciting graph databases.
 
 ## The MemMachine Architecture
 
