@@ -10,7 +10,9 @@ author: Aug
 
 ## The Premise (Which Turned Out to Be a Lie)
 
-A friend—let's call him Ali G[^1]—needed help with his site at aligstudios.com. He says its for marketing.  I think its working.
+A friend—let's call him Ali G[^1]—needed help with his site at aligstudios.com. He'd just paid someone to migrate from Drupal to WordPress[^2]. He says it's for marketing. I think it's working.
+
+[^1]: Not an alias. That's actually his name. Yes, like the Sacha Baron Cohen character. No, he's not thrilled about it either.
 
 [^2]: Drupal to WordPress is like escaping from one maximum-security CMS prison to another. Drupal is the one where you need a PhD to configure a content type. WordPress is the one where everything is easy until you need to do anything programmatically, at which point you discover the bars were just better hidden.
 
@@ -421,7 +423,7 @@ You can't easily:
 
 Unless you're willing to SSH into the server and use WP-CLI, which is exactly what I ended up doing[^31].
 
-[^31]: And which I've now open-sourced [LINK TK] so you don't have to spend 5 hours debugging SSH key newlines and expect scripts. You're welcome.
+[^31]: And which I've now open-sourced at https://github.com/augchan42/wp-ali-public so you don't have to spend 5 hours debugging SSH key newlines and expect scripts. You're welcome.
 
 ## Act IV: The Solution (And Why It Feels Wrong)
 
@@ -453,7 +455,7 @@ Features:
 - ✅ **Idempotent**: Check if page exists by slug, update instead of duplicate
 - ✅ **Debuggable**: Comprehensive logging, clear error messages
 
-The code is open source: [GITHUB_LINK_HERE]
+The code is open source: https://github.com/augchan42/wp-ali-public
 
 ### Why It Feels Wrong
 
@@ -539,7 +541,7 @@ The REST API is elegant in theory. SSH + WP-CLI is ugly in practice. But ugly-an
 
 ## Appendix: The 29 Commits
 
-For those who want the full journey, here's the [GitHub repository](GITHUB_LINK_HERE) with all 29 commits. You can watch in real-time as I:
+For those who want the full journey, here's the [GitHub repository](https://github.com/augchan42/wp-ali-public) with all 29 commits. You can watch in real-time as I:
 
 - Start with naive optimism (commit 1)
 - Hit the SiteGround wall (commits 6-9)  
