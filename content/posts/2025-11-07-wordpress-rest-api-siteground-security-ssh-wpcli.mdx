@@ -10,23 +10,45 @@ author: Aug
 
 ## The Premise (Which Turned Out to Be a Lie)
 
-Here's what I thought would happen: write some Markdown files[^1], push to GitHub, let Actions convert them to HTML, POST them to WordPress via the REST API[^2], done. Thirty minutes, tops. Maybe an hour if the API documentation is particularly WordPress-esque[^3].
+A friend—let's call him Ali G[^1]—needed help with his site at aligstudios.com. He says its for marketing.  I think its working.
 
-[^1]: Because in 2025 we're still pretending that everyone wants to write content in a WYSIWYG editor that mangles your HTML and adds seventeen `<span>` tags with inline styles nobody asked for. Markdown is what humans write. WordPress is what marketers think humans want.
+[^2]: Drupal to WordPress is like escaping from one maximum-security CMS prison to another. Drupal is the one where you need a PhD to configure a content type. WordPress is the one where everything is easy until you need to do anything programmatically, at which point you discover the bars were just better hidden.
 
-[^2]: The REST API! Finally! WordPress joined the modern web circa 2016 when they shipped WP-JSON endpoints. Only took them 13 years after launch to discover that maybe—just maybe—people might want to interact with their CMS programmatically without learning PHP and the WordPress Loop™ (which isn't really a loop, it's more like a prayer to the database that hopefully returns post content in the right order).
+That's it. *One page. One menu item.* Should take five minutes, right?
 
-[^3]: WordPress documentation exists in this quantum state where it's simultaneously comprehensive and completely useless. You can find detailed docs about every filter hook since 2.7, but good luck finding a straightforward answer to "how do I publish a page via API without getting a 401."
+Except Ali gave me admin access to the WordPress dashboard and I *looked at it*. Really looked at it. The TinyMCE editor with its floating toolbars[^3]. The "Add New Page" button that leads to a form with 47 fields, most of which I don't understand. The menu builder that's somehow both too simple (can't do anything complex) and too complicated (requires clicking through three nested screens). The Gutenberg block editor that's supposed to be modern but feels like using PowerPoint to write an essay.
 
-Here's what actually happened: I spent 4+ hours fighting SiteGround's Anti-Bot AI[^4], rewrote the entire workflow to use SSH + WP-CLI, debugged six separate SSH implementation issues[^5], and ended up with a working system that bypasses HTTP entirely because—and I cannot stress this enough—*WordPress is fundamentally hostile to automation*.
+[^3]: TinyMCE: Because what developers really wanted in 2025 was to write content in an editor that hasn't meaningfully changed since 2008, still produces HTML that looks like it was written by a cat walking across a keyboard, and has a "paste from Word" button as if that's a feature and not an admission of defeat.
 
-[^4]: More on this later, but preview: SiteGround's "Anti-Bot AI" is like TSA security theater except instead of confiscating your shampoo, it blocks every legitimate API request from GitHub Actions while presumably letting actual bots through because they're smart enough to use residential proxies.
+And I thought: *Hell no.*
 
-[^5]: Including the delightful discovery that GitHub Actions runners are ephemeral, which means your SSH agent dies between steps, which means you have to restart it and re-add your key with an expect script *in every single step*, which is the kind of developer experience that makes you question your career choices.
+I could log in, click "Add New Page," paste content into that editor, fight with the formatting, figure out how to add a menu item (is it in Appearance? Settings? A plugin?), save it, realize the formatting broke, fix it, save again—
 
-This is that story. It's about WordPress, yes, but really it's about how we've built these baroque, self-important content management systems that are *technically* open-source and *theoretically* API-first but *practically* unusable for the exact use case they claim to support: automated content publishing[^6].
+Or.
 
-[^6]: And by extension: AI agents. If GitHub Actions—which is literally just running Python scripts with curl—can't reliably talk to WordPress, how exactly are we expecting AI agents to do it? Spoiler: we're not. WordPress is for humans clicking buttons in wp-admin. Everything else is cosplay.
+*Or.*
+
+I could spend 30 minutes building a GitHub Actions workflow that converts Markdown to HTML and publishes via the WordPress REST API. Write once, automate forever. Never touch that dashboard again[^4].
+
+[^4]: This is the kind of decision-making that seems rational at 3 PM on a Tuesday and deeply questionable when you're debugging SSH key newlines at 8 PM. But we all have our principles. Mine apparently include "I will spend 10 hours automating a 5-minute task rather than click buttons in a bad UI." It's the programmer's disease: the conviction that automation is always worth it, even when the math clearly says it's not.
+
+So here's what I thought would happen: write some Markdown files[^5], push to GitHub, let Actions convert them to HTML, POST them to WordPress via the REST API[^6], done. Thirty minutes, tops. Maybe an hour if the API documentation is particularly WordPress-esque[^7].
+
+[^5]: Because in 2025 we're still pretending that everyone wants to write content in a WYSIWYG editor that mangles your HTML and adds seventeen `<span>` tags with inline styles nobody asked for. Markdown is what humans write. WordPress is what marketers think humans want.
+
+[^6]: The REST API! Finally! WordPress joined the modern web circa 2016 when they shipped WP-JSON endpoints. Only took them 13 years after launch to discover that maybe—just maybe—people might want to interact with their CMS programmatically without learning PHP and the WordPress Loop™ (which isn't really a loop, it's more like a prayer to the database that hopefully returns post content in the right order).
+
+[^7]: WordPress documentation exists in this quantum state where it's simultaneously comprehensive and completely useless. You can find detailed docs about every filter hook since 2.7, but good luck finding a straightforward answer to "how do I publish a page via API without getting a 401."
+
+Here's what actually happened: I spent 4+ hours fighting SiteGround's Anti-Bot AI[^8], rewrote the entire workflow to use SSH + WP-CLI, debugged six separate SSH implementation issues[^9], and ended up with a working system that bypasses HTTP entirely because—and I cannot stress this enough—*WordPress is fundamentally hostile to automation*.
+
+[^8]: More on this later, but preview: SiteGround's "Anti-Bot AI" is like TSA security theater except instead of confiscating your shampoo, it blocks every legitimate API request from GitHub Actions while presumably letting actual bots through because they're smart enough to use residential proxies.
+
+[^31]: Including the delightful discovery that GitHub Actions runners are ephemeral, which means your SSH agent dies between steps, which means you have to restart it and re-add your key with an expect script *in every single step*, which is the kind of developer experience that makes you question your career choices.
+
+This is that story. It's about WordPress, yes, but really it's about how we've built these baroque, self-important content management systems that are *technically* open-source and *theoretically* API-first but *practically* unusable for the exact use case they claim to support: automated content publishing[^10].
+
+[^30]: And by extension: AI agents. If GitHub Actions—which is literally just running Python scripts with curl—can't reliably talk to WordPress, how exactly are we expecting AI agents to do it? Spoiler: we're not. WordPress is for humans clicking buttons in wp-admin. Everything else is cosplay.
 
 ## Act I: The Official Way (Or, How I Wasted My Afternoon)
 
@@ -57,11 +79,11 @@ jobs:
             -d '{"title":"Speaker Bio","content":"'$(cat content.html)'","status":"publish"}'
 ```
 
-**142 lines of YAML.** Clean. Straightforward. Used Application Passwords (WordPress 5.6+), which is the modern, security-conscious way to authenticate[^7]. Hit the `/wp-json/wp/v2/pages` endpoint, which is the official way to create pages[^8].
+**142 lines of YAML.** Clean. Straightforward. Used Application Passwords (WordPress 5.6+), which is the modern, security-conscious way to authenticate[^9]. Hit the `/wp-json/wp/v2/pages` endpoint, which is the official way to create pages[^10].
 
-[^7]: Application Passwords are WordPress's answer to "what if we let users create API tokens that aren't their actual password?" Revolutionary stuff, only 40 years after every other system figured this out. To their credit, once you figure out where the setting is buried (hint: it's in the user profile, except when your hosting provider disables it for "security"), they actually work pretty well.
+[^31]: Application Passwords are WordPress's answer to "what if we let users create API tokens that aren't their actual password?" Revolutionary stuff, only 40 years after every other system figured this out. To their credit, once you figure out where the setting is buried (hint: it's in the user profile, except when your hosting provider disables it for "security"), they actually work pretty well.
 
-[^8]: There's also `/wp-json/wp/v2/posts` for blog posts, and approximately 47 other endpoints for custom post types, media, comments, categories, tags, users, and probably your grandmother's cookie recipes. The API is *comprehensive*. It's the epitome of "we built the thing you asked for" without asking "but should we have?"
+[^30]: There's also `/wp-json/wp/v2/posts` for blog posts, and approximately 47 other endpoints for custom post types, media, comments, categories, tags, users, and probably your grandmother's cookie recipes. The API is *comprehensive*. It's the epitome of "we built the thing you asked for" without asking "but should we have?"
 
 Pushed it. Watched the Actions run. Got a 202 response.
 
@@ -102,15 +124,15 @@ SiteGround—my hosting provider, which is otherwise quite competent—has a fea
 - Timing between requests
 - Probably your astrological sign
 
-[^9]: I use "AI" in scare quotes because calling this "AI" is like calling a series of if-statements "machine learning." It's heuristics. Pattern matching. The kind of thing that was called "expert systems" in the 80s before we got embarrassed about overselling it. But "AI" is the magic word that makes hosting companies sound cutting-edge while they're just running ModSecurity with extra steps.
+[^31]: I use "AI" in scare quotes because calling this "AI" is like calling a series of if-statements "machine learning." It's heuristics. Pattern matching. The kind of thing that was called "expert systems" in the 80s before we got embarrassed about overselling it. But "AI" is the magic word that makes hosting companies sound cutting-edge while they're just running ModSecurity with extra steps.
 
 And it has decided that GitHub Actions—an IP range owned by Microsoft, running on Azure, making completely legitimate API requests with proper authentication—is a bot[^10].
 
-[^10]: I mean, it's *technically* a bot. But it's *my* bot. It has credentials. It's doing exactly what the WordPress REST API was designed for. But SiteGround's Anti-Bot AI doesn't care about your epistemological arguments regarding the nature of automated systems. It sees a request from an IP it doesn't like, it returns an HTML page with a captcha, and your carefully crafted JSON payload dies in vain.
+[^30]: I mean, it's *technically* a bot. But it's *my* bot. It has credentials. It's doing exactly what the WordPress REST API was designed for. But SiteGround's Anti-Bot AI doesn't care about your epistemological arguments regarding the nature of automated systems. It sees a request from an IP it doesn't like, it returns an HTML page with a captcha, and your carefully crafted JSON payload dies in vain.
 
-The request never reaches WordPress. My Application Password never gets checked. WordPress never sees the request at all. It's blocked at the infrastructure layer—probably nginx or a WAF module—and redirected to a captcha page[^11].
+The request never reaches WordPress. My Application Password never gets checked. WordPress never sees the request at all. It's blocked at the infrastructure layer—probably nginx or a WAF module—and redirected to a captcha page[^31].
 
-[^11]: Which, by the way, returns HTTP 202 instead of 403 or 401, because apparently the security theater extends to status codes. "We're not blocking you! We're just... asking you to prove you're human first. Indefinitely. With no way to bypass it programmatically."
+[^31]: Which, by the way, returns HTTP 202 instead of 403 or 401, because apparently the security theater extends to status codes. "We're not blocking you! We're just... asking you to prove you're human first. Indefinitely. With no way to bypass it programmatically."
 
 ### 19:14 - The Attempted Workarounds
 
@@ -128,18 +150,18 @@ Added comprehensive logging, HTTP status checking, authentication verification. 
 WordPress has a SiteGround Security plugin. Disabled every setting. Didn't help—because the blocking happens *before WordPress*, at the server level.
 
 **Attempt 4: Whitelist GitHub IPs**  
-SiteGround's Site Tools has a "Whitelist IPs" feature. Great! I'll just add GitHub's IP ranges—oh wait, GitHub Actions uses Azure's infrastructure, which is approximately *640,000 IP addresses*[^12]. And SiteGround's whitelist field has a character limit.
+SiteGround's Site Tools has a "Whitelist IPs" feature. Great! I'll just add GitHub's IP ranges—oh wait, GitHub Actions uses Azure's infrastructure, which is approximately *640,000 IP addresses*[^30]. And SiteGround's whitelist field has a character limit.
 
-[^12]: GitHub publishes their IP ranges in a JSON file. The Actions runners alone span multiple `/16` CIDR blocks. Even if I could paste them all into SiteGround's whitelist field—which I can't, because there's a character limit, because of course there is—it would be a maintenance nightmare. Every time GitHub updates their infrastructure, my workflow breaks.
+[^30]: GitHub publishes their IP ranges in a JSON file. The Actions runners alone span multiple `/16` CIDR blocks. Even if I could paste them all into SiteGround's whitelist field—which I can't, because there's a character limit, because of course there is—it would be a maintenance nightmare. Every time GitHub updates their infrastructure, my workflow breaks.
 
 **Attempt 5: Contact SiteGround Support**  
 The Anti-Bot AI can apparently be disabled, but only by support. So I open a ticket:
 
 > "Hi, I'm trying to use the WordPress REST API with GitHub Actions for automated publishing. Your Anti-Bot AI is blocking all requests with HTTP 202 captcha redirects. Can you please disable it for my account or whitelist GitHub Actions IPs? Alternatively, can you provide guidance on how to authenticate automated requests so they're not flagged?"
 
-I draft this ticket. Stare at it. Realize that even if they respond promptly (they won't), even if they're helpful (maybe?), even if they whitelist the IPs (GitHub will change them eventually)... this is not a sustainable solution[^13].
+I draft this ticket. Stare at it. Realize that even if they respond promptly (they won't), even if they're helpful (maybe?), even if they whitelist the IPs (GitHub will change them eventually)... this is not a sustainable solution[^31].
 
-[^13]: This is the moment where you realize you're fighting the system, not working with it. WordPress says "yes, use our REST API!" SiteGround says "yes, we support WordPress!" But together? Together they say "lol, no, you're not automating anything today."
+[^31]: This is the moment where you realize you're fighting the system, not working with it. WordPress says "yes, use our REST API!" SiteGround says "yes, we support WordPress!" But together? Together they say "lol, no, you're not automating anything today."
 
 The "official" way—the REST API, the Application Passwords, the documented endpoints—is functionally useless for CI/CD with managed WordPress hosting.
 
@@ -151,11 +173,11 @@ I'm staring at my workflow file. Fourth hour of this. Should have been done in t
 
 *What if we bypass HTTP entirely?*
 
-SiteGround's Anti-Bot AI protects HTTP/HTTPS endpoints. But I have SSH access to the server[^14]. And WordPress has WP-CLI[^15]. And WP-CLI can do everything the REST API can do, except it runs *on the server*, so there's no HTTP request to block.
+SiteGround's Anti-Bot AI protects HTTP/HTTPS endpoints. But I have SSH access to the server[^30]. And WordPress has WP-CLI[^31]. And WP-CLI can do everything the REST API can do, except it runs *on the server*, so there's no HTTP request to block.
 
-[^14]: SiteGround gives you SSH access even on shared hosting plans, which is actually pretty great. It's not a full shell—you're jailed to your home directory—but it's enough to run commands, including WP-CLI.
+[^30]: SiteGround gives you SSH access even on shared hosting plans, which is actually pretty great. It's not a full shell—you're jailed to your home directory—but it's enough to run commands, including WP-CLI.
 
-[^15]: WP-CLI is WordPress's command-line interface. It's been around since 2013, it's officially supported, and it's *powerful*. `wp post create`, `wp post update`, `wp cache flush`, `wp db query`—it can do basically anything. The WordPress REST API is really just a HTTP wrapper around functionality that WP-CLI has had for years.
+[^31]: WP-CLI is WordPress's command-line interface. It's been around since 2013, it's officially supported, and it's *powerful*. `wp post create`, `wp post update`, `wp cache flush`, `wp db query`—it can do basically anything. The WordPress REST API is really just a HTTP wrapper around functionality that WP-CLI has had for years.
 
 GitHub Actions can SSH into servers. That's a *solved problem*. CI/CD systems have been SSHing into production servers since before "CI/CD" was a term. We have battle-tested patterns:
 
@@ -205,18 +227,18 @@ It fails.
 What follows is 15 minutes of increasingly specific failures. Each one makes sense in retrospect. Each one was maddening in the moment.
 
 **Challenge 1: SSH Key Newlines** (20:42)  
-GitHub Secrets stores your SSH key as a string. When you echo it to a file, newlines get mangled[^16]. The key looks fine in the logs (which are redacted anyway), but OpenSSH rejects it.
+GitHub Secrets stores your SSH key as a string. When you echo it to a file, newlines get mangled[^30]. The key looks fine in the logs (which are redacted anyway), but OpenSSH rejects it.
 
 Fix: `echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/id_ed25519`
 
-[^16]: This is a classic "it works on my machine" problem. Locally, your SSH key is a file with proper newlines. In GitHub Secrets, it's a string. When you echo a multi-line string in bash, things get weird. You can work around it with `tr`, or by using the `$''` syntax, or by just accepting that secrets management is forever cursed.
+[^30]: This is a classic "it works on my machine" problem. Locally, your SSH key is a file with proper newlines. In GitHub Secrets, it's a string. When you echo a multi-line string in bash, things get weird. You can work around it with `tr`, or by using the `$''` syntax, or by just accepting that secrets management is forever cursed.
 
 **Challenge 2: Expect Script Paths** (20:45)  
-The expect script needs the *full path* to the SSH key. `~/.ssh/id_ed25519` doesn't expand in the expect context because expect is its own interpreter[^17].
+The expect script needs the *full path* to the SSH key. `~/.ssh/id_ed25519` doesn't expand in the expect context because expect is its own interpreter[^31].
 
 Fix: Use `$HOME/.ssh/id_ed25519` or `/home/runner/.ssh/id_ed25519`
 
-[^17]: Expect is a weird language. It's Tcl-based (remember Tcl?), it's from 1990, and it's *still* the best tool for automating interactive prompts. There are newer alternatives—pexpect for Python, expect-lite for bash—but plain old expect is what's installed everywhere. So you learn its quirks, like how it doesn't expand `~` and needs explicit paths.
+[^31]: Expect is a weird language. It's Tcl-based (remember Tcl?), it's from 1990, and it's *still* the best tool for automating interactive prompts. There are newer alternatives—pexpect for Python, expect-lite for bash—but plain old expect is what's installed everywhere. So you learn its quirks, like how it doesn't expand `~` and needs explicit paths.
 
 **Challenge 3: YAML vs Heredoc** (20:47)  
 I tried using a heredoc to define the expect script in-line:
@@ -231,7 +253,7 @@ run: |
   EOF
 ```
 
-YAML sees `<<` and gets confused[^18]. Is it a YAML thing? A bash thing? Both? The error message is useless.
+YAML sees `<<` and gets confused[^30]. Is it a YAML thing? A bash thing? Both? The error message is useless.
 
 Fix: Use inline expect commands instead of heredoc:
 
@@ -239,14 +261,14 @@ Fix: Use inline expect commands instead of heredoc:
 run: expect -c "spawn ssh-add ~/.ssh/id_ed25519; expect \"Enter passphrase\"; send \"${{ secrets.SSH_PASSPHRASE }}\r\"; expect eof"
 ```
 
-[^18]: YAML has its own heredoc-like syntax with `|` and `>` and various modifiers (`|-`, `|+`, `>-`, etc.) that control newline handling. Bash *also* has heredocs with `<<`. When you nest bash heredocs inside YAML's pipe-multiline syntax, you've entered a circle of hell Dante didn't know about. The YAML parser and bash's parser both try to interpret the `<<`, and what you get is a parse error that mentions line numbers that don't correspond to anything in your file.
+[^30]: YAML has its own heredoc-like syntax with `|` and `>` and various modifiers (`|-`, `|+`, `>-`, etc.) that control newline handling. Bash *also* has heredocs with `<<`. When you nest bash heredocs inside YAML's pipe-multiline syntax, you've entered a circle of hell Dante didn't know about. The YAML parser and bash's parser both try to interpret the `<<`, and what you get is a parse error that mentions line numbers that don't correspond to anything in your file.
 
 **Challenge 4: RSA vs ED25519** (20:54)  
-My workflow was looking for `~/.ssh/id_rsa`. My actual key is ED25519[^19]. OpenSSH couldn't find the key.
+My workflow was looking for `~/.ssh/id_rsa`. My actual key is ED25519[^31]. OpenSSH couldn't find the key.
 
 Fix: Change all `id_rsa` references to `id_ed25519`
 
-[^19]: ED25519 is the modern SSH key format. It's faster, more secure, and generates shorter keys than RSA. If you're still using RSA keys, you should switch. But lots of documentation (including older GitHub docs) assumes RSA, so you'll see `id_rsa` everywhere even though `id_ed25519` is better.
+[^31]: ED25519 is the modern SSH key format. It's faster, more secure, and generates shorter keys than RSA. If you're still using RSA keys, you should switch. But lots of documentation (including older GitHub docs) assumes RSA, so you'll see `id_rsa` everywhere even though `id_ed25519` is better.
 
 **Challenge 5: SSH Agent Persistence** (20:56)  
 This was the big one. I start the SSH agent in one step:
@@ -265,9 +287,9 @@ Then try to use it in the next step:
 
 Doesn't work. The SSH agent isn't running in the second step.
 
-Why? **GitHub Actions runners are ephemeral.** Each step runs in a *new shell session*[^20]. The SSH agent is a process that exports environment variables (`SSH_AUTH_SOCK`, `SSH_AGENT_PID`). Those variables don't persist across steps.
+Why? **GitHub Actions runners are ephemeral.** Each step runs in a *new shell session*[^30]. The SSH agent is a process that exports environment variables (`SSH_AUTH_SOCK`, `SSH_AGENT_PID`). Those variables don't persist across steps.
 
-[^20]: This makes sense from a security perspective—you don't want state leaking between steps—but it's *deeply* unintuitive if you're used to working in a persistent shell. In a normal terminal, you run `eval "$(ssh-agent -s)"` once per session. In GitHub Actions, you need to do it in *every step that uses SSH*. Or you can set environment variables at the job level with `$GITHUB_ENV`, but that's its own can of worms.
+[^30]: This makes sense from a security perspective—you don't want state leaking between steps—but it's *deeply* unintuitive if you're used to working in a persistent shell. In a normal terminal, you run `eval "$(ssh-agent -s)"` once per session. In GitHub Actions, you need to do it in *every step that uses SSH*. Or you can set environment variables at the job level with `$GITHUB_ENV`, but that's its own can of worms.
 
 Fix: Restart the SSH agent and re-add the key *in every step that needs SSH*:
 
@@ -286,7 +308,7 @@ Finally, I need to pass HTML content to WP-CLI over SSH. The content has:
 - Newlines
 - Probably some other bash/SSH special characters
 
-Three layers of escaping: YAML → Bash → SSH → WP-CLI[^21].
+Three layers of escaping: YAML → Bash → SSH → WP-CLI[^31].
 
 Fix: Base64 encode the content, pass it over SSH, decode it on the server:
 
@@ -297,7 +319,7 @@ Fix: Base64 encode the content, pass it over SSH, decode it on the server:
     ssh user@host "echo $CONTENT | base64 -d | wp post create --post_content=-"
 ```
 
-[^21]: This is what I mean by "three-layer debugging." You're working in YAML (which has its own quoting rules), which generates bash (which has its own quoting rules), which runs SSH (which has its own quoting rules), which executes commands on a remote server (which has bash's quoting rules again). When something fails, you have to figure out *which layer* is misinterpreting your input. Good times.
+[^31]: This is what I mean by "three-layer debugging." You're working in YAML (which has its own quoting rules), which generates bash (which has its own quoting rules), which runs SSH (which has its own quoting rules), which executes commands on a remote server (which has bash's quoting rules again). When something fails, you have to figure out *which layer* is misinterpreting your input. Good times.
 
 ### 20:57 - Success
 
@@ -322,9 +344,9 @@ WordPress markets itself as:
 But in practice, for the *specific use case* of automated publishing:
 
 1. **The REST API is theater**  
-   It exists. It's documented. It *technically* works. But managed hosts block it, rate limit it, or wrap it in so much security that you can't use it for automation[^22].
+   It exists. It's documented. It *technically* works. But managed hosts block it, rate limit it, or wrap it in so much security that you can't use it for automation[^30].
 
-[^22]: To be clear: I'm not saying the REST API is *bad*. For building JavaScript frontends—headless WordPress, decoupled architectures—it's great. But for CI/CD? For AI agents? It's unusable. And nobody at WordPress or in the hosting ecosystem seems to think this is a problem worth solving.
+[^30]: To be clear: I'm not saying the REST API is *bad*. For building JavaScript frontends—headless WordPress, decoupled architectures—it's great. But for CI/CD? For AI agents? It's unusable. And nobody at WordPress or in the hosting ecosystem seems to think this is a problem worth solving.
 
 2. **The "official" way is not the reliable way**  
    SSH + WP-CLI is less documented, requires more setup, and feels hacky. But it's *more reliable* because it bypasses all the HTTP security theater.
@@ -347,9 +369,9 @@ They're optimizing for:
 - **Security**: Automated requests *could* be attacks, so block them all
 - **Support load**: Easier to block automation than to teach customers how to secure it
 
-What they're *not* optimizing for: developers who want to use WordPress programmatically[^23].
+What they're *not* optimizing for: developers who want to use WordPress programmatically[^31].
 
-[^23]: Which is fine! That's not their target market. SiteGround's ideal customer is a small business owner who logs into wp-admin once a week to add a blog post. They're not trying to serve developers building CI/CD pipelines. The problem is WordPress *claims* to support that use case with the REST API, and hosts *claim* to support WordPress, but nobody's actually testing whether they work together.
+[^31]: Which is fine! That's not their target market. SiteGround's ideal customer is a small business owner who logs into wp-admin once a week to add a blog post. They're not trying to serve developers building CI/CD pipelines. The problem is WordPress *claims* to support that use case with the REST API, and hosts *claim* to support WordPress, but nobody's actually testing whether they work together.
 
 ### The AI Agent Problem
 
@@ -360,9 +382,9 @@ If you're building AI agents that interact with CMSs—and people *are*—WordPr
 1. **No reliable API**: REST API is blocked by hosting security  
 2. **No stable SDK**: The PHP internals change; WP-CLI is more stable but requires SSH  
 3. **No machine-readable errors**: Get a 202? Could be success, could be a captcha  
-4. **No cost-effective testing**: Can't spin up WordPress in a container to test; need real hosting[^24]
+4. **No cost-effective testing**: Can't spin up WordPress in a container to test; need real hosting[^30]
 
-[^24]: Well, you *can* run WordPress in Docker locally. But the production environment—with all its security plugins, caching layers, and hosting-specific quirks—is impossible to replicate. So you test locally, it works, you deploy, it breaks in new and creative ways.
+[^30]: Well, you *can* run WordPress in Docker locally. But the production environment—with all its security plugins, caching layers, and hosting-specific quirks—is impossible to replicate. So you test locally, it works, you deploy, it breaks in new and creative ways.
 
 For AI agents to work with CMSs, you need:
 - **Stable APIs** (WordPress: yes, in theory)
@@ -376,9 +398,9 @@ Compare to:
 - **GitHub**: You're reading a blog post about how GitHub Actions SSH'd into a server, so clearly they have their shit together  
 - **Supabase/Firebase**: Database-as-a-service, direct API access, no hosting weirdness
 
-WordPress is from a different era. It's a LAMP stack app that got a REST API bolted on in 2016[^25]. It was never designed for programmatic access, and it shows.
+WordPress is from a different era. It's a LAMP stack app that got a REST API bolted on in 2016[^31]. It was never designed for programmatic access, and it shows.
 
-[^25]: WordPress launched in 2003. For 13 years, if you wanted to interact with it programmatically, you wrote PHP code using WordPress functions and hoped you understood the execution model (hint: nobody fully understands the WordPress execution model). The REST API was a massive improvement! But it's still a HTTP wrapper around a PHP codebase that was designed for synchronous server-side rendering in the age of PHP 4.
+[^31]: WordPress launched in 2003. For 13 years, if you wanted to interact with it programmatically, you wrote PHP code using WordPress functions and hoped you understood the execution model (hint: nobody fully understands the WordPress execution model). The REST API was a massive improvement! But it's still a HTTP wrapper around a PHP codebase that was designed for synchronous server-side rendering in the age of PHP 4.
 
 ### Why This Matters
 
@@ -387,9 +409,9 @@ We're moving toward a world where:
 - Content is published via automation  
 - Content management is code, not clicking buttons
 
-WordPress's market share (43% of all websites!) means a lot of content lives in WordPress. But WordPress's architecture means that content is *trapped* there[^26].
+WordPress's market share (43% of all websites!) means a lot of content lives in WordPress. But WordPress's architecture means that content is *trapped* there[^30].
 
-[^26]: Getting content *out* of WordPress is easier—the REST API works fine for reading. It's *writing* that's the problem. And if you can't reliably write to WordPress via API, you can't build AI agents that manage WordPress sites, you can't build CI/CD pipelines that publish to WordPress, you can't build integrations that sync content between WordPress and other systems. You're stuck logging into wp-admin like it's 2010.
+[^30]: Getting content *out* of WordPress is easier—the REST API works fine for reading. It's *writing* that's the problem. And if you can't reliably write to WordPress via API, you can't build AI agents that manage WordPress sites, you can't build CI/CD pipelines that publish to WordPress, you can't build integrations that sync content between WordPress and other systems. You're stuck logging into wp-admin like it's 2010.
 
 You can't easily:
 - Sync content between WordPress and other systems  
@@ -397,9 +419,9 @@ You can't easily:
 - Manage WordPress content from modern tools (Notion, Linear, etc.)
 - Use WordPress as part of a larger automated workflow
 
-Unless you're willing to SSH into the server and use WP-CLI, which is exactly what I ended up doing[^27].
+Unless you're willing to SSH into the server and use WP-CLI, which is exactly what I ended up doing[^31].
 
-[^27]: And which I've now open-sourced [LINK TK] so you don't have to spend 5 hours debugging SSH key newlines and expect scripts. You're welcome.
+[^31]: And which I've now open-sourced [LINK TK] so you don't have to spend 5 hours debugging SSH key newlines and expect scripts. You're welcome.
 
 ## Act IV: The Solution (And Why It Feels Wrong)
 
@@ -413,9 +435,9 @@ The final workflow:
 4. **WP-CLI**: Creates/updates pages directly via WP-CLI
 5. **Verify**: Checks that the page exists and is published
 
-No HTTP requests. No REST API. Just SSH + WP-CLI[^28].
+No HTTP requests. No REST API. Just SSH + WP-CLI[^30].
 
-[^28]: The full workflow is ~277 lines of YAML, plus documentation. It handles:
+[^30]: The full workflow is ~277 lines of YAML, plus documentation. It handles:
 - SSH key setup with passphrases
 - Ephemeral runner SSH agent management  
 - Title extraction from Markdown
@@ -437,9 +459,9 @@ The code is open source: [GITHUB_LINK_HERE]
 
 Because *this shouldn't be necessary*.
 
-The REST API should work. Hosting providers should whitelist legitimate automation. WordPress should provide better tooling for CI/CD[^29].
+The REST API should work. Hosting providers should whitelist legitimate automation. WordPress should provide better tooling for CI/CD[^31].
 
-[^29]: To WordPress's credit, they have WP-CLI, which is excellent. But it's not the "official" way. The official way is the REST API, which is what they document, what they promote, what they say you should use. The fact that SSH + WP-CLI is more reliable says something about the disconnect between WordPress's self-image and its reality.
+[^31]: To WordPress's credit, they have WP-CLI, which is excellent. But it's not the "official" way. The official way is the REST API, which is what they document, what they promote, what they say you should use. The fact that SSH + WP-CLI is more reliable says something about the disconnect between WordPress's self-image and its reality.
 
 But instead, we're in this weird place where:
 - The "modern" solution (REST API) is blocked  
@@ -447,9 +469,9 @@ But instead, we're in this weird place where:
 - The "official" documentation points you toward the thing that doesn't work
 - The "unofficial" approach requires reading blog posts from people who've already suffered through this
 
-It's a pattern you see a lot in mature open-source projects: the official way is aspirational, the real way is tribal knowledge[^30].
+It's a pattern you see a lot in mature open-source projects: the official way is aspirational, the real way is tribal knowledge[^34].
 
-[^30]: Like how Kubernetes *officially* wants you to write YAML by hand, but everyone actually uses Helm or Kustomize or just copies manifests from Stack Overflow until something works. Or how React *officially* recommends Create React App, but everyone uses Vite or Next.js because CRA is abandonware. The official story lags behind the community's actual practices.
+[^34]: Like how Kubernetes *officially* wants you to write YAML by hand, but everyone actually uses Helm or Kustomize or just copies manifests from Stack Overflow until something works. Or how React *officially* recommends Create React App, but everyone uses Vite or Next.js because CRA is abandonware. The official story lags behind the community's actual practices.
 
 ### Who This Is For
 
@@ -460,18 +482,18 @@ If you're:
 - **Using managed WordPress hosting** (SiteGround, WPEngine, etc.)
 - **Frustrated with the REST API** and need something that actually works
 
-Then this bridge is for you[^31].
+Then this bridge is for you[^33].
 
-[^31]: Clone the repo, add your SSH credentials to GitHub Secrets, update the hostname and paths, push a Markdown file. It should work. If it doesn't, open an issue. I've already debugged all the SSH key newline edge cases so you don't have to.
+[^33]: Clone the repo, add your SSH credentials to GitHub Secrets, update the hostname and paths, push a Markdown file. It should work. If it doesn't, open an issue. I've already debugged all the SSH key newline edge cases so you don't have to.
 
 If you're:
 - **Building a new site** and choosing a CMS  
 - **Considering WordPress** for programmatic content management
 - **Evaluating CMSs** for AI agent compatibility
 
-Then *don't use WordPress*[^32]. Use Notion, use Airtable, use Contentful, use any headless CMS built after 2015. They have APIs that actually work.
+Then *don't use WordPress*[^34]. Use Notion, use Airtable, use Contentful, use any headless CMS built after 2015. They have APIs that actually work.
 
-[^32]: I know, I know—"but WordPress has plugins!" Yes. 60,000 plugins. Most of them abandoned, some of them malicious, all of them adding their own database tables and filters and hooks that slow down your site and introduce security holes. The plugin ecosystem is WordPress's strength and its curse. For AI agents and automation, you want *less* surface area, not more.
+[^34]: I know, I know—"but WordPress has plugins!" Yes. 60,000 plugins. Most of them abandoned, some of them malicious, all of them adding their own database tables and filters and hooks that slow down your site and introduce security holes. The plugin ecosystem is WordPress's strength and its curse. For AI agents and automation, you want *less* surface area, not more.
 
 ## Conclusion (Or, What I Learned Spending 5 Hours on a 30-Minute Task)
 
@@ -493,25 +515,25 @@ Then *don't use WordPress*[^32]. Use Notion, use Airtable, use Contentful, use a
    They're built for humans clicking buttons, not machines making API calls.
 
 2. **Security theater breaks legitimate use cases**  
-   SiteGround's Anti-Bot AI blocks GitHub Actions (Microsoft/Azure IPs, legitimate API calls) while actual bots use residential proxies and get through fine[^33].
+   SiteGround's Anti-Bot AI blocks GitHub Actions (Microsoft/Azure IPs, legitimate API calls) while actual bots use residential proxies and get through fine[^35].
 
-[^33]: This is the fundamental problem with IP-based bot detection: sophisticated bots use proxies, legitimate automation uses data center IPs. So you end up blocking the good guys and letting the bad guys through. But IP-based detection is cheap and easy, so hosting companies do it anyway.
+[^35]: This is the fundamental problem with IP-based bot detection: sophisticated bots use proxies, legitimate automation uses data center IPs. So you end up blocking the good guys and letting the bad guys through. But IP-based detection is cheap and easy, so hosting companies do it anyway.
 
 3. **WordPress is from a different era**  
    Born in 2003, designed for LAMP stacks and server-side rendering. The REST API and modern tooling are retrofits, and it shows.
 
 4. **The AI agent future requires better CMSs**  
-   If GitHub Actions can't reliably publish to WordPress, how will AI agents? We need CMSs designed for programmatic access from the ground up[^34].
+   If GitHub Actions can't reliably publish to WordPress, how will AI agents? We need CMSs designed for programmatic access from the ground up[^36].
 
-[^34]: This is what Notion, Contentful, Strapi, and other modern headless CMSs get right: API-first design. The API isn't bolted on, it's the primary interface. The UI is a client of the API. This means the API actually works, because that's how the company's own tools use it.
+[^36]: This is what Notion, Contentful, Strapi, and other modern headless CMSs get right: API-first design. The API isn't bolted on, it's the primary interface. The UI is a client of the API. This means the API actually works, because that's how the company's own tools use it.
 
 ### The Meta Lesson
 
 When you fight the system for 4 hours and then bypass it entirely in 1.5 hours, you learn something: sometimes the solution is *not using the official way*.
 
-The REST API is elegant in theory. SSH + WP-CLI is ugly in practice. But ugly-and-working beats elegant-and-broken[^35].
+The REST API is elegant in theory. SSH + WP-CLI is ugly in practice. But ugly-and-working beats elegant-and-broken[^37].
 
-[^35]: This is a lesson I keep relearning. Beautiful abstractions that don't work are worse than ugly hacks that do. Python's `subprocess` is a terrible API—seriously, go read the docs, it's a mess—but it *works*. JavaScript Promises are an elegant abstraction, but `async`/`await` is the ugly syntax that makes them usable. WordPress REST API is clean and RESTful and blocked by hosting security; SSH + WP-CLI is old-school and imperative and *gets the job done*.
+[^37]: This is a lesson I keep relearning. Beautiful abstractions that don't work are worse than ugly hacks that do. Python's `subprocess` is a terrible API—seriously, go read the docs, it's a mess—but it *works*. JavaScript Promises are an elegant abstraction, but `async`/`await` is the ugly syntax that makes them usable. WordPress REST API is clean and RESTful and blocked by hosting security; SSH + WP-CLI is old-school and imperative and *gets the job done*.
 
 ---
 
@@ -528,9 +550,9 @@ For those who want the full journey, here's the [GitHub repository](GITHUB_LINK_
 
 It's a case study in technical problem-solving, persistence, and the gap between how things *should* work and how they *actually* work.
 
-The code is MIT licensed. Use it. Fork it. Improve it. Or better yet: build a CMS that doesn't need these kinds of bridges in the first place[^36].
+The code is MIT licensed. Use it. Fork it. Improve it. Or better yet: build a CMS that doesn't need these kinds of bridges in the first place[^38].
 
-[^36]: And if you do, let me know. I'll write a blog post about it. Without footnotes. Promise.
+[^38]: And if you do, let me know. I'll write a blog post about it. Without footnotes. Promise.
 
 ---
 
