@@ -588,22 +588,28 @@ The REST API is elegant in theory. SSH + WP-CLI is ugly in practice. But ugly-an
 
 ---
 
-## Appendix: The 29 Commits
+## Appendix: The Implementation
 
-For those who want the full journey, here's the [GitHub repository](https://github.com/augchan42/wp-ali-public) with all 29 commits. You can watch in real-time as I:
+Here's the [GitHub repository](https://github.com/augchan42/wp-ali-public)—a sanitized snapshot of the final working solution[^38].
 
-- Start with naive optimism (commit 1)
-- Hit the SiteGround wall (commits 6-9)  
-- Pivot to SSH (commit 10)
-- Debug six SSH issues (commits 11-16)  
-- Achieve success (commit 17)
-- Write 1,000+ lines of documentation (commits 18-29)
+[^38]: The original repo had all 29 commits showing the full journey from REST API failure to SSH success. But it also had sensitive credentials scattered throughout the history (SSH keys, hostnames, API tokens). Rather than trying to rewrite Git history properly, I made a clean copy. Security lesson: never commit secrets, even temporarily. Once it's in history, it's there forever.
 
-It's a case study in technical problem-solving, persistence, and the gap between how things *should* work and how they *actually* work.
+**What you'll find:**
+- ✅ Working GitHub Actions workflow (SSH + WP-CLI)
+- ✅ Complete setup and troubleshooting docs
+- ✅ All the SSH agent management patterns
+- ✅ Markdown → HTML → WordPress pipeline
 
-The code is MIT licensed. Use it. Fork it. Improve it. Or better yet: build a CMS that doesn't need these kinds of bridges in the first place[^38].
+**What you won't find:**
+- ❌ The 29-commit journey (security reasons)
+- ❌ My 4 hours debugging SiteGround's Anti-Bot AI
+- ❌ The failed REST API attempts
 
-[^38]: And if you do, let me know. I'll write a blog post about it. Without footnotes. Promise.
+But the blog post you just read *is* the commit history, narrativized. From "this should be easy" → "why does WordPress hate robots" → "fine, SSH" → "oh god, ephemeral runners" → "it works."
+
+The code is MIT licensed. Use it. Fork it. Improve it. Or better yet: build a CMS that doesn't need these kinds of bridges in the first place[^39].
+
+[^39]: And if you do, let me know. I'll write a blog post about it. Without footnotes. Promise.
 
 ---
 
