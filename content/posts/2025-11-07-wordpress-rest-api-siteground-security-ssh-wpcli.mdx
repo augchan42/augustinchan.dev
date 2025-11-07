@@ -46,11 +46,11 @@ Here's what actually happened: I spent 4+ hours fighting SiteGround's Anti-Bot A
 
 [^8]: More on this later, but preview: SiteGround's "Anti-Bot AI" is like TSA security theater except instead of confiscating your shampoo, it blocks every legitimate API request from GitHub Actions while presumably letting actual bots through because they're smart enough to use residential proxies.
 
-[^31]: Including the delightful discovery that GitHub Actions runners are ephemeral, which means your SSH agent dies between steps, which means you have to restart it and re-add your key with an expect script *in every single step*, which is the kind of developer experience that makes you question your career choices.
+[^9]: Including the delightful discovery that GitHub Actions runners are ephemeral, which means your SSH agent dies between steps, which means you have to restart it and re-add your key with an expect script *in every single step*, which is the kind of developer experience that makes you question your career choices.
 
 This is that story. It's about WordPress, yes, but really it's about how we've built these baroque, self-important content management systems that are *technically* open-source and *theoretically* API-first but *practically* unusable for the exact use case they claim to support: automated content publishing[^10].
 
-[^30]: And by extension: AI agents. If GitHub Actions—which is literally just running Python scripts with curl—can't reliably talk to WordPress, how exactly are we expecting AI agents to do it? Spoiler: we're not. WordPress is for humans clicking buttons in wp-admin. Everything else is cosplay.
+[^10]: And by extension: AI agents. If GitHub Actions—which is literally just running Python scripts with curl—can't reliably talk to WordPress, how exactly are we expecting AI agents to do it? Spoiler: we're not. WordPress is for humans clicking buttons in wp-admin. Everything else is cosplay.
 
 ## Act I: The Official Way (Or, How I Wasted My Afternoon)
 
@@ -404,6 +404,55 @@ WordPress is from a different era. It's a LAMP stack app that got a REST API bol
 
 [^31]: WordPress launched in 2003. For 13 years, if you wanted to interact with it programmatically, you wrote PHP code using WordPress functions and hoped you understood the execution model (hint: nobody fully understands the WordPress execution model). The REST API was a massive improvement! But it's still a HTTP wrapper around a PHP codebase that was designed for synchronous server-side rendering in the age of PHP 4.
 
+### The Markdown vs. Database Problem
+
+But here's the deeper issue: **LLMs love Markdown. CMSs love proprietary database schemas.**[^32]
+
+[^32]: This is not a coincidence. Markdown is plain text. LLMs are trained on plain text. They can read it, write it, and reason about it naturally. Database schemas? Those require queries, ORMs, understanding foreign keys and join tables, and hoping the CMS didn't decide to serialize arrays as PHP strings in a TEXT column (WordPress does this, btw).
+
+When you write in Markdown:
+- ✅ It's version-controllable (Git)
+- ✅ It's portable (any editor, any platform)
+- ✅ It's readable by both humans and LLMs
+- ✅ It's composable (concatenate files, split sections)
+- ✅ It's transformable (Markdown → HTML → PDF → whatever)
+- ✅ It's future-proof (plain text never dies)
+
+When you write in WordPress:
+- ❌ Content lives in `wp_posts` table with HTML soup
+- ❌ Metadata scattered across `wp_postmeta` (key-value hell)
+- ❌ Media in `wp_posts` (wait, media is posts?)
+- ❌ Relationships in other tables (categories, tags, taxonomies)
+- ❌ Custom fields might be JSON, might be serialized PHP, might be comma-separated strings
+- ❌ Good luck exporting this cleanly[^33]
+
+[^33]: WordPress has export tools. They generate XML. The XML is valid but deeply weird—it's not quite RSS, not quite Atom, it's "WordPress eXtended RSS" (WXR). It includes all your content, but also all the WordPress-specific IDs and relationships. Want to convert it to Markdown? Better hope your conversion tool handles every edge case of WordPress's 20-year schema evolution.
+
+**For AI agents, this is a dealbreaker.**
+
+An LLM can generate Markdown in its sleep. Give it context, it writes clean Markdown with proper heading hierarchies, lists, links, code blocks—all the structure you need.
+
+But generating content *for* WordPress? The LLM needs to:
+1. Understand the wp_posts schema (which fields are required? which are auto-generated?)
+2. Know how to structure HTML that WordPress won't mangle
+3. Handle metadata separately (featured images, SEO fields, custom fields)
+4. Deal with shortcodes (WordPress's bizarre template language)
+5. Pray that none of the 60,000 plugins have hijacked the post creation hooks
+
+It's not impossible. But it's *friction*. And friction kills automation.
+
+**This is why Git-based CMSs are winning for AI workflows:**
+- Write Markdown files
+- Push to Git
+- Static site generator builds the site
+- Content and code in the same repo
+- LLMs can read/write directly to files
+- No database, no API, no hosting bullshit
+
+WordPress offers *features*—plugins, themes, a GUI. But for AI-driven content workflows, those features are baggage[^34].
+
+[^34]: And yes, there are headless WordPress setups where you decouple the frontend. But you're still stuck with WordPress's database schema on the backend. You've just added complexity (separate frontend + backend) without solving the fundamental problem: content is trapped in a database instead of living as portable, version-controlled files.
+
 ### Why This Matters
 
 We're moving toward a world where:
@@ -411,9 +460,9 @@ We're moving toward a world where:
 - Content is published via automation  
 - Content management is code, not clicking buttons
 
-WordPress's market share (43% of all websites!) means a lot of content lives in WordPress. But WordPress's architecture means that content is *trapped* there[^30].
+WordPress's market share (43% of all websites!) means a lot of content lives in WordPress. But WordPress's architecture means that content is *trapped* there[^35].
 
-[^30]: Getting content *out* of WordPress is easier—the REST API works fine for reading. It's *writing* that's the problem. And if you can't reliably write to WordPress via API, you can't build AI agents that manage WordPress sites, you can't build CI/CD pipelines that publish to WordPress, you can't build integrations that sync content between WordPress and other systems. You're stuck logging into wp-admin like it's 2010.
+[^35]: Getting content *out* of WordPress is easier—the REST API works fine for reading. It's *writing* that's the problem. And if you can't reliably write to WordPress via API, you can't build AI agents that manage WordPress sites, you can't build CI/CD pipelines that publish to WordPress, you can't build integrations that sync content between WordPress and other systems. You're stuck logging into wp-admin like it's 2010.
 
 You can't easily:
 - Sync content between WordPress and other systems  
@@ -421,9 +470,9 @@ You can't easily:
 - Manage WordPress content from modern tools (Notion, Linear, etc.)
 - Use WordPress as part of a larger automated workflow
 
-Unless you're willing to SSH into the server and use WP-CLI, which is exactly what I ended up doing[^31].
+Unless you're willing to SSH into the server and use WP-CLI, which is exactly what I ended up doing[^36].
 
-[^31]: And which I've now open-sourced at https://github.com/augchan42/wp-ali-public so you don't have to spend 5 hours debugging SSH key newlines and expect scripts. You're welcome.
+[^36]: And which I've now open-sourced at https://github.com/augchan42/wp-ali-public so you don't have to spend 5 hours debugging SSH key newlines and expect scripts. You're welcome.
 
 ## Act IV: The Solution (And Why It Feels Wrong)
 
