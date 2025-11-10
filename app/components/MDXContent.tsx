@@ -20,17 +20,17 @@ const components = {
   ol: (props: any) => <ol style={{ marginBottom: '1rem', paddingLeft: '2rem' }} {...props} />,
   blockquote: (props: any) => (
     <blockquote style={{
-      borderLeft: '4px solid #ddd',
+      borderLeft: '4px solid var(--border-subtle)',
       paddingLeft: '1rem',
       marginLeft: '0',
       marginBottom: '1rem',
       fontStyle: 'italic',
-      color: '#666'
+      color: 'var(--text-muted)'
     }} {...props} />
   ),
   code: (props: any) => (
     <code style={{
-      backgroundColor: '#f5f5f5',
+      backgroundColor: 'var(--bg-surface-muted)',
       padding: '0.2rem 0.4rem',
       borderRadius: '3px',
       fontSize: '0.9em'
@@ -38,7 +38,7 @@ const components = {
   ),
   pre: (props: any) => (
     <pre style={{
-      backgroundColor: '#f5f5f5',
+      backgroundColor: 'var(--bg-surface-muted)',
       padding: '1rem',
       borderRadius: '5px',
       overflow: 'auto',
@@ -46,7 +46,7 @@ const components = {
     }} {...props} />
   ),
   a: (props: any) => (
-    <a style={{ color: '#0066cc', textDecoration: 'underline' }} {...props} />
+    <a style={{ color: 'var(--link-color)', textDecoration: 'underline' }} {...props} />
   ),
 }
 
