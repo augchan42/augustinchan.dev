@@ -184,7 +184,7 @@ export default async function PostPage({ params }: PostPageProps) {
             {post.title}
           </h1>
           <div style={{
-            color: '#666',
+            color: 'var(--text-muted)',
             fontSize: '1em',
             marginBottom: '1rem'
           }}>
@@ -199,7 +199,7 @@ export default async function PostPage({ params }: PostPageProps) {
           {post.description && (
             <p style={{
               fontSize: '1.1em',
-              color: '#555',
+              color: 'var(--text-secondary)',
               fontStyle: 'italic',
               marginBottom: '2rem'
             }}>
@@ -214,7 +214,7 @@ export default async function PostPage({ params }: PostPageProps) {
           <aside style={{
             marginTop: '4rem',
             paddingTop: '2rem',
-            borderTop: '2px solid #ddd',
+            borderTop: '2px solid var(--border-subtle)',
           }}>
             <h2 style={{ fontSize: '1.5em', marginBottom: '1.5rem' }}>
               Related Posts
@@ -227,9 +227,9 @@ export default async function PostPage({ params }: PostPageProps) {
               {relatedPosts.map(relatedPost => (
                 <article key={relatedPost.slug} style={{
                   padding: '1.25rem',
-                  border: '1px solid #ddd',
+                  border: '1px solid var(--border-subtle)',
                   borderRadius: '8px',
-                  backgroundColor: '#fafafa',
+                  backgroundColor: 'var(--bg-surface)',
                 }}>
                   <Link
                     href={`/posts/${relatedPost.slug}`}
@@ -237,7 +237,7 @@ export default async function PostPage({ params }: PostPageProps) {
                       fontSize: '1.1em',
                       fontWeight: 'bold',
                       textDecoration: 'none',
-                      color: '#333',
+                      color: 'var(--text-primary)',
                     }}
                   >
                     {relatedPost.title}
@@ -245,7 +245,7 @@ export default async function PostPage({ params }: PostPageProps) {
                   {relatedPost.description && (
                     <p style={{
                       fontSize: '0.95em',
-                      color: '#555',
+                      color: 'var(--text-secondary)',
                       margin: '0.5rem 0 0 0',
                       lineHeight: '1.5',
                     }}>
@@ -254,7 +254,7 @@ export default async function PostPage({ params }: PostPageProps) {
                   )}
                   <div style={{
                     fontSize: '0.85em',
-                    color: '#888',
+                    color: 'var(--text-subtle)',
                     marginTop: '0.5rem',
                   }}>
                     {formatDateUTC(relatedPost.date)}

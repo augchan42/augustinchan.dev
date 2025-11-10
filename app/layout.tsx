@@ -1,7 +1,25 @@
 import Link from 'next/link'
 import { Analytics } from '@vercel/analytics/react'
 import GoogleAnalytics from '../components/GoogleAnalytics'
+import ThemeToggle from '../components/ThemeToggle'
 import './globals.css'
+import { THEME_STORAGE_KEY } from './theme'
+
+const themeInitScript = `
+(function() {
+  try {
+    const stored = localStorage.getItem('${THEME_STORAGE_KEY}');
+    if (stored === 'light' || stored === 'dark') {
+      document.documentElement.dataset.theme = stored;
+    } else {
+      // Default to light, but apply it client-side only to avoid hydration mismatch
+      document.documentElement.dataset.theme = 'light';
+    }
+  } catch (error) {
+    console.warn('Theme preference load failed', error);
+  }
+})();
+`
 
 export const metadata = {
   title: 'Augustin Chan',
@@ -62,6 +80,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body suppressHydrationWarning>
         <div style={{
           maxWidth: '1000px',
@@ -69,7 +90,7 @@ export default function RootLayout({
           padding: '1rem'
         }}>
           <header style={{
-            borderBottom: '2px solid #333',
+            borderBottom: '2px solid var(--border-strong)',
             paddingBottom: '1rem',
             marginBottom: '2rem'
           }}>
@@ -85,7 +106,7 @@ export default function RootLayout({
                   fontSize: '1.4rem',
                   fontWeight: 'bold',
                   textDecoration: 'none',
-                  color: '#333'
+                  color: 'var(--text-primary)'
                 }}>
                   Augustin Chan
                 </Link>
@@ -96,34 +117,36 @@ export default function RootLayout({
               <div style={{
                 display: 'flex',
                 gap: '1.5rem',
-                flexWrap: 'wrap'
+                flexWrap: 'wrap',
+                alignItems: 'center'
               }}>
-                <Link href="/" style={{ textDecoration: 'none', color: '#666' }}>
+                <Link href="/" style={{ textDecoration: 'none', color: 'var(--text-muted)' }}>
                   Home
                 </Link>
-                <Link href="/about" style={{ textDecoration: 'none', color: '#666' }}>
+                <Link href="/about" style={{ textDecoration: 'none', color: 'var(--text-muted)' }}>
                   About
                 </Link>
-                <Link href="/blog" style={{ textDecoration: 'none', color: '#666' }}>
+                <Link href="/blog" style={{ textDecoration: 'none', color: 'var(--text-muted)' }}>
                   Blog
                 </Link>
-                <a href="https://8bitoracle.ai" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: '#666' }}>
+                <a href="https://8bitoracle.ai" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'var(--text-muted)' }}>
                   8-Bit Oracle
                 </a>
+                <ThemeToggle />
               </div>
             </nav>
           </header>
           <main>{children}</main>
           <footer style={{
-            borderTop: '1px solid #ddd',
+            borderTop: '1px solid var(--border-subtle)',
             paddingTop: '2rem',
             marginTop: '4rem',
             textAlign: 'center',
-            color: '#666'
+            color: 'var(--text-muted)'
           }}>
             <div>© 2025 Augustin Chan aug@digitalrain.studio</div>
             <div style={{ marginTop: '0.5rem' }}>
-              <a href="/rss.xml" style={{ color: '#666', textDecoration: 'none' }}>RSS Feed</a>
+              <a href="/rss.xml" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>RSS Feed</a>
             </div>
           </footer>
         </div>

@@ -63,14 +63,14 @@ export default function HomePage() {
         <article style={{
           marginBottom: '4rem',
           padding: '2rem',
-          border: '2px solid #333',
+          border: '2px solid var(--border-strong)',
           borderRadius: '8px',
-          backgroundColor: '#fafafa',
+          backgroundColor: 'var(--bg-surface)',
         }}>
           <div style={{
             fontSize: '0.85em',
             fontWeight: 'bold',
-            color: '#666',
+            color: 'var(--text-muted)',
             textTransform: 'uppercase',
             letterSpacing: '0.05em',
             marginBottom: '1rem'
@@ -82,14 +82,14 @@ export default function HomePage() {
               href={`/posts/${featuredPost.slug}`}
               style={{
                 textDecoration: 'none',
-                color: '#333',
+                color: 'var(--text-primary)',
               }}
             >
               {featuredPost.title}
             </Link>
           </h2>
           <div style={{
-            color: '#888',
+            color: 'var(--text-subtle)',
             fontSize: '0.9em',
             marginBottom: '1rem'
           }}>
@@ -104,7 +104,7 @@ export default function HomePage() {
           {featuredPost.description && (
             <p style={{
               fontSize: '1.1em',
-              color: '#555',
+              color: 'var(--text-secondary)',
               lineHeight: '1.6',
               marginBottom: '1rem'
             }}>
@@ -116,8 +116,8 @@ export default function HomePage() {
             style={{
               display: 'inline-block',
               padding: '0.75rem 1.5rem',
-              backgroundColor: '#333',
-              color: '#fff',
+              backgroundColor: 'var(--button-bg)',
+              color: 'var(--button-text)',
               textDecoration: 'none',
               borderRadius: '4px',
               fontSize: '0.95em',
@@ -145,23 +145,23 @@ export default function HomePage() {
             return (
               <article key={post.slug} style={{
                 padding: '1.5rem',
-                border: '1px solid #ddd',
+                border: '1px solid var(--border-subtle)',
                 borderRadius: '8px',
-                backgroundColor: '#fafafa',
+                backgroundColor: 'var(--bg-surface)',
               }}>
                 <h3 style={{ fontSize: '1.3em', marginBottom: '0.5rem' }}>
                   <Link
                     href={`/posts/${post.slug}`}
                     style={{
                       textDecoration: 'none',
-                      color: '#333',
+                      color: 'var(--text-primary)',
                     }}
                   >
                     {post.title}
                   </Link>
                 </h3>
                 <div style={{
-                  color: '#888',
+                  color: 'var(--text-subtle)',
                   fontSize: '0.85em',
                   marginBottom: post.description || tags.length > 0 ? '0.75rem' : '0'
                 }}>
@@ -175,7 +175,7 @@ export default function HomePage() {
                 </div>
                 {post.description && (
                   <p style={{
-                    color: '#555',
+                    color: 'var(--text-secondary)',
                     fontSize: '0.95em',
                     lineHeight: '1.5',
                     margin: tags.length > 0 ? '0 0 0.75rem 0' : '0'
@@ -196,8 +196,8 @@ export default function HomePage() {
                         style={{
                           fontSize: '0.75em',
                           padding: '0.25rem 0.5rem',
-                          backgroundColor: '#e0e0e0',
-                          color: '#555',
+                          backgroundColor: 'var(--tag-bg)',
+                          color: 'var(--tag-text)',
                           borderRadius: '4px',
                           textTransform: 'lowercase'
                         }}
@@ -217,8 +217,8 @@ export default function HomePage() {
             style={{
               display: 'inline-block',
               padding: '0.75rem 1.5rem',
-              border: '2px solid #333',
-              color: '#333',
+              border: '2px solid var(--border-strong)',
+              color: 'var(--text-primary)',
               textDecoration: 'none',
               borderRadius: '4px',
               fontSize: '0.95em',
@@ -234,7 +234,7 @@ export default function HomePage() {
       <section style={{
         marginTop: '4rem',
         paddingTop: '2rem',
-        borderTop: '2px solid #ddd'
+        borderTop: '2px solid var(--border-subtle)'
       }}>
         <h2 style={{ fontSize: '1.5em', marginBottom: '1.5rem' }}>About</h2>
         <p>
@@ -251,8 +251,8 @@ export default function HomePage() {
             style={{
               display: 'inline-block',
               padding: '0.75rem 1.5rem',
-              border: '1px solid #333',
-              color: '#333',
+              border: '1px solid var(--border-strong)',
+              color: 'var(--text-primary)',
               textDecoration: 'none',
               borderRadius: '4px',
               fontSize: '0.95em'

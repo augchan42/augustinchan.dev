@@ -108,7 +108,7 @@ export default function BlogPage() {
         {years.map(year => (
           <div key={year} style={{ marginBottom: '2.5rem' }}>
             <h3 style={{
-              borderBottom: '2px solid #333',
+              borderBottom: '2px solid var(--border-strong)',
               paddingBottom: '0.5rem',
               marginBottom: '1.5rem',
               fontSize: '1.4em',
@@ -125,9 +125,9 @@ export default function BlogPage() {
                 return (
                   <article key={post.slug} style={{
                     padding: '1.25rem',
-                    border: '1px solid #ddd',
+                    border: '1px solid var(--border-subtle)',
                     borderRadius: '8px',
-                    backgroundColor: '#fafafa',
+                    backgroundColor: 'var(--bg-surface)',
                     transition: 'all 0.2s ease'
                   }}>
                     <div style={{ marginBottom: '0.75rem' }}>
@@ -137,7 +137,7 @@ export default function BlogPage() {
                           fontSize: '1.1em',
                           fontWeight: 'bold',
                           textDecoration: 'none',
-                          color: '#333'
+                          color: 'var(--text-primary)'
                         }}
                       >
                         {post.title}
@@ -145,7 +145,7 @@ export default function BlogPage() {
                     </div>
                     <div style={{
                       fontSize: '0.85em',
-                      color: '#666',
+                      color: 'var(--text-muted)',
                       marginBottom: post.description || tags.length > 0 ? '0.75rem' : '0'
                     }}>
                       {formatDateUTC(post.date)}
@@ -159,7 +159,7 @@ export default function BlogPage() {
                     {post.description && (
                       <p style={{
                         fontSize: '0.95em',
-                        color: '#555',
+                        color: 'var(--text-secondary)',
                         margin: '0 0 0.75rem 0',
                         lineHeight: '1.5'
                       }}>
@@ -179,8 +179,8 @@ export default function BlogPage() {
                             style={{
                               fontSize: '0.75em',
                               padding: '0.25rem 0.5rem',
-                              backgroundColor: '#e0e0e0',
-                              color: '#555',
+                              backgroundColor: 'var(--tag-bg)',
+                              color: 'var(--tag-text)',
                               borderRadius: '4px',
                               textTransform: 'lowercase'
                             }}
