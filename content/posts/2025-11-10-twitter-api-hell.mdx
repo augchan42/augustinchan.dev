@@ -78,7 +78,7 @@ Commit `2c1d35b29`: "Optimize Twitter API usage for free tier."
 
 This is where I actually read the API documentation instead of just skimming it with the confidence of someone who has "done this before"[^3]. Three optimizations that collectively saved 95% of API usage:
 
-**1. The `since_id` parameter** - This is the genius one. Instead of fetching the same 20 most recent tweets every check and re-checking if they're new, you pass the ID of the last tweet you've seen and Twitter only returns *newer* tweets. Transformed the operation from O(n) re-scanning to O(new). Like magic except it's just basic API design.
+**1. The `since_id` parameter** - This is the genius one. Instead of fetching the same 20 most recent tweets every check and re-checking if they're new, you pass the ID of the last tweet you've seen and Twitter only returns *newer* tweets. This is a native Twitter API v2 parameter specifically designed for the "polling pattern"—the filtering happens server-side, not in your code. Transformed the operation from O(n) re-scanning to O(new). Like magic except it's just basic API design that I should have been using from day one.
 
 ```typescript
 // Before: Wasting 20 posts from the cap every check
