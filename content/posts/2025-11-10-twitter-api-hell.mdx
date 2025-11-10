@@ -1,0 +1,171 @@
+---
+title: "On Going Legit (Or: How I Learned to Stop Scraping and Love the Rate Limit)"
+date: 2025/11/10
+description: A three-day journey through Twitter API v2, v1.1, OAuth, rate limits, and the gradual acceptance that you can't actually hack your way around free-tier constraints
+tag: api, twitter, debugging, technical-debt
+author: Aug
+---
+
+Here's the thing about deciding to do things The Official Way[^1]: you think you're making your life easier—cleaner code, better documentation, compliance with Terms of Service—but what you're actually doing is trading one set of problems (scraping is brittle, cookies expire, the library maintainer might abandon ship) for a completely different set of problems that somehow feel more *legitimate* but are actually just as annoying, except now you can't even complain about them because you signed up for this.
+
+This is a story about three days in November 2025 when I migrated a Twitter bot from cookie-based scraping to Twitter's Official API, hit every possible rate limit and restriction, tried to be clever about it, failed, tried again, failed differently, and eventually arrived at what software engineers call "a working solution" and what everyone else calls "good enough."
+
+## Act 1: The Great Migration (Nov 8-9)
+
+The bot had been using `agent-twitter-client`, which is one of those unofficial libraries that does the thing Twitter doesn't want you to do, which is to say it logs in like a browser and scrapes the DOM[^2]. This worked fine until it didn't—cookies would expire, Twitter would change their HTML structure, the rate limiting was mysterious and seemed almost personal—and more importantly it violated the Terms of Service, which matters if you're trying to run something that won't get banned.
+
+So: time to go legit. Commit `190165baf` on Nov 8: "Refactor Twitter client to use Twitter API v2."
+
+The migration itself was straightforward in that deeply tedious way where straightforward means "I know exactly what needs to happen" but tedious means "I have to change it in 47 different places":
+
+- Ripped out the cookie-based authentication
+- Installed `twitter-api-v2`, the official library
+- Set up OAuth 1.0a (which is the version where you have four different strings—API key, API secret, access token, access token secret—and you have to keep them all straight)
+- Updated environment variables across multiple character configurations because yes, this is a multi-bot system, each with different credentials, because why keep things simple
+
+First lesson learned: Official APIs come with rate limits that are *documented*, which sounds like an improvement until you realize documentation doesn't make the limits any less restrictive.
+
+## Act 2: Nobody Reads The Documentation Including Me (Nov 9)
+
+Three commits on Nov 9 (`dfbde35f3`, `3bd430c4e`, `cdb62c304`) were basically me realizing that Future Me and Future Other People would have absolutely no idea how this OAuth configuration worked, so I wrote:
+
+- A 187-line README explaining the setup process
+- Updates to `CLAUDE.md` with architectural notes
+- Character-specific configuration documentation
+
+Also discovered during this documentation spree: The free tier has a 10,000 tweet read cap *per month*. Not rate limits per 15 minutes—which would be annoying but manageable—but a hard monthly cap, like a cell phone plan from 2005.
+
+This will become relevant approximately 16 hours later.
+
+## Act 3: Hitting The Wall (Nov 9-10)
+
+The bot kept crashing. Not in interesting ways—just boring "uncaught exception" crashes whenever it hit API limits. So I spent several commits (`85a9ff6e3`, `2142dab44`, `6940b0116`) implementing what I call "survival mechanisms" and what more disciplined engineers call "proper error handling":
+
+1. **TWITTER_INTERACTIONS_ENABLE flag** - A kill switch to disable mention monitoring entirely, because sometimes the only way to win is not to play
+2. **DKG query timeout** - Stop waiting forever for failed operations (the technical term for "forever" here is "45 seconds" but in computer time that's geological)
+3. **Try-catch wrapping** - Around timeline population so startup doesn't crash
+4. **Dynamic polling intervals** - Adjust check frequency when rate-limited
+
+Here's where the math got ugly: Every interaction check cost 20 tweets from the monthly cap. The bot was polling every 120 seconds. That's 720 checks per day, which is 14,400 tweets per month.
+
+You see the problem.
+
+The bot exceeded the free tier limit in 16 hours, which is faster than most people finish a Netflix series.
+
+## Act 4: Getting Smart (Nov 10 morning)
+
+Commit `2c1d35b29`: "Optimize Twitter API usage for free tier."
+
+This is where I actually read the API documentation instead of just skimming it with the confidence of someone who has "done this before"[^3]. Three optimizations that collectively saved 95% of API usage:
+
+**1. The `since_id` parameter** - This is the genius one. Instead of fetching the same 20 most recent tweets every check and re-checking if they're new, you pass the ID of the last tweet you've seen and Twitter only returns *newer* tweets. Transformed the operation from O(n) re-scanning to O(new). Like magic except it's just basic API design.
+
+**2. The `-from:username` query modifier** - Excludes your own tweets from search results, which sounds obvious but I'd been paying API costs to fetch and filter my own tweets for two days.
+
+**3. Increased polling interval** - From 120 seconds to 300 seconds (5 minutes). Less frequent checks, fewer API calls, still responsive enough for a bot that doesn't need to respond instantly because we're not running an emergency service here.
+
+New math: 20 tweets per check × 288 checks per day = 5,760 tweets per month.
+
+Under 10,000. Sustainable. Problem solved.
+
+Except I also fixed pagination handling (`PaginationState` type to track v2 vs v1.1 cursors properly) and photo/video filters that were getting dropped in fallback scenarios, because when you're in there fixing things you might as well fix *all* the things.
+
+## Act 5: The v1.1 Gambit (Nov 10 mid-day)
+
+Here's where I got clever, which is always dangerous.
+
+I thought: "Wait, maybe v1.1 endpoints have different limits than v2? Maybe that's the escape hatch?"
+
+Commits `241b6c80e` and `b4d5fb56f` implemented a full v1.1 fallback system:
+
+- Added `TwitterApiv1` client alongside the v2 client
+- Built a fallback chain: Try v2 → if 429 (rate limit exceeded), try v1.1
+- v1.1 support for search, user timeline, home timeline, tweet creation
+
+The hypothesis was sound. The implementation was clean. The testing was thorough.
+
+The results were crushing.
+
+Free tier blocks v1.1 read endpoints entirely. HTTP 403, error code 453, message: "You currently have access to a subset of X API V2 endpoints and limited v1.1 endpoints (e.g. media post, oauth) only."
+
+What v1.1 actually allows on free tier:
+- ✅ POST tweet (media upload, OAuth)
+- ❌ GET search/tweets
+- ❌ GET statuses/home_timeline
+- ❌ GET statuses/user_timeline
+
+So: Can post, can't read. The v1.1 "fallback" was a beautiful piece of engineering that had absolutely no operational value.
+
+## Act 6: Acceptance (Nov 10 afternoon)
+
+This is the part where you stop fighting reality and start working with it.
+
+Final commit `b4d5fb56f`: "Enhanced error handling and logging."
+
+Implemented graceful degradation instead of clever workarounds:
+
+1. **v1AccessDisabled flag** - After the first 403/453 error, permanently disable v1.1 attempts. Don't retry in a loop like an optimistic fool.
+2. **getV1ClientIfAvailable()** - Safe accessor that returns null if v1.1 is disabled, preventing crashes.
+3. **handleV1AccessError()** - Detects access denial errors, logs appropriately, prevents infinite retry loops.
+4. **Return empty results** - Instead of throwing exceptions when limits are hit, just return empty arrays and let the bot continue functioning.
+
+Final architecture:
+- v2 API for all reads (10,000/month cap)
+- v1.1 for posting (unlimited)
+- Smart retry logic (no infinite loops)
+- `since_id` optimization (only fetch new tweets)
+- Graceful degradation when limits hit
+
+Does it work? Yes.
+Is it elegant? No.
+Is it the best possible solution? Probably not.
+Is it good enough? Absolutely.
+
+## The Scorecard
+
+**What works on Twitter's free tier:**
+- ✅ Posting tweets (unlimited via v1.1)
+- ✅ Reading up to 10,000 tweets/month (v2)
+- ✅ Mention monitoring (if optimized with `since_id`)
+
+**What doesn't:**
+- ❌ v1.1 search/timeline fallbacks (blocked)
+- ❌ More than 10K reads/month
+- ❌ Real-time timeline streaming
+- ❌ My original plan
+
+**Optimization results:**
+- Before: 14,400 tweets/month → exhausted in 16 hours
+- After: 5,760 tweets/month → sustainable within 10K limit
+- Savings: 95% reduction in API usage
+- Cost: Three days and whatever's left of my dignity
+
+## Lessons Learned
+
+1. **Read the docs** - The free tier limitations were documented. I just didn't read carefully enough because who reads documentation carefully anymore?
+
+2. **`since_id` is magical** - One parameter, 95% savings. Sometimes the solution is embarrassingly simple.
+
+3. **v1.1 is NOT an escape hatch** - On free tier, only posting works. Reading is blocked. The clever workaround doesn't exist.
+
+4. **Graceful degradation beats crashes** - Bot stays running even when limits are hit. Boring reliability is underrated.
+
+5. **Monthly caps ≠ rate limits** - They require completely different optimization strategies. Rate limits you wait out; monthly caps you avoid hitting in the first place.
+
+6. **Going legit has costs** - But they're predictable costs with documented limits, which beats the chaos of scraping even if it's more restrictive.
+
+After 10 commits over three days, I built a system that works within Twitter's free tier by accepting that I can't work around it. Which sounds like defeat but is actually just engineering: You work with the constraints you have, not the constraints you wish you had.
+
+The bot posts. The bot reads mentions. The bot stays under 10,000 tweets per month. It's not elegant, but it works, and working is the thing that matters when you've spent three days optimizing API usage instead of building actual features.
+
+And now it's documented, which means the next person—possibly Future Me—won't have to learn these lessons again.
+
+Probably.
+
+---
+
+[^1]: As opposed to The Way That Works But Violates ToS, which is what I'd been doing.
+
+[^2]: Document Object Model, the browser's representation of a webpage's structure, which you're supposed to interact with via official APIs rather than pretending to be a browser and parsing HTML like some kind of digital burglar.
+
+[^3]: I had not, in fact, "done this before" with v2 of the Twitter API, which is different enough from v1.1 that experience is almost a liability because you *think* you know how it works.
