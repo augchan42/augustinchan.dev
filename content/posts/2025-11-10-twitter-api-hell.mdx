@@ -14,7 +14,7 @@ This is a story about three days in November 2025 when I migrated a Twitter bot 
 
 ## Act 1: The Great Migration (Nov 8-9)
 
-The bot had been using `agent-twitter-client`, which is one of those unofficial libraries that does the thing Twitter doesn't want you to do, which is to say it uses cookie-based authentication to call Twitter's internal GraphQL API[^2]. This had been working fine for months—until early November 2025, when I noticed the bot had stopped replying to mentions. Something broke. Whether it was cookie expiration, GraphQL endpoint changes, or Twitter's ongoing war against unofficial access didn't really matter; what mattered was that relying on an unofficial library that violated Terms of Service meant debugging mysteries with no documentation and no support. Time to go legit.
+The typescript bot had been using `agent-twitter-client`, which is one of those unofficial libraries that does the thing Twitter doesn't want you to do, which is to say it uses cookie-based authentication to call Twitter's internal GraphQL API[^2]. This had been working fine for months—until early November 2025, when I noticed the bot had stopped replying to mentions. Something broke. Whether it was cookie expiration, GraphQL endpoint changes, or Twitter's ongoing war against unofficial access didn't really matter; what mattered was that relying on an unofficial library that violated Terms of Service meant debugging mysteries with no documentation and no support. Time to go legit.
 
 So: time to go legit. Commit `190165baf` on Nov 8: "Refactor Twitter client to use Twitter API v2."
 
