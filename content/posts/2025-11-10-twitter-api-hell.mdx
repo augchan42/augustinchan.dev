@@ -291,6 +291,34 @@ And now it's documented, which means the next person—possibly Future Me—won'
 
 Probably.
 
+## Epilogue: The Road Not Taken
+
+After writing this post, I discovered [TwitterInternalAPIDocument](https://github.com/fa0311/TwitterInternalAPIDocument), a repository that documents Twitter's internal API endpoints. Apparently there are people who've been studying these patterns for years, reverse-engineering how the web client works, cataloging the internal architecture that Twitter doesn't officially expose.
+
+Which raises interesting questions about alternative approaches to the problem I just spent three days solving.
+
+The conventional wisdom says maintaining unofficial access requires significant ongoing effort—estimates range from 10-15 hours per month. But those estimates might come from building everything from scratch rather than leveraging existing research and automation. Hard to say without actually testing it.
+
+**What I chose:**
+- Predictable, documented limits (terrible, but stable)
+- Official support and compliance
+- Zero maintenance overhead
+- 100 posts/month (barely enough)
+
+**What I didn't choose:**
+- Unknown limits (better, until they aren't)
+- Reverse-engineering and maintenance
+- Ethical gray areas
+- Potentially unlimited reads (in theory)
+
+I went with the official API because I needed something working *today*, not something that might work better after two weeks of experimentation. The 100 posts/month limit is barely sustainable, but it's a known constraint.
+
+But I'm curious about what's possible with modern tooling and automation. The conventional wisdom might be right. Or it might be outdated assumptions that nobody's bothered to challenge. Can't know without trying.
+
+For now, the bot works within official channels.
+
+That's enough.
+
 ---
 
 [^1]: As opposed to The Way That Works But Violates ToS, which is what I'd been doing.
