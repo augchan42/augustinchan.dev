@@ -10,6 +10,8 @@ Here's the thing about deciding to do things The Official Way[^1]: you think you
 
 This is a story about three days in November 2025 when I migrated a Twitter bot from cookie-based scraping to Twitter's Official API, hit every possible rate limit and restriction, tried to be clever about it, failed, tried again, failed differently, and eventually arrived at what software engineers call "a working solution" and what everyone else calls "good enough."
 
+*Context: The code in this post is from a heavily customized fork of a very old version of the [ElizaOS](https://github.com/elizaOS/eliza) framework. Your mileage may vary, but the API lessons apply universally.*
+
 ## Act 1: The Great Migration (Nov 8-9)
 
 The bot had been using `agent-twitter-client`, which is one of those unofficial libraries that does the thing Twitter doesn't want you to do, which is to say it logs in like a browser and scrapes the DOM[^2]. This worked fine until it didn't—cookies would expire, Twitter would change their HTML structure, the rate limiting was mysterious and seemed almost personal—and more importantly it violated the Terms of Service, which matters if you're trying to run something that won't get banned.
@@ -23,6 +25,16 @@ The migration itself was straightforward in that deeply tedious way where straig
 - Set up OAuth 1.0a (which is the version where you have four different strings—API key, API secret, access token, access token secret—and you have to keep them all straight)
 - Updated environment variables across multiple character configurations because yes, this is a multi-bot system, each with different credentials, because why keep things simple
 
+```typescript
+// Four strings that must all be correct or nothing works
+const auth = new TwitterAuth({
+  appKey: process.env.TWITTER_API_KEY,
+  appSecret: process.env.TWITTER_API_SECRET_KEY,
+  accessToken: process.env.TWITTER_ACCESS_TOKEN,
+  accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
+});
+```
+
 First lesson learned: Official APIs come with rate limits that are *documented*, which sounds like an improvement until you realize documentation doesn't make the limits any less restrictive.
 
 ## Act 2: Nobody Reads The Documentation Including Me (Nov 9)
@@ -33,7 +45,7 @@ Three commits on Nov 9 (`dfbde35f3`, `3bd430c4e`, `cdb62c304`) were basically me
 - Updates to `CLAUDE.md` with architectural notes
 - Character-specific configuration documentation
 
-Also discovered during this documentation spree: The free tier has a **100 post retrieval cap** *per month*. Not 10,000. Not 1,000. **One hundred.** That's approximately five mention checks if each returns 20 tweets. Not rate limits per 15 minutes—which would be annoying but manageable—but a hard monthly cap, like a cell phone plan from 2005, except worse because at least those gave you more than 100 minutes.
+Also discovered during this documentation spree: The free tier has a **100 post retrieval cap** *per month*. Not 10,000. Not 1,000. **One hundred.** That's approximately five mention checks if each returns 20 tweets. Not rate limits per 15 minutes—which would be annoying but manageable—but a hard monthly cap, like a cell phone plan from 2005, except worse because at least those gave you more than 100 minutes. [X's own post-cap doc spells it out in painful detail.](https://docs.x.com/x-api/fundamentals/post-cap)
 
 The error response calls this `product_name: 'standard-basic'`, which sounds like it might be a paid tier but is actually X's internal SKU for the free tier, a naming choice that confused me for an embarrassing amount of time.
 
@@ -68,7 +80,39 @@ This is where I actually read the API documentation instead of just skimming it 
 
 **1. The `since_id` parameter** - This is the genius one. Instead of fetching the same 20 most recent tweets every check and re-checking if they're new, you pass the ID of the last tweet you've seen and Twitter only returns *newer* tweets. Transformed the operation from O(n) re-scanning to O(new). Like magic except it's just basic API design.
 
+```typescript
+// Before: Wasting 20 posts from the cap every check
+const mentions = await client.fetchSearchTweets(
+  `@${username}`,
+  20,
+  SearchMode.Latest
+);
+// Returns the same 20 tweets. Every. Single. Time.
+
+// After: Only fetching new tweets
+const mentions = await client.fetchSearchTweets(
+  `@${username}`,
+  20,
+  SearchMode.Latest,
+  undefined, // cursor
+  lastCheckedTweetId  // since_id - the magic parameter
+);
+// Only returns tweets newer than lastCheckedTweetId
+```
+
 **2. The `-from:username` query modifier** - Excludes your own tweets from search results, which sounds obvious but I'd been paying API costs to fetch and filter my own tweets for two days.
+
+```typescript
+// Adding the second optimization
+const mentions = await client.fetchSearchTweets(
+  `@${username} -from:${username}`,  // Exclude own tweets from results
+  20,
+  SearchMode.Latest,
+  undefined,
+  lastCheckedTweetId
+);
+// Went from 20 posts/check to ~0-5 posts/check with both optimizations
+```
 
 **3. Increased polling interval** - From 120 seconds to 300 seconds (5 minutes). Less frequent checks, fewer API calls, still responsive enough for a bot that doesn't need to respond instantly because we're not running an emergency service here.
 
@@ -90,11 +134,59 @@ Commits `241b6c80e` and `b4d5fb56f` implemented a full v1.1 fallback system:
 - Built a fallback chain: Try v2 → if 429 (rate limit exceeded), try v1.1
 - v1.1 support for search, user timeline, home timeline, tweet creation
 
+```typescript
+// The beautiful fallback that didn't work
+export async function* searchTweets(
+  query: string,
+  maxTweets: number,
+  searchMode: SearchMode,
+  auth: TwitterAuth,
+  sinceId?: string,
+): AsyncGenerator<Tweet, void> {
+  const client = auth.getV2Client();
+
+  try {
+    // Try v2 first
+    const searchIterator = await client.v2.search(query, {
+      max_results: Math.min(maxTweets, 100),
+      // ... other params
+    });
+
+    for await (const tweet of searchIterator) {
+      yield convertToTweet(tweet);
+    }
+  } catch (error) {
+    console.warn("v2 search failed, trying v1.1 fallback:", error);
+
+    // Fall back to v1.1
+    const v1Client = auth.getV1Client();
+    const searchResults = await v1Client.get("search/tweets.json", {
+      q: query,  // Same query string, different API version
+      count: Math.min(maxTweets, 100),
+      since_id: sinceId,
+    });
+
+    for (const tweet of searchResults.statuses) {
+      yield convertToTweet(tweet);
+    }
+  }
+}
+```
+
 The hypothesis was sound. The implementation was clean. The testing was thorough.
 
 The results were crushing.
 
 Free tier blocks v1.1 read endpoints entirely. HTTP 403, error code 453, message: "You currently have access to a subset of X API V2 endpoints and limited v1.1 endpoints (e.g. media post, oauth) only."
+
+```json
+{
+  "errors": [{
+    "message": "You currently have access to a subset of X API V2 endpoints and limited v1.1 endpoints (e.g. media post, oauth) only.",
+    "code": 453
+  }]
+}
+```
 
 What v1.1 actually allows on free tier:
 - ✅ POST tweet (media upload, OAuth)
@@ -116,6 +208,28 @@ Implemented graceful degradation instead of clever workarounds:
 2. **getV1ClientIfAvailable()** - Safe accessor that returns null if v1.1 is disabled, preventing crashes.
 3. **handleV1AccessError()** - Detects access denial errors, logs appropriately, prevents infinite retry loops.
 4. **Return empty results** - Instead of throwing exceptions when limits are hit, just return empty arrays and let the bot continue functioning.
+
+```typescript
+handleV1AccessError(error: any, context: string): boolean {
+  const isAccessError =
+    error?.code === 403 ||
+    error?.code === 453 ||
+    error?.errors?.some?.(err => err?.code === 453);
+
+  if (isAccessError) {
+    if (!this.v1AccessDisabled) {
+      this.v1AccessDisabled = true;  // Never try again this session
+      elizaLogger.warn(
+        `Twitter API v1.1 access disabled after "${context}" ` +
+        `(insufficient account permissions). ` +
+        `Future v1.1 fallbacks will be skipped.`
+      );
+    }
+    return true;  // Stop retrying
+  }
+  return false;  // Different error, might be worth retrying
+}
+```
 
 Final architecture:
 - v2 API for all reads (**100/month cap**)
