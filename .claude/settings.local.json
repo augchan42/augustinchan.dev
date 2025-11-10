@@ -25,7 +25,8 @@
       "Bash(mkdir:*)",
       "Read(//home/hosermage/projects/8bitoracle-next/**)",
       "Read(//home/hosermage/projects/digitalrain-site/**)",
-      "WebFetch(domain:digitalrain.studio)"
+      "WebFetch(domain:digitalrain.studio)",
+      "WebFetch(domain:github.com)"
     ],
     "deny": [],
     "ask": []
