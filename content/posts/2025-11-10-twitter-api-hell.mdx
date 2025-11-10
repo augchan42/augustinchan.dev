@@ -14,7 +14,7 @@ This is a story about three days in November 2025 when I migrated a Twitter bot 
 
 ## Act 1: The Great Migration (Nov 8-9)
 
-The bot had been using `agent-twitter-client`, which is one of those unofficial libraries that does the thing Twitter doesn't want you to do, which is to say it logs in like a browser and scrapes the DOM[^2]. This worked fine until it didn't—cookies would expire, Twitter would change their HTML structure, the rate limiting was mysterious and seemed almost personal—and more importantly it violated the Terms of Service, which matters if you're trying to run something that won't get banned.
+The bot had been using `agent-twitter-client`, which is one of those unofficial libraries that does the thing Twitter doesn't want you to do, which is to say it uses cookie-based authentication to call Twitter's internal GraphQL API[^2]. This had been working fine for months—until early November 2025, when I noticed the bot had stopped replying to mentions. Something broke. Whether it was cookie expiration, GraphQL endpoint changes, or Twitter's ongoing war against unofficial access didn't really matter; what mattered was that relying on an unofficial library that violated Terms of Service meant debugging mysteries with no documentation and no support. Time to go legit.
 
 So: time to go legit. Commit `190165baf` on Nov 8: "Refactor Twitter client to use Twitter API v2."
 
@@ -295,6 +295,6 @@ Probably.
 
 [^1]: As opposed to The Way That Works But Violates ToS, which is what I'd been doing.
 
-[^2]: Document Object Model, the browser's representation of a webpage's structure, which you're supposed to interact with via official APIs rather than pretending to be a browser and parsing HTML like some kind of digital burglar.
+[^2]: Twitter's internal GraphQL API that powers the web interface—the one that's not documented, not officially supported, and definitely not meant for third-party use. The historical context: Twitter moved to GraphQL internally around 2019-2020 but kept it locked down. For years, libraries like `agent-twitter-client` reverse-engineered this access using cookie authentication, creating a "golden era" (pre-2023) where bots could operate without API keys. Then Twitter/X started a systematic crackdown: killed the free API tier (mid-2023), destabilized password logins (fall 2023), began rotating GraphQL doc_ids every 2-4 weeks, implemented TLS fingerprinting, tightened IP reputation scoring, and bound guest tokens to browser fingerprints. By 2025, maintaining GraphQL scrapers required 10-15 hours/month just to keep up with anti-scraping changes. My bot worked fine for months using this approach—until early November 2025, when it silently stopped working, joining the long list of casualties in Twitter's war against unofficial access. It's the API equivalent of sneaking in through the kitchen entrance, except the locks keep changing and eventually they welded the door shut.
 
 [^3]: I had not, in fact, "done this before" with v2 of the Twitter API, which is different enough from v1.1 that experience is almost a liability because you *think* you know how it works.
