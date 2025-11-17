@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getAllPosts } from '../lib/posts'
+import { cardStyles, tagStyles, textStyles, headingStyles } from '../lib/styles'
 
 export const metadata = {
   title: 'Blog | Augustin Chan',
@@ -108,15 +109,16 @@ export default function BlogPage() {
         {years.map(year => (
           <div key={year} style={{ marginBottom: '2.5rem' }}>
             <h3 style={{
-              borderBottom: '2px solid #333',
+              borderBottom: '2px solid var(--color-border-strong, #333)',
               paddingBottom: '0.5rem',
               marginBottom: '1.5rem',
               fontSize: '1.4em',
-              fontWeight: 'bold'
+              fontWeight: 'bold',
+              ...textStyles.primary,
             }}>
               {year}
             </h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--card-gap, 1.5rem)' }}>
               {postsByYear[year].map(post => {
                 const tags = post.tag
                   ? post.tag.split(',').map(t => t.trim()).filter(Boolean).slice(0, 5)
@@ -124,11 +126,8 @@ export default function BlogPage() {
 
                 return (
                   <article key={post.slug} style={{
+                    ...cardStyles,
                     padding: '1.25rem',
-                    border: '1px solid #ddd',
-                    borderRadius: '8px',
-                    backgroundColor: '#fafafa',
-                    transition: 'all 0.2s ease'
                   }}>
                     <div style={{ marginBottom: '0.75rem' }}>
                       <Link
@@ -137,15 +136,14 @@ export default function BlogPage() {
                           fontSize: '1.1em',
                           fontWeight: 'bold',
                           textDecoration: 'none',
-                          color: '#333'
+                          ...textStyles.primary,
                         }}
                       >
                         {post.title}
                       </Link>
                     </div>
                     <div style={{
-                      fontSize: '0.85em',
-                      color: '#666',
+                      ...textStyles.small,
                       marginBottom: post.description || tags.length > 0 ? '0.75rem' : '0'
                     }}>
                       {formatDateUTC(post.date)}
@@ -159,7 +157,7 @@ export default function BlogPage() {
                     {post.description && (
                       <p style={{
                         fontSize: '0.95em',
-                        color: '#555',
+                        ...textStyles.secondary,
                         margin: '0 0 0.75rem 0',
                         lineHeight: '1.5'
                       }}>
@@ -174,17 +172,7 @@ export default function BlogPage() {
                         marginTop: '0.5rem'
                       }}>
                         {tags.map(tag => (
-                          <span
-                            key={tag}
-                            style={{
-                              fontSize: '0.75em',
-                              padding: '0.25rem 0.5rem',
-                              backgroundColor: '#e0e0e0',
-                              color: '#555',
-                              borderRadius: '4px',
-                              textTransform: 'lowercase'
-                            }}
-                          >
+                          <span key={tag} style={tagStyles}>
                             {tag}
                           </span>
                         ))}

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getAllPosts, getPostBySlug } from './lib/posts'
+import { featuredCardStyles, cardStyles, buttonPrimaryStyles, buttonSecondaryStyles, tagStyles, headingStyles, textStyles } from './lib/styles'
 
 function formatDateUTC(dateStr: string) {
   const [y, m, d] = dateStr.split('-').map(Number)
@@ -62,35 +63,31 @@ export default function HomePage() {
       {featuredPost && (
         <article style={{
           marginBottom: '4rem',
-          padding: '2rem',
-          border: '2px solid #333',
-          borderRadius: '8px',
-          backgroundColor: '#fafafa',
+          ...featuredCardStyles,
         }}>
           <div style={{
             fontSize: '0.85em',
             fontWeight: 'bold',
-            color: '#666',
+            ...textStyles.muted,
             textTransform: 'uppercase',
             letterSpacing: '0.05em',
             marginBottom: '1rem'
           }}>
             Featured Post
           </div>
-          <h2 style={{ fontSize: '2em', marginBottom: '0.5rem' }}>
+          <h2 style={headingStyles.primary}>
             <Link
               href={`/posts/${featuredPost.slug}`}
               style={{
                 textDecoration: 'none',
-                color: '#333',
+                ...textStyles.primary,
               }}
             >
               {featuredPost.title}
             </Link>
           </h2>
           <div style={{
-            color: '#888',
-            fontSize: '0.9em',
+            ...textStyles.small,
             marginBottom: '1rem'
           }}>
             {formatDateUTC(featuredPost.date)}
@@ -104,7 +101,7 @@ export default function HomePage() {
           {featuredPost.description && (
             <p style={{
               fontSize: '1.1em',
-              color: '#555',
+              ...textStyles.secondary,
               lineHeight: '1.6',
               marginBottom: '1rem'
             }}>
@@ -113,16 +110,7 @@ export default function HomePage() {
           )}
           <Link
             href={`/posts/${featuredPost.slug}`}
-            style={{
-              display: 'inline-block',
-              padding: '0.75rem 1.5rem',
-              backgroundColor: '#333',
-              color: '#fff',
-              textDecoration: 'none',
-              borderRadius: '4px',
-              fontSize: '0.95em',
-              fontWeight: 'bold'
-            }}
+            style={buttonPrimaryStyles}
           >
             Read Full Post →
           </Link>
@@ -131,11 +119,11 @@ export default function HomePage() {
 
       {/* Recent Posts */}
       <section style={{ marginBottom: '4rem' }}>
-        <h2 style={{ fontSize: '1.8em', marginBottom: '2rem' }}>Recent Posts</h2>
+        <h2 style={headingStyles.secondary}>Recent Posts</h2>
         <div style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: '1.5rem',
+          gap: 'var(--card-gap, 1.5rem)',
         }}>
           {recentPosts.map(post => {
             const tags = post.tag
@@ -143,26 +131,20 @@ export default function HomePage() {
               : []
 
             return (
-              <article key={post.slug} style={{
-                padding: '1.5rem',
-                border: '1px solid #ddd',
-                borderRadius: '8px',
-                backgroundColor: '#fafafa',
-              }}>
+              <article key={post.slug} style={cardStyles}>
                 <h3 style={{ fontSize: '1.3em', marginBottom: '0.5rem' }}>
                   <Link
                     href={`/posts/${post.slug}`}
                     style={{
                       textDecoration: 'none',
-                      color: '#333',
+                      ...textStyles.primary,
                     }}
                   >
                     {post.title}
                   </Link>
                 </h3>
                 <div style={{
-                  color: '#888',
-                  fontSize: '0.85em',
+                  ...textStyles.small,
                   marginBottom: post.description || tags.length > 0 ? '0.75rem' : '0'
                 }}>
                   {formatDateUTC(post.date)}
@@ -175,7 +157,7 @@ export default function HomePage() {
                 </div>
                 {post.description && (
                   <p style={{
-                    color: '#555',
+                    ...textStyles.secondary,
                     fontSize: '0.95em',
                     lineHeight: '1.5',
                     margin: tags.length > 0 ? '0 0 0.75rem 0' : '0'
@@ -191,17 +173,7 @@ export default function HomePage() {
                     marginTop: '0.5rem'
                   }}>
                     {tags.map(tag => (
-                      <span
-                        key={tag}
-                        style={{
-                          fontSize: '0.75em',
-                          padding: '0.25rem 0.5rem',
-                          backgroundColor: '#e0e0e0',
-                          color: '#555',
-                          borderRadius: '4px',
-                          textTransform: 'lowercase'
-                        }}
-                      >
+                      <span key={tag} style={tagStyles}>
                         {tag}
                       </span>
                     ))}
@@ -212,19 +184,7 @@ export default function HomePage() {
           })}
         </div>
         <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-          <Link
-            href="/blog"
-            style={{
-              display: 'inline-block',
-              padding: '0.75rem 1.5rem',
-              border: '2px solid #333',
-              color: '#333',
-              textDecoration: 'none',
-              borderRadius: '4px',
-              fontSize: '0.95em',
-              fontWeight: 'bold'
-            }}
-          >
+          <Link href="/blog" style={buttonSecondaryStyles}>
             View All Posts →
           </Link>
         </div>
@@ -234,9 +194,9 @@ export default function HomePage() {
       <section style={{
         marginTop: '4rem',
         paddingTop: '2rem',
-        borderTop: '2px solid #ddd'
+        borderTop: '2px solid var(--color-border-default, #ddd)'
       }}>
-        <h2 style={{ fontSize: '1.5em', marginBottom: '1.5rem' }}>About</h2>
+        <h2 style={headingStyles.tertiary}>About</h2>
         <p>
           I'm a builder specializing in AI-powered experiences and Web3 through <a href="https://digitalrain.studio/" target="_blank" rel="noopener noreferrer">Digital Rain Studios</a>.
           Currently working on <a href="https://8bitoracle.ai" target="_blank" rel="noopener noreferrer">8-Bit Oracle</a> (tech-noir I-Ching) and the <a href="https://qdayanon.com" target="_blank" rel="noopener noreferrer">QDayAnon Content Engine</a> (AI research platform).
@@ -246,18 +206,10 @@ export default function HomePage() {
           Find me on <a href="https://x.com/aug_digitalrain" target="_blank" rel="noopener noreferrer">X</a> or <a href="https://github.com/augchan42/" target="_blank" rel="noopener noreferrer">GitHub</a>.
         </p>
         <div style={{ marginTop: '1.5rem' }}>
-          <Link
-            href="/about"
-            style={{
-              display: 'inline-block',
-              padding: '0.75rem 1.5rem',
-              border: '1px solid #333',
-              color: '#333',
-              textDecoration: 'none',
-              borderRadius: '4px',
-              fontSize: '0.95em'
-            }}
-          >
+          <Link href="/about" style={{
+            ...buttonSecondaryStyles,
+            border: '1px solid var(--color-button-secondary-border, #333)',
+          }}>
             More About Me →
           </Link>
         </div>
