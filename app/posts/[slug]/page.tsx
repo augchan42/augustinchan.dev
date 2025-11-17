@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getAllPosts, getPostBySlug, getRelatedPosts } from '../../lib/posts'
 import MDXContent from '../../components/MDXContent'
+import { cardStyles, headingStyles, textStyles } from '../../lib/styles'
 
 interface PostPageProps {
   params: Promise<{
@@ -180,11 +181,11 @@ export default async function PostPage({ params }: PostPageProps) {
       />
       <article>
         <header style={{ marginBottom: '2rem' }}>
-          <h1 style={{ fontSize: '2em', marginBottom: '0.5rem' }}>
+          <h1 style={headingStyles.primary}>
             {post.title}
           </h1>
           <div style={{
-            color: '#666',
+            ...textStyles.muted,
             fontSize: '1em',
             marginBottom: '1rem'
           }}>
@@ -199,7 +200,7 @@ export default async function PostPage({ params }: PostPageProps) {
           {post.description && (
             <p style={{
               fontSize: '1.1em',
-              color: '#555',
+              ...textStyles.secondary,
               fontStyle: 'italic',
               marginBottom: '2rem'
             }}>
@@ -214,22 +215,20 @@ export default async function PostPage({ params }: PostPageProps) {
           <aside style={{
             marginTop: '4rem',
             paddingTop: '2rem',
-            borderTop: '2px solid #ddd',
+            borderTop: '2px solid var(--color-border-default, #ddd)',
           }}>
-            <h2 style={{ fontSize: '1.5em', marginBottom: '1.5rem' }}>
+            <h2 style={headingStyles.tertiary}>
               Related Posts
             </h2>
             <div style={{
               display: 'flex',
               flexDirection: 'column',
-              gap: '1.5rem',
+              gap: 'var(--card-gap, 1.5rem)',
             }}>
               {relatedPosts.map(relatedPost => (
                 <article key={relatedPost.slug} style={{
+                  ...cardStyles,
                   padding: '1.25rem',
-                  border: '1px solid #ddd',
-                  borderRadius: '8px',
-                  backgroundColor: '#fafafa',
                 }}>
                   <Link
                     href={`/posts/${relatedPost.slug}`}
@@ -237,7 +236,7 @@ export default async function PostPage({ params }: PostPageProps) {
                       fontSize: '1.1em',
                       fontWeight: 'bold',
                       textDecoration: 'none',
-                      color: '#333',
+                      ...textStyles.primary,
                     }}
                   >
                     {relatedPost.title}
@@ -245,7 +244,7 @@ export default async function PostPage({ params }: PostPageProps) {
                   {relatedPost.description && (
                     <p style={{
                       fontSize: '0.95em',
-                      color: '#555',
+                      ...textStyles.secondary,
                       margin: '0.5rem 0 0 0',
                       lineHeight: '1.5',
                     }}>
@@ -253,8 +252,7 @@ export default async function PostPage({ params }: PostPageProps) {
                     </p>
                   )}
                   <div style={{
-                    fontSize: '0.85em',
-                    color: '#888',
+                    ...textStyles.small,
                     marginTop: '0.5rem',
                   }}>
                     {formatDateUTC(relatedPost.date)}

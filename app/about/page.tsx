@@ -8,26 +8,26 @@ export default function AboutPage() {
     <div>
       <h1 style={{ fontSize: '1.25em', marginBottom: '1rem' }}>Greetings</h1>
 
-      <p style={{ fontSize: '1.1em', color: '#555', marginBottom: '3rem' }}>
+      <p style={{ fontSize: '1.1em', color: 'var(--color-text-secondary)', marginBottom: '3rem' }}>
         I build products from scratch in uncharted territory. Founder of <a href="https://digitalrain.studio/" target="_blank" rel="noopener noreferrer">Digital Rain Studios</a>.
       </p>
 
       {/* Current Work */}
       <section style={{ marginBottom: '3rem' }}>
-        <h2 style={{ fontSize: '1.3em', marginBottom: '1.5rem', borderBottom: '2px solid #333', paddingBottom: '0.5rem' }}>
+        <h2 style={{ fontSize: '1.3em', marginBottom: '1.5rem', borderBottom: '2px solid var(--color-border-strong)', paddingBottom: '0.5rem' }}>
           Current Projects
         </h2>
 
         <div style={{
           padding: '1.5rem',
-          backgroundColor: '#fafafa',
-          borderLeft: '4px solid #333',
+          backgroundColor: 'var(--color-background-surface)',
+          borderLeft: '4px solid var(--color-border-strong)',
           marginBottom: '1.5rem'
         }}>
           <h3 style={{ marginTop: 0, fontSize: '1.1em' }}>
             🎮 <a href="https://8bitoracle.ai" target="_blank" rel="noopener noreferrer">8-Bit Oracle</a>
           </h3>
-          <p style={{ margin: '0.5rem 0', color: '#666', fontSize: '0.9em' }}>
+          <p style={{ margin: '0.5rem 0', color: 'var(--color-text-muted)', fontSize: '0.9em' }}>
             Tech-noir I-Ching counselor | <a href="https://x.com/origin_trail/status/1892543087479505352" target="_blank" rel="noopener noreferrer">Consensus HK Hackathon Winner</a>
           </p>
           <p style={{ marginBottom: 0 }}>
@@ -38,13 +38,13 @@ export default function AboutPage() {
 
         <div style={{
           padding: '1.5rem',
-          backgroundColor: '#fafafa',
-          borderLeft: '4px solid #333'
+          backgroundColor: 'var(--color-background-surface)',
+          borderLeft: '4px solid var(--color-border-strong)'
         }}>
           <h3 style={{ marginTop: 0, fontSize: '1.1em' }}>
             🧬 <a href="https://qdayanon.com" target="_blank" rel="noopener noreferrer">QDayAnon Content Engine</a>
           </h3>
-          <p style={{ margin: '0.5rem 0', color: '#666', fontSize: '0.9em' }}>
+          <p style={{ margin: '0.5rem 0', color: 'var(--color-text-muted)', fontSize: '0.9em' }}>
             AI research platform for quantum computing content
           </p>
           <p style={{ marginBottom: '0.5rem' }}>
@@ -60,7 +60,7 @@ export default function AboutPage() {
 
       {/* Philosophy */}
       <section style={{ marginBottom: '3rem' }}>
-        <h2 style={{ fontSize: '1.3em', marginBottom: '1.5rem', borderBottom: '2px solid #333', paddingBottom: '0.5rem' }}>
+        <h2 style={{ fontSize: '1.3em', marginBottom: '1.5rem', borderBottom: '2px solid var(--color-border-strong)', paddingBottom: '0.5rem' }}>
           How I Work
         </h2>
         <p>
@@ -71,7 +71,7 @@ export default function AboutPage() {
 
       {/* Consulting */}
       <section style={{ marginBottom: '3rem' }}>
-        <h2 style={{ fontSize: '1.3em', marginBottom: '1.5rem', borderBottom: '2px solid #333', paddingBottom: '0.5rem' }}>
+        <h2 style={{ fontSize: '1.3em', marginBottom: '1.5rem', borderBottom: '2px solid var(--color-border-strong)', paddingBottom: '0.5rem' }}>
           Consulting
         </h2>
         <p>
@@ -81,7 +81,7 @@ export default function AboutPage() {
 
       {/* Background */}
       <section style={{ marginBottom: '3rem' }}>
-        <h2 style={{ fontSize: '1.3em', marginBottom: '1.5rem', borderBottom: '2px solid #333', paddingBottom: '0.5rem' }}>
+        <h2 style={{ fontSize: '1.3em', marginBottom: '1.5rem', borderBottom: '2px solid var(--color-border-strong)', paddingBottom: '0.5rem' }}>
           Background
         </h2>
         <p>
@@ -97,8 +97,8 @@ export default function AboutPage() {
       {/* Connect */}
       <section style={{
         padding: '1.5rem',
-        backgroundColor: '#f5f5f5',
-        borderRadius: '8px',
+        backgroundColor: 'var(--color-background-surface)',
+        borderRadius: 'var(--border-radius)',
         marginBottom: '2rem'
       }}>
         <p style={{ margin: 0, fontSize: '0.95em' }}>
@@ -110,7 +110,7 @@ export default function AboutPage() {
 
       {/* Speaking */}
       <section style={{ marginBottom: '3rem' }}>
-        <h2 style={{ fontSize: '1.3em', marginBottom: '1.5rem', borderBottom: '2px solid #333', paddingBottom: '0.5rem' }}>
+        <h2 style={{ fontSize: '1.3em', marginBottom: '1.5rem', borderBottom: '2px solid var(--color-border-strong)', paddingBottom: '0.5rem' }}>
           Speaking & Interviews
         </h2>
         <ul style={{ lineHeight: '1.8' }}>
@@ -133,27 +133,27 @@ export default function AboutPage() {
           fontSize: '1.1em',
           fontWeight: 'bold',
           padding: '1rem',
-          backgroundColor: '#fafafa',
-          borderRadius: '4px',
+          backgroundColor: 'var(--color-background-surface)',
+          borderRadius: 'var(--border-radius)',
           userSelect: 'none'
         }}>
           Tech Stack Details
         </summary>
         <div style={{
           padding: '1.5rem',
-          backgroundColor: '#f9f9f9',
-          border: '1px solid #ddd',
+          backgroundColor: 'var(--color-background-surface)',
+          border: '1px solid var(--color-border-default)',
           borderTop: 'none',
           borderRadius: '0 0 4px 4px'
         }}>
           <h3 style={{ marginTop: 0 }}>8-Bit Oracle</h3>
-          <p style={{ fontSize: '0.9em', color: '#666' }}>
+          <p style={{ fontSize: '0.9em', color: 'var(--color-text-muted)' }}>
             Next.js 14, React, TypeScript, Zustand, Supabase, Dynamic Labs (ETH/Solana),
             OpenRouter, use-stt, Shadcn/Radix UI, Tailwind, Recharts, next-intl, next-pwa
           </p>
 
           <h3>QDayAnon Content Engine</h3>
-          <p style={{ fontSize: '0.9em', color: '#666', marginBottom: 0 }}>
+          <p style={{ fontSize: '0.9em', color: 'var(--color-text-muted)', marginBottom: 0 }}>
             FastAPI, Next.js 15, PostgreSQL, DSPy, WebSocket, MCP Protocol,
             multi-dimensional voice lattices, Pareto optimization
           </p>

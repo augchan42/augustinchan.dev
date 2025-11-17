@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { Analytics } from '@vercel/analytics/react'
 import GoogleAnalytics from '../components/GoogleAnalytics'
+import { ThemeProvider } from './components/ThemeProvider'
+import ThemeSwitcher from './components/ThemeSwitcher'
 import './globals.css'
 
 export const metadata = {
@@ -62,92 +64,120 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet" />
+      </head>
       <body suppressHydrationWarning>
-        <div style={{
-          maxWidth: '1000px',
-          margin: '0 auto',
-          padding: '1rem'
-        }}>
-          <header style={{
-            borderBottom: '2px solid #333',
-            paddingBottom: '1rem',
-            marginBottom: '2rem'
+        <ThemeProvider defaultTheme="default">
+          <div style={{
+            maxWidth: 'var(--container-max-width, 1000px)',
+            margin: '0 auto',
+            padding: 'var(--container-padding, 1rem)'
           }}>
-            <nav style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              gap: '1rem'
+            <header style={{
+              borderBottom: '2px solid var(--color-border-strong, #333)',
+              paddingBottom: '1rem',
+              marginBottom: '2rem'
             }}>
-              <div>
-                <Link href="/" style={{
-                  fontSize: '1.4rem',
-                  fontWeight: 'bold',
-                  textDecoration: 'none',
-                  color: '#333'
-                }}>
-                  Augustin Chan
-                </Link>
-                <div style={{ marginTop: '0.5rem' }}>
-                  Building systems that reason
-                </div>
-              </div>
-              <div style={{
+              <nav style={{
                 display: 'flex',
-                gap: '1.5rem',
-                flexWrap: 'wrap'
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '1rem'
               }}>
-                <Link href="/" style={{ textDecoration: 'none', color: '#666' }}>
-                  Home
-                </Link>
-                <Link href="/about" style={{ textDecoration: 'none', color: '#666' }}>
-                  About
-                </Link>
-                <Link href="/blog" style={{ textDecoration: 'none', color: '#666' }}>
-                  Blog
-                </Link>
-                <a href="https://8bitoracle.ai" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: '#666' }}>
-                  8-Bit Oracle
+                <div>
+                  <Link href="/" style={{
+                    fontSize: '1.4rem',
+                    fontWeight: 'bold',
+                    textDecoration: 'none',
+                    color: 'var(--color-text-primary, #333)'
+                  }}>
+                    Augustin Chan
+                  </Link>
+                  <div style={{
+                    marginTop: '0.5rem',
+                    color: 'var(--color-text-secondary, #555)'
+                  }}>
+                    Building systems that reason
+                  </div>
+                </div>
+                <div style={{
+                  display: 'flex',
+                  gap: '1.5rem',
+                  flexWrap: 'wrap'
+                }}>
+                  <Link href="/" style={{
+                    textDecoration: 'none',
+                    color: 'var(--color-text-muted, #666)'
+                  }}>
+                    Home
+                  </Link>
+                  <Link href="/about" style={{
+                    textDecoration: 'none',
+                    color: 'var(--color-text-muted, #666)'
+                  }}>
+                    About
+                  </Link>
+                  <Link href="/blog" style={{
+                    textDecoration: 'none',
+                    color: 'var(--color-text-muted, #666)'
+                  }}>
+                    Blog
+                  </Link>
+                  <a href="https://8bitoracle.ai" target="_blank" rel="noopener noreferrer" style={{
+                    textDecoration: 'none',
+                    color: 'var(--color-text-muted, #666)'
+                  }}>
+                    8-Bit Oracle
+                  </a>
+                </div>
+              </nav>
+            </header>
+            <main>{children}</main>
+            <footer style={{
+              borderTop: '1px solid var(--color-border-default, #ddd)',
+              paddingTop: '2rem',
+              marginTop: '4rem',
+              textAlign: 'center',
+              color: 'var(--color-text-muted, #666)'
+            }}>
+              <div>© 2025 Augustin Chan aug@digitalrain.studio</div>
+              <div style={{ marginTop: '0.5rem' }}>
+                <a href="/rss.xml" style={{
+                  color: 'var(--color-text-muted, #666)',
+                  textDecoration: 'none'
+                }}>
+                  RSS Feed
                 </a>
               </div>
-            </nav>
-          </header>
-          <main>{children}</main>
-          <footer style={{
-            borderTop: '1px solid #ddd',
-            paddingTop: '2rem',
-            marginTop: '4rem',
-            textAlign: 'center',
-            color: '#666'
-          }}>
-            <div>© 2025 Augustin Chan aug@digitalrain.studio</div>
-            <div style={{ marginTop: '0.5rem' }}>
-              <a href="/rss.xml" style={{ color: '#666', textDecoration: 'none' }}>RSS Feed</a>
-            </div>
-          </footer>
-        </div>
-        <GoogleAnalytics />
-        <Analytics />
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            // Service worker cleanup for legacy site versions
-            if ('serviceWorker' in navigator) {
-              navigator.serviceWorker.getRegistrations().then(function(registrations) {
-                for(let registration of registrations) {
-                  registration.unregister();
-                }
-              });
+            </footer>
+          </div>
+          {/* <ThemeSwitcher /> */}
+          <GoogleAnalytics />
+          <Analytics />
+          <script dangerouslySetInnerHTML={{
+            __html: `
+              // Service worker cleanup for legacy site versions
+              if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                  for(let registration of registrations) {
+                    registration.unregister();
+                  }
+                });
 
-              // Register cleanup service worker
-              navigator.serviceWorker.register('/sw.js').then(function(registration) {
-                console.log('Cleanup SW registered');
-              }).catch(function(error) {
-                console.log('Cleanup SW registration failed');
-              });
-            }
-          `
-        }} />
+                // Register cleanup service worker
+                navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                  console.log('Cleanup SW registered');
+                }).catch(function(error) {
+                  console.log('Cleanup SW registration failed');
+                });
+              }
+            `
+          }} />
+        </ThemeProvider>
       </body>
     </html>
   )
