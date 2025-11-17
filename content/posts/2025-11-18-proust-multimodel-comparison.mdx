@@ -1,0 +1,297 @@
+---
+title: "Testing Twelve AI Image Models with Marcel Proust's Madeleine (Or: How We Chose Hunyuan for Hexagram 24)"
+date: 2025/11/18
+description: "Upgrading 8-Bit Oracle's Hexagram 24: Return with Proust's famous involuntary memory scene, then systematically testing 12 diverse AI image models through fal.ai to find which one actually captures that precise moment when past and present collapse together."
+tag: ai, image-generation, 8-bit-oracle, tech-noir, proust, testing, architecture
+author: Aug
+---
+
+Here's the thing about upgrading a hexagram commentary: you want an image that captures the *essence* of the concept, not just a literal representation. Hexagram 24 is **Return** (復, *fù*)—the idea of cyclical patterns, things coming back around, the winter solstice when yang energy begins its return after maximum darkness. It's about renewal, natural rhythms, the inevitable return of what was temporarily absent.
+
+And there's no better literary embodiment of "return" than Marcel Proust's madeleine moment from *In Search of Lost Time*—that famous scene where tasting a tea-soaked madeleine cake triggers an involuntary flood of childhood memories. The past doesn't just come back; it *crashes* into the present with sensory immediacy, collapsing time itself[^1].
+
+So we needed an image: Proust, eating the madeleine, experiencing that moment of involuntary memory. But rendered in our signature tech-noir aesthetic (phosphor green CRT glow, 1970s film grain, deep blacks). And since we're shipping a production feature for [8-Bit Oracle](https://8bitoracle.ai), we couldn't just pick a model arbitrarily. We had to *test*.
+
+This is the story of how we systematically evaluated 12 diverse AI image generation models with the same prompt, analyzed their architectural differences and output quality, and ultimately chose Tencent's Hunyuan v3—not because it was the most popular or the fastest, but because it nailed the exact expression we needed: that instant where memory returns unbidden.
+
+## The Prompt
+
+We used two prompts: a detailed user prompt describing the scene, plus a system prompt enforcing the tech-noir aesthetic.
+
+**User Prompt:**
+
+> Portrait of Marcel Proust, 1900s French writer with dark mustache and formal suit, eating a madeleine cake. Above his head floats a glowing phosphor green thought bubble containing childhood memory fragments: sunlit garden, church steeple, boy silhouette. Deep black background with film grain. Tech-noir aesthetic with 1970s Kodak film quality, high contrast, dramatic lighting. His expression captures the moment of involuntary memory returning.
+
+**System Prompt (Tech-Noir Transformation):**
+
+> 1970s FILM SCREENGRAB - TECH-NOIR AESTHETIC: Transform into a tech-noir film still with phosphor green (#2EBD2E) for main subjects/CRT glow, amber/orange (#FFA500) for warm lighting, deep black (#000000) for shadows. Authentic 1970s-1980s film aesthetic with heavy grain, CRT scanlines, phosphor bloom. Organic scanned film negative quality.
+
+The test was simple: send this exact prompt to 12 different models via fal.ai, log everything to our `ai_provider_requests` database, save outputs with ISO timestamps to prevent file clobbering, and compare results.
+
+## The Contestants
+
+We tested across diverse architectures to see how different approaches handle complex narrative scenes:
+
+1. **FLUX.1 [dev]** - Flow Transformer (12B params)
+2. **Recraft V3** - Proprietary SOTA
+3. **Stable Diffusion 3.5 Large** - MMDiT (Multimodal Diffusion Transformer)
+4. **Imagen 4** - Google's Proprietary Diffusion
+5. **Ideogram V2** - Typography Expert
+6. **HiDream I1 Full** - Chinese Foundation Model (17B params)
+7. **Hunyuan Image v3** - Tencent Proprietary ⭐
+8. **DeepSeek Janus-Pro** - Autoregressive Multimodal
+9. **CogView4** - Zhipu AI / Tsinghua
+10. **ByteDance SeeDream V3**
+11. **Bria Fibo** - Commercial-safe, Licensed
+12. **Wan 2.5 Preview** - Next-gen Architecture
+
+Testing duration: ~5 minutes total (333 seconds). Success rate: 12/12 (100%). Average generation time: 27.8s. Now let's see what they actually produced.
+
+## The Results (A Gallery of Interpretations)
+
+### FLUX.1 [dev] - Black Forest Labs
+**Generation Time:** 6.0s (fastest) | **File Size:** 142 KB
+
+Flow Transformer architecture delivering the fastest generation time while maintaining clean, artistic composition. The phosphor green thought bubble contains castle/church architecture with excellent contrast against the dark background. Very stylized—almost illustration-like rather than photorealistic. The memory bubble is clear and well-defined, but Proust's expression is more contemplative than surprised, missing that specific "involuntary memory cascade" moment. The speed-to-quality ratio here is impressive—12B parameters generating coherent narrative scenes in 6 seconds.
+
+![FLUX.1 dev](/proust/proust-portrait-flux-dev-2025-11-17T09-38-20.png)
+
+---
+
+### Recraft V3
+**Generation Time:** 12.9s | **File Size:** 318 KB | **Tokens:** 112 (simplified from 272)
+
+Had to use a simplified 447-character prompt because Recraft enforces a 1000-character limit and our detailed prompt exceeded that—reducing from 272 tokens down to 112 tokens (59% reduction). Despite this constraint, the SOTA architecture produced highly photorealistic results with exceptional detail. The memory bubble rendered as a vintage illustration/engraving style—which is actually brilliant, suggesting old photographs or children's book illustrations. Unique dual madeleine composition (one whole, one being eaten). The fact that Recraft achieved this quality with *half* the narrative detail speaks to architectural sophistication, but we still lost specificity in the simplification.
+
+![Recraft V3](/proust/proust-portrait-recraft-v3-simplified-2025-11-17T10-05-49.png)
+
+---
+
+### Stable Diffusion 3.5 Large - Stability AI
+**Generation Time:** 10.9s | **File Size:** 267 KB | **Tokens:** 272 (CLIP saw only 77)
+
+**Warning received:** CLIP token truncation—our 272-token prompt exceeded CLIP's 77-token limit (only 28% of instructions encoded), then got truncated again at T5's 256-token limit. This is MMDiT (Multimodal Diffusion Transformer) architecture hitting hard limits. Despite seeing less than a third of the detailed prompt through CLIP, SD 3.5 produced a good balance of detail and coherence in just 10.9s—competitive speed with Recraft but working with even less information. The thought bubble is there, the tech-noir aesthetic is mostly preserved, but there's a sense of "making do" with truncated instructions. This is architectural constraint showing through in output quality.
+
+![SD 3.5 Large](/proust/proust-portrait-sd35-large-2025-11-17T09-38-20.png)
+
+---
+
+### Imagen 4 - Google
+**Generation Time:** 24.7s | **File Size:** 1470 KB
+
+Google's proprietary diffusion architecture taking its time to render highly realistic detail. The thought bubble shows garden scenes with a boy silhouette and church steeple bathed in amber/golden light. More dimensional and naturalistic than most—feels like a film still from an actual movie. The warmth of the memory fragments contrasts beautifully with the cooler tech-noir palette. The 24.7s generation time reflects the architectural focus on photorealism and compositional complexity. But (and this matters) the expression is serene rather than startled, missing that precise instant of recognition.
+
+![Imagen 4](/proust/proust-portrait-imagen4-2025-11-17T09-38-20.png)
+
+---
+
+### Ideogram V2
+**Generation Time:** 32.6s | **File Size:** 1689 KB
+
+Ideogram is known for typography expertise, which doesn't directly apply to portraiture, but the clean execution and strong contrast are evident—that same precision that renders text cleanly translates to well-defined edges and compositional clarity. Solid technical rendering at 32.6s. The phosphor green pops nicely. But again, we're missing that emotional specificity—the face reads as "person eating cake and thinking about things" rather than "person experiencing involuntary memory cascade."
+
+![Ideogram V2](/proust/proust-portrait-ideogram-v2-2025-11-17T09-38-20.png)
+
+---
+
+### HiDream I1 Full - HiDream
+**Generation Time:** 20.1s | **File Size:** 189 KB
+
+Chinese foundation model with 17B parameters delivering impressive compression efficiency—189 KB for a complex narrative scene suggests sophisticated encoding. The 20.1s generation time is mid-range despite the parameter count. The tech-noir aesthetic is present but muted. Proust looks appropriately contemplative, but the memory bubble is less defined than we'd hoped. Good technical execution, but not quite capturing the narrative moment.
+
+![HiDream I1](/proust/proust-portrait-hidream-i1-2025-11-17T09-38-20.png)
+
+---
+
+### Hunyuan Image v3 - Tencent ⭐ [WINNER]
+**Generation Time:** 22.8s | **File Size:** 1.6 MB
+
+**Selected for Production Use**
+
+This is the one. Tencent's proprietary diffusion architecture taking 22.8s—not the fastest, but the most *precise*. Very photorealistic with natural window lighting from the left creating depth and dimension. The thought bubble contains flowers (hawthorns—a direct Proust reference if you know the book), boy silhouette, and church steeple. But what sealed the decision was the *expression*: eyes widening slightly, contemplative gaze upward, mouth slightly parted—that precise instant where past and present collapse together. Not "remembering" (active, deliberate), but "being remembered to" (passive, involuntary). That's the Return hexagram in facial form. The extra seconds Hunyuan took compared to faster models were spent on this exact kind of emotional nuance.
+
+![Hunyuan v3](/proust/proust-portrait-hunyuan-v3-2025-11-17T09-38-20.png)
+
+---
+
+### DeepSeek Janus-Pro
+**Generation Time:** 60.4s (slowest) | **File Size:** 191 KB
+
+Completely different interpretation—and revealing architectural differences through generation time. At 60.4 seconds, Janus-Pro is the slowest model we tested, reflecting the fundamental difference of autoregressive architecture vs diffusion models. Instead of a detailed thought bubble, Janus-Pro rendered a minimalist green halo behind Proust's head—almost religious iconography rather than tech-noir memory visualization. More painterly/stylized portrait than photorealistic. Interesting aesthetic choice, but not what we were going for. This is autoregressive architecture *thinking* differently—both in how it processes the prompt (sequentially vs in parallel) and in what it produces. The minute-long generation time is the architecture showing itself.
+
+![Janus-Pro](/proust/proust-portrait-janus-pro-2025-11-17T09-38-20.png)
+
+---
+
+### CogView4 - Zhipu AI / Tsinghua
+**Generation Time:** 64.8s (slowest) | **File Size:** 196 KB
+
+Another Chinese model, and the absolute slowest at 64.8 seconds—even longer than Janus-Pro. The extended generation time likely reflects heavy computation for the stylized aesthetic CogView4 specializes in. Compact file size (196 KB) suggests aggressive compression post-generation. The tech-noir elements are there—phosphor green, grain, contrast—but the overall composition feels more illustrative than cinematic. Good technical output, but missing narrative weight. The architectural trade-off here is clear: stylization depth costs generation time.
+
+![CogView4](/proust/proust-portrait-cogview4-2025-11-17T09-38-20.png)
+
+---
+
+### ByteDance SeeDream V3 (Best Thought Bubble Award)
+**Generation Time:** 9.4s (second fastest) | **File Size:** 216 KB
+
+ByteDance's interpretation demonstrating excellent speed/quality ratio—at 9.4 seconds, this is the second-fastest generation behind only FLUX, yet with competitive photorealistic output. The architectural efficiency is impressive: compact 216 KB file size, sub-10-second generation, solid detail. The execution is technically proficient across the board, but (and this is the theme across many models) the expression doesn't quite hit that involuntary memory moment. Emotionally neutral. When you're trying to visualize a specific psychological state, speed and technical proficiency aren't enough—but SeeDream's architecture shows you don't have to sacrifice much speed to get quality.
+
+![SeeDream V3](/proust/proust-portrait-seedream-v3-2025-11-17T09-38-20.png)
+
+---
+
+### Bria Fibo
+**Generation Time:** 30.1s | **File Size:** 1.7 MB
+
+Commercial-safe generation with licensing compliance at 30.1 seconds. This matters if you're shipping commercial products—Bria trained on licensed datasets, avoiding the copyright gray areas other models swim in. The architectural focus on legal compliance doesn't seem to impact generation time significantly (mid-range at 30s). The output is clean, professional, appropriate. But "appropriate" is rarely the goal for tech-noir aesthetic work. We need *specific*, not *safe*.
+
+![Bria Fibo](/proust/proust-portrait-bria-fibo-2025-11-17T09-38-20.png)
+
+---
+
+### Wan 2.5 Preview
+**Generation Time:** 34.3s | **File Size:** 1.7 MB
+
+Next-generation architecture preview running at 34.3 seconds—mid-range despite being labeled "next-gen." Large file size (1.7 MB) suggests the architecture prioritizes detail over compression. The output is technically impressive—detailed, coherent, aesthetically consistent. But again, we're optimizing for emotional precision, not technical perfection. The expression is good. It's just not *the* expression. "Next-gen" in architecture doesn't necessarily mean faster or emotionally smarter.
+
+![Wan 2.5](/proust/proust-portrait-wan-25-2025-11-17T09-38-20.png)
+
+---
+
+## Speed Patterns: Architecture Reveals Itself Through Time
+
+Generation time isn't just a performance metric—it's architectural fingerprinting. The spread from 6.0s to 64.8s reveals fundamental differences in how these models process complex narrative prompts:
+
+**Fastest (< 10s): Optimized Diffusion**
+- **FLUX.1 dev** (6.0s) - Flow Transformer optimized for speed
+- **SeeDream V3** (9.4s) - ByteDance's efficient proprietary architecture
+
+**Fast (10-15s): Constrained But Quick**
+- **SD 3.5 Large** (10.9s) - MMDiT with token truncation
+- **Recraft V3** (12.9s) - SOTA with simplified prompt (112 tokens vs 272)
+
+**Medium (20-35s): Quality Over Speed**
+- **HiDream I1** (20.1s), **Hunyuan v3** (22.8s), **Imagen 4** (24.7s)
+- **Bria Fibo** (30.1s), **Ideogram V2** (32.6s), **Wan 2.5** (34.3s)
+
+**Slow (> 60s): Architectural Difference, Not Optimization**
+- **Janus-Pro** (60.4s) - Autoregressive (sequential token generation)
+- **CogView4** (64.8s) - Heavy stylization computation
+
+The pattern is clear: diffusion models cluster in the 6-35s range, while autoregressive architecture (Janus-Pro) and specialized stylization (CogView4) take 60s+. This isn't about optimization—it's about fundamentally different computational approaches.
+
+**Key insight:** When Janus-Pro takes 60.4s vs FLUX's 6.0s (10x longer), you're not seeing "slower," you're seeing "different." Autoregressive models generate images token-by-token, sequentially. Diffusion models denoise in parallel. The architecture *is* the speed.
+
+## Architectural Patterns Observed
+
+Testing 12 models revealed clear patterns in how different architectures handle complex narrative prompts:
+
+**Flow Transformers (FLUX):** Clean, artistic, excellent composition. Fastest at 6.0s. More stylized than photorealistic. The speed/quality ratio is exceptional.
+
+**MMDiT (SD 3.5):** Fast at 10.9s despite prompt truncation challenges. CLIP's 77-token limit is a real constraint for detailed prompts—only saw 28% of instructions but still produced coherent output.
+
+**Proprietary Diffusion (Imagen, Hunyuan):** Highly photorealistic with natural lighting. Mid-range speed (22-25s). Best at capturing subtle facial expressions. The extra seconds translate to emotional nuance.
+
+**Autoregressive (Janus-Pro):** Completely different minimalist interpretation—shows how architectural choices fundamentally shape output style. 10x slower (60.4s) due to sequential token generation vs parallel diffusion.
+
+**Typography-focused (Ideogram, Recraft):** Excellent detail and clarity. Recraft fast despite 1000-character limit requiring 59% prompt reduction (272→112 tokens). Ideogram slower (32.6s), likely precision-focused.
+
+**Chinese Models (HiDream, Hunyuan, SeeDream, CogView4):** Dramatic diversity. SeeDream is 2nd fastest overall (9.4s), CogView4 is slowest (64.8s). Not a monolithic category—architectural approaches vary wildly. Generally efficient file sizes (189-216 KB for fast models).
+
+**File Size Clusters:**
+- Compact (142-268 KB): FLUX dev, SD 3.5, HiDream, Janus-Pro, CogView4, SeeDream
+- Large (1.5-1.7 MB): Recraft V3, Imagen 4, Ideogram V2, Hunyuan v3, Bria Fibo, Wan 2.5
+
+**Prompt Handling:**
+- Recraft V3: 1000-character hard limit
+- SD 3.5: CLIP 77-token limit causes truncation (T5 handles 256 tokens)
+- Most others: Handle full detailed prompts without issue
+
+## Why Hunyuan Won
+
+The decision came down to three factors that mattered more than speed or file size:
+
+**1. Facial Expression Precision**
+
+Every model produced technically competent images. Most captured "Proust eating cake." Only Hunyuan captured "Proust experiencing involuntary memory at this exact instant." The hollow eyes widening, the upward gaze, the slight parting of lips—that's not "thinking about the past," that's "the past returning unbidden." For Hexagram 24: Return, that distinction is everything.
+
+**2. Memory Bubble Detail**
+
+The thought bubble contains hawthorns (flowers), boy silhouette, church steeple—all specific references from Proust's actual text. Other models gave us generic gardens or abstract architectural elements. Hunyuan gave us *Combray*—the specific childhood place Proust returns to in the novel. That level of narrative accuracy suggests the model is actually parsing semantic meaning, not just matching visual tokens.
+
+**3. Tech-Noir Aesthetic Preservation**
+
+Some models nailed the phosphor green but lost the film grain. Others got the grain but made it too modern. Hunyuan balanced all elements: CRT glow, 1970s Kodak film quality, high contrast, dramatic lighting, deep blacks. The window light from the left adds depth without breaking the aesthetic. It feels like a still from a 1977 sci-fi film that doesn't exist but should.
+
+Speed and file size didn't matter. This image will load once per user session and get cached. 22.8 seconds generation time is irrelevant for a production asset we generate once. What mattered was *correctness*—not technical correctness, but *narrative* correctness.
+
+## Implementation Details
+
+All images generated via **fal.ai Model APIs** with consistent logging:
+
+- Every request logged to `ai_provider_requests` Supabase table (model, prompt, generation time, file size, errors)
+- Timestamp naming (ISO format) prevents file clobbering when testing multiple models
+- Test script: `scripts/testMultipleModels.ts`
+- Success rate: 100% (12/12 models completed successfully)
+- **Total generation time:** 333 seconds (~5.6 minutes)
+- **Average generation time:** 27.8 seconds
+- **Median generation time:** 23.8 seconds
+- **Fastest:** FLUX.1 dev (6.0s)
+- **Slowest:** CogView4 (64.8s)
+- **Range:** 10.8x speed difference between fastest and slowest
+- Total cost: (fal.ai pricing varies by model, logged per request)
+
+This systematic approach meant we could compare apples-to-apples: same prompt, same system prompt, same infrastructure, different models. The only variable was the model architecture itself.
+
+## What We Learned
+
+**Prompt engineering hits architectural limits.** SD 3.5's CLIP truncation and Recraft's 1000-character limit aren't bugs—they're architectural constraints. You can't prompt-engineer around a hard token limit. Model choice matters.
+
+**File size ≠ quality.** HiDream produced 189 KB outputs. Hunyuan produced 1.6 MB outputs. For our use case, Hunyuan's larger file was worth it. Optimize for what matters (emotional accuracy), not what's easy to measure (compression ratio).
+
+**Autoregressive models are *different*.** Janus-Pro's minimalist halo interpretation wasn't wrong—it was a fundamentally different architectural approach to the same problem. Diffusion models and autoregressive models "think" differently about image generation. This shows up in output style (minimalist vs detailed) and generation time (60.4s vs 6-25s for diffusion). Architecture is destiny.
+
+**Speed reveals architecture.** The 10.8x difference between FLUX (6.0s) and CogView4 (64.8s) isn't about optimization—it's about fundamentally different computation approaches. Autoregressive (sequential) vs diffusion (parallel) vs stylization-heavy models each have characteristic speed signatures. Generation time is architectural fingerprinting.
+
+**Chinese models are underrated and diverse.** HiDream, Hunyuan, CogView4, SeeDream—these aren't a monolithic category. SeeDream is 2nd fastest overall (9.4s). CogView4 is slowest (64.8s). Hunyuan won outright for emotional precision. The AI image generation landscape is more diverse than "DALL-E vs Midjourney vs Stable Diffusion."
+
+**Testing takes time but prevents regret.** ~5.6 minutes of generation time, maybe an hour of analysis. But now we *know* Hunyuan is the right choice, not just a guess. When you're shipping to production, "probably good enough" isn't good enough.
+
+## Conclusion
+
+We upgraded Hexagram 24: Return in [8-Bit Oracle](https://8bitoracle.ai) with Marcel Proust's madeleine moment—that famous scene of involuntary memory from *In Search of Lost Time*. The concept fit perfectly: Return is about cyclical patterns, things coming back around, the inevitable return of what was temporarily absent. Proust's past crashing into his present via a tea-soaked cake is Return in literary form.
+
+But we needed the *image* to match the concept. So we tested 12 diverse AI image generation models with the same detailed prompt: Proust eating the madeleine, tech-noir aesthetic, phosphor green thought bubble with childhood memories, that precise instant where past and present collapse together.
+
+After systematic testing via fal.ai (100% success rate, all outputs logged to database), we chose **Tencent's Hunyuan Image v3**—not because it was fastest (it wasn't), not because it produced the smallest file (it didn't), but because it captured the exact expression we needed: eyes widening, contemplative upward gaze, that moment of involuntary memory returning.
+
+Speed doesn't matter when you're generating a production asset once. File size doesn't matter when the image loads once and gets cached. What matters is *correctness*—not technical correctness, but narrative correctness. Getting the face right. Getting the emotion right. Getting the Return right.
+
+The image is now live in 8-Bit Oracle's Hexagram 24 commentary. When users consult the oracle about cycles, returns, and things coming back around, they'll see Proust—experiencing his own return, his own involuntary memory, his own collapse of time.
+
+Rendered in phosphor green on deep black, with 1970s film grain, because tech-noir is how we do divination in 2025.
+
+---
+
+**Technical Specifications:**
+- **Service:** fal.ai Model APIs
+- **Models Tested:** 12 (FLUX, Recraft, SD 3.5, Imagen 4, Ideogram, HiDream, Hunyuan, Janus-Pro, CogView4, SeeDream, Bria Fibo, Wan 2.5)
+- **Success Rate:** 100% (12/12)
+- **Total Generation Time:** 333 seconds (~5.6 minutes)
+- **Average Generation Time:** 27.8s
+- **Median Generation Time:** 23.8s
+- **Fastest Model:** FLUX.1 dev (6.0s)
+- **Slowest Model:** CogView4 (64.8s)
+- **Speed Range:** 10.8x difference
+- **Selected Model:** Hunyuan Image v3 (Tencent Proprietary Diffusion)
+- **Winner Generation Time:** 22.8s
+- **Winner File Size:** 1.6 MB
+- **Database Logging:** All requests logged to `ai_provider_requests` Supabase table
+- **Test Script:** `scripts/testMultipleModels.ts`
+- **Production Deployment:** 8-Bit Oracle Hexagram 24: Return
+- **Multilingual Support:** en, zh (Cantonese), zh-CN (Mandarin), th
+
+---
+
+[^1]: The full scene: Proust dips a madeleine into lime-blossom tea, tastes it, and suddenly—without conscious effort, without warning—his entire childhood in Combray floods back with vivid sensory detail. Not just memories *of* the past, but the past itself, fully present, as real as the moment he's currently in. This is what he calls "involuntary memory"—memory that returns on its own terms, triggered by sensation rather than conscious recall. The entire seven-volume *In Search of Lost Time* unfolds from this single moment of return. Which makes it probably the most consequential pastry in literary history.
