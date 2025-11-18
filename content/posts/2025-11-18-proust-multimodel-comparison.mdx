@@ -28,6 +28,36 @@ We used two prompts: a detailed user prompt describing the scene, plus a system 
 
 The test was simple: send this exact prompt to 12 different models via fal.ai, log everything to our `ai_provider_requests` database, save outputs with ISO timestamps to prevent file clobbering, and compare results.
 
+**Important Note: fal.ai Ignores System Prompts**
+
+After testing, we discovered that **fal.ai does not pass system prompts to the underlying models**—they're completely ignored. We verified this by examining the raw request/response:
+
+**Request sent to fal.ai:**
+```json
+{
+  "prompt": "Close-up portrait photograph of Marcel Proust...",
+  "aspectRatio": "3:4",
+  "systemPrompt": "1970s FILM SCREENGRAB - TECH-NOIR AESTHETIC:\n\nTransform into a tech-noir film still:\n\nCOLOR PALETTE...",
+  "hasReferenceImage": false
+}
+```
+
+**Response received from fal.ai:**
+```json
+{
+  "id": "596ff36d-f1f3-4941-959f-143264262e0c",
+  "text": "Close-up portrait photograph of Marcel Proust...",
+  "model": "fal-ai/hunyuan-image/v3/text-to-image",
+  "usage": { "input_tokens": 272, "total_tokens": 272, "output_tokens": 0 },
+  "imageUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA4AA...",
+  "provider": "fal.ai",
+  "finishReason": "stop",
+  "system_fingerprint": "160398587"
+}
+```
+
+Notice the `systemPrompt` field from the request is nowhere in the response—only the main `prompt` appears as `text`. The system prompt was completely dropped. This means all models received identical input (just the user prompt), making this a fair apples-to-apples comparison. The tech-noir aesthetic elements that appeared in outputs came entirely from the detailed user prompt, not from a separate system-level transformation instruction.
+
 ## The Contestants
 
 We tested across diverse architectures to see how different approaches handle complex narrative scenes:
