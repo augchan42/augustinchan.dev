@@ -51,7 +51,7 @@ Testing duration: ~5 minutes total (333 seconds). Success rate: 12/12 (100%). Av
 
 ### FLUX.1 [dev] - Black Forest Labs
 **Architecture:** 12B rectified flow transformer (open weights, non-commercial)
-**Generation Time:** 6.0s (fastest) | **File Size:** 142 KB
+**Generation Time:** 6.0s (fastest) | **File Size:** 142 KB | **Cost:** $0.025
 
 Rectified flow transformer architecture delivering the fastest generation time while maintaining clean, artistic composition. The phosphor green thought bubble contains castle/church architecture with excellent contrast against the dark background. Very stylized—almost illustration-like rather than photorealistic. The memory bubble is clear and well-defined, but Proust's expression is more contemplative than surprised, missing that specific "involuntary memory cascade" moment. The speed-to-quality ratio here is impressive—12B parameters generating coherent narrative scenes in 6 seconds.
 
@@ -61,7 +61,7 @@ Rectified flow transformer architecture delivering the fastest generation time w
 
 ### Recraft V3
 **Architecture:** Proprietary SOTA-level (photorealism + text rendering specialist)
-**Generation Time:** 12.9s | **File Size:** 318 KB | **Tokens:** 112 (simplified from 272)
+**Generation Time:** 12.9s | **File Size:** 318 KB | **Tokens:** 112 (simplified from 272) | **Cost:** $0.04
 
 Had to use a simplified 447-character prompt because Recraft enforces a 1000-character limit and our detailed prompt exceeded that—reducing from 272 tokens down to 112 tokens (59% reduction). Despite this constraint, Recraft's SOTA-level architecture (which tops the Artificial Analysis benchmark for photorealism and text rendering) produced highly photorealistic results with exceptional detail. The memory bubble rendered as a vintage illustration/engraving style—which is actually brilliant, suggesting old photographs or children's book illustrations. Unique dual madeleine composition (one whole, one being eaten). The fact that Recraft achieved this quality with *half* the narrative detail speaks to architectural sophistication, but we still lost specificity in the simplification.
 
@@ -71,7 +71,7 @@ Had to use a simplified 447-character prompt because Recraft enforces a 1000-cha
 
 ### Stable Diffusion 3.5 Large - Stability AI
 **Architecture:** MMDiT text-to-image (≈8.1B params)
-**Generation Time:** 10.9s | **File Size:** 267 KB | **Tokens:** 272 (CLIP saw only 77)
+**Generation Time:** 10.9s | **File Size:** 267 KB | **Tokens:** 272 (CLIP saw only 77) | **Cost:** $0.065
 
 **Warning received:** CLIP token truncation—our 272-token prompt exceeded CLIP's 77-token limit (only 28% of instructions encoded), then got truncated again at T5's 256-token limit. This is the Multimodal Diffusion Transformer (MMDiT) architecture hitting hard limits. Despite seeing less than a third of the detailed prompt through CLIP, SD 3.5 produced a good balance of detail and coherence in just 10.9s—competitive speed with Recraft but working with even less information. The thought bubble is there, the tech-noir aesthetic is mostly preserved, but there's a sense of "making do" with truncated instructions. This is architectural constraint showing through in output quality.
 
@@ -81,7 +81,7 @@ Had to use a simplified 447-character prompt because Recraft enforces a 1000-cha
 
 ### Imagen 4 - Google
 **Architecture:** Proprietary diffusion (Vertex AI)
-**Generation Time:** 24.7s | **File Size:** 1470 KB
+**Generation Time:** 24.7s | **File Size:** 1470 KB | **Cost:** $0.04
 
 Google DeepMind's proprietary diffusion architecture taking its time to render highly realistic detail. The thought bubble shows garden scenes with a boy silhouette and church steeple bathed in amber/golden light. More dimensional and naturalistic than most—feels like a film still from an actual movie. The warmth of the memory fragments contrasts beautifully with the cooler tech-noir palette. The 24.7s generation time reflects the architectural focus on photorealism and compositional complexity. But (and this matters) the expression is serene rather than startled, missing that precise instant of recognition.
 
@@ -91,7 +91,7 @@ Google DeepMind's proprietary diffusion architecture taking its time to render h
 
 ### Ideogram V2
 **Architecture:** Frontier text-to-image (strong typography/graphic design)
-**Generation Time:** 32.6s | **File Size:** 1689 KB
+**Generation Time:** 32.6s | **File Size:** 1689 KB | **Cost:** $0.08
 
 Ideogram 2.0's frontier text-to-image architecture with typography expertise doesn't directly apply to portraiture, but the clean execution and strong contrast are evident—that same precision that renders text cleanly translates to well-defined edges and compositional clarity. Solid technical rendering at 32.6s. The phosphor green pops nicely. But again, we're missing that emotional specificity—the face reads as "person eating cake and thinking about things" rather than "person experiencing involuntary memory cascade."
 
@@ -101,7 +101,7 @@ Ideogram 2.0's frontier text-to-image architecture with typography expertise doe
 
 ### HiDream I1 Full - HiDream
 **Architecture:** 17B open-source Chinese image foundation model
-**Generation Time:** 20.1s | **File Size:** 189 KB
+**Generation Time:** 20.1s | **File Size:** 189 KB | **Cost:** $0.05
 
 Open-source Chinese image foundation model with 17B parameters delivering impressive compression efficiency—189 KB for a complex narrative scene suggests sophisticated encoding. The 20.1s generation time is mid-range despite the parameter count. The tech-noir aesthetic is present but muted. Proust looks appropriately contemplative, but the memory bubble is less defined than we'd hoped. Good technical execution, but not quite capturing the narrative moment.
 
@@ -111,7 +111,7 @@ Open-source Chinese image foundation model with 17B parameters delivering impres
 
 ### Hunyuan Image 3.0 - Tencent ⭐ [WINNER]
 **Architecture:** Open-source native multimodal autoregressive MoE (80B total params, ~13B active)
-**Generation Time:** 22.8s | **File Size:** 1.6 MB
+**Generation Time:** 22.8s | **File Size:** 1.6 MB | **Cost:** $0.10
 
 **Selected for Production Use**
 
@@ -123,9 +123,9 @@ This is the one. Tencent's open-source native multimodal autoregressive Mixture-
 
 ### DeepSeek Janus-Pro
 **Architecture:** Autoregressive multimodal (vision + generation, 1B/7B variants)
-**Generation Time:** 60.4s (slowest) | **File Size:** 191 KB
+**Generation Time:** 60.4s (slowest) | **File Size:** 191 KB | **Cost:** $0.0155
 
-Completely different interpretation—and revealing architectural differences through generation time. At 60.4 seconds, Janus-Pro is the slowest model we tested, reflecting the fundamental difference of DeepSeek's novel autoregressive framework (which unifies multimodal understanding and generation) vs diffusion models. Instead of a detailed thought bubble, Janus-Pro rendered a minimalist green halo behind Proust's head—almost religious iconography rather than tech-noir memory visualization. More painterly/stylized portrait than photorealistic. Interesting aesthetic choice, but not what we were going for. This is autoregressive architecture *thinking* differently—both in how it processes the prompt (sequentially vs in parallel) and in what it produces. The minute-long generation time is the architecture showing itself.
+Completely different interpretation—and revealing architectural differences through generation time. At 60.4 seconds, Janus-Pro is the slowest model we tested, yet remarkably cheap at just $0.0155 total cost (14 compute seconds billed, not the full 60.4s generation time). This reflects the fundamental difference of DeepSeek's novel autoregressive framework (which unifies multimodal understanding and generation) vs diffusion models. Instead of a detailed thought bubble, Janus-Pro rendered a minimalist green halo behind Proust's head—almost religious iconography rather than tech-noir memory visualization. More painterly/stylized portrait than photorealistic. Interesting aesthetic choice, but not what we were going for. This is autoregressive architecture *thinking* differently—both in how it processes the prompt (sequentially vs in parallel) and in what it produces. The minute-long generation time is the architecture showing itself.
 
 ![Janus-Pro](/proust/proust-portrait-janus-pro-2025-11-17T09-38-20.png)
 
@@ -133,7 +133,7 @@ Completely different interpretation—and revealing architectural differences th
 
 ### CogView4 - Zhipu AI / Tsinghua
 **Architecture:** Open-source text-to-image (6B, Chinese text capable, Apache-2.0)
-**Generation Time:** 64.8s (slowest) | **File Size:** 196 KB
+**Generation Time:** 64.8s (slowest) | **File Size:** 196 KB | **Cost:** $0.10
 
 Zhipu AI's open-source text-to-image model—the first open-source model capable of generating Chinese characters in images. The absolute slowest at 64.8 seconds—even longer than Janus-Pro. The extended generation time likely reflects heavy computation for the stylized aesthetic CogView4 specializes in. Compact file size (196 KB) suggests aggressive compression post-generation. The tech-noir elements are there—phosphor green, grain, contrast—but the overall composition feels more illustrative than cinematic. Good technical output, but missing narrative weight. The architectural trade-off here is clear: stylization depth costs generation time.
 
@@ -143,7 +143,7 @@ Zhipu AI's open-source text-to-image model—the first open-source model capable
 
 ### ByteDance Seedream V3 (Best Thought Bubble Award)
 **Architecture:** Bilingual (EN/ZH) high-res text-to-image
-**Generation Time:** 9.4s (second fastest) | **File Size:** 216 KB
+**Generation Time:** 9.4s (second fastest) | **File Size:** 216 KB | **Cost:** $0.03
 
 ByteDance's Seedream V3—a bilingual (English/Chinese) high-res text-to-image model—demonstrating excellent speed/quality ratio. At 9.4 seconds, this is the second-fastest generation behind only FLUX, yet with competitive photorealistic output. The architectural efficiency is impressive: compact 216 KB file size, sub-10-second generation, solid detail. The execution is technically proficient across the board, but (and this is the theme across many models) the expression doesn't quite hit that involuntary memory moment. Emotionally neutral. When you're trying to visualize a specific psychological state, speed and technical proficiency aren't enough—but Seedream's architecture shows you don't have to sacrifice much speed to get quality.
 
@@ -153,7 +153,7 @@ ByteDance's Seedream V3—a bilingual (English/Chinese) high-res text-to-image m
 
 ### Bria FIBO
 **Architecture:** JSON-native, licensed-data, commercial-safe controllable text-to-image
-**Generation Time:** 30.1s | **File Size:** 1.7 MB
+**Generation Time:** 30.1s | **File Size:** 1.7 MB | **Cost:** $0.04
 
 Commercial-safe generation with licensing compliance at 30.1 seconds. Bria FIBO is open-source but trained exclusively on licensed data, avoiding the copyright gray areas other models swim in—pitched specifically for safe commercial use with JSON-native fine-grained controllability. The architectural focus on legal compliance doesn't seem to impact generation time significantly (mid-range at 30s). The output is clean, professional, appropriate. But "appropriate" is rarely the goal for tech-noir aesthetic work. We need *specific*, not *safe*.
 
@@ -163,7 +163,7 @@ Commercial-safe generation with licensing compliance at 30.1 seconds. Bria FIBO 
 
 ### Wan 2.5 Preview
 **Architecture:** Alibaba text/image-to-video (with companion text-to-image variant)
-**Generation Time:** 34.3s | **File Size:** 1.7 MB
+**Generation Time:** 34.3s | **File Size:** 1.7 MB | **Cost:** $0.05
 
 Alibaba's Wan 2.5—primarily positioned as a text/image-to-video model with synchronized audio and cinematic output, but also available as a text-to-image variant. Running at 34.3 seconds—mid-range despite being labeled "next-gen." Large file size (1.7 MB) suggests the architecture prioritizes detail over compression. The output is technically impressive—detailed, coherent, aesthetically consistent. But again, we're optimizing for emotional precision, not technical perfection. The expression is good. It's just not *the* expression. "Next-gen" in architecture doesn't necessarily mean faster or emotionally smarter.
 
@@ -194,6 +194,46 @@ Generation time isn't just a performance metric—it's architectural fingerprint
 The pattern is clear: diffusion models cluster in the 6-35s range, while autoregressive architecture (Janus-Pro) and specialized stylization (CogView4) take 60s+. This isn't about optimization—it's about fundamentally different computational approaches.
 
 **Key insight:** When Janus-Pro takes 60.4s vs FLUX's 6.0s (10x longer), you're not seeing "slower," you're seeing "different." Autoregressive models generate images token-by-token, sequentially. Diffusion models denoise in parallel. The architecture *is* the speed.
+
+## Cost Patterns: Pricing Models Reveal Business Strategy
+
+Generation cost varies dramatically across models. Here's what each image actually cost us:
+
+**Actual Cost Per Image (Ranked Cheapest to Most Expensive):**
+1. **Janus-Pro** - $0.0155 (cheapest overall)
+2. **FLUX.1 dev** - $0.025
+3. **Seedream V3** - $0.03
+4. **Recraft V3** - $0.04
+5. **Imagen 4** - $0.04
+6. **Bria FIBO** - $0.04
+7. **HiDream I1** - $0.05
+8. **Wan 2.5** - $0.05
+9. **SD 3.5 Large** - $0.065
+10. **Ideogram V2** - $0.08
+11. **Hunyuan 3.0** - $0.10 (tied for most expensive)
+12. **CogView4** - $0.10 (tied for most expensive)
+
+**Pricing Models:**
+- **Per-image pricing** (Seedream, Recraft, Imagen, Bria, Wan, Ideogram): Fixed cost regardless of resolution
+- **Per-megapixel pricing** (FLUX, HiDream, SD 3.5, Hunyuan, CogView): Cost scales with image size
+- **Per-compute-second** (Janus): Cost based on computation time ($0.0011/second, 14 seconds billed)
+
+**Cost vs Quality:**
+
+**Janus-Pro at $0.0155 is remarkably cheap**—the absolute lowest cost in the entire test, despite 60.4s generation time. The per-compute-second pricing model ($0.0011/s, 14 seconds billed) means you're only paying for actual computation, not wall-clock time. The minimalist aesthetic it produced wasn't right for our use case, but that's an architectural interpretation, not a quality failure. For experimental workflows, research, or stylized portrait work, Janus-Pro's economics are unbeatable.
+
+The second-cheapest (FLUX at $0.025) was fast and stylized but missed the emotional moment.
+
+**Seedream V3 stands out for sheer economics.** At $0.03 (third cheapest), 9.4s generation (second fastest), and technically excellent output, it offers the best speed/cost/quality ratio in the entire test. For most use cases—marketing, rapid iteration, high-volume generation—Seedream would be the obvious choice. It only lost here because we needed a very specific emotional expression that it didn't quite capture. If you're optimizing for cost-efficiency rather than narrative precision, Seedream is stellar.
+
+The most expensive models (Hunyuan and CogView4, both $0.10) delivered vastly different results despite identical pricing. Hunyuan cost 6.5× more than Janus and 3.3× more than Seedream—but delivered the exact expression we needed.
+
+**Key insight:** Cost reveals nothing about emotional precision. The 6.5× price difference between Janus ($0.0155) and Hunyuan ($0.10) bought us narrative correctness—the difference between "person with green halo" and "person experiencing involuntary memory." For a production asset generated once and cached forever, paying $0.09 more was trivial. But for most production workflows, Seedream's $0.03 + 9.4s + excellent quality combination is hard to beat.
+
+**Practical Recommendations:**
+- **For batch workflows producing long-lasting assets** (landing pages, marketing materials, product launches) where cost isn't a constraint and precision matters: **Choose Hunyuan.** Pay the premium for exactly the right result.
+- **For workflows where latency and cost are critical** (A/B testing, rapid iteration, high-volume generation, prototyping): **Choose Seedream V3.** Best speed/cost/quality ratio. Fast enough for real-time workflows, cheap enough for volume, good enough for most use cases.
+- **For experimental/research work with unique aesthetic requirements**: **Choose Janus-Pro.** Cheapest overall, interesting autoregressive interpretation style.
 
 ## Architectural Patterns Observed
 
@@ -254,7 +294,11 @@ All images generated via **fal.ai Model APIs** with consistent logging:
 - **Fastest:** FLUX.1 dev (6.0s)
 - **Slowest:** CogView4 (64.8s)
 - **Range:** 10.8x speed difference between fastest and slowest
-- Total cost: (fal.ai pricing varies by model, logged per request)
+- **Cost Range:** $0.0155-$0.10 per image
+  - Cheapest: Janus-Pro ($0.0155)
+  - Second cheapest: FLUX.1 dev ($0.025)
+  - Third cheapest: Seedream V3 ($0.03)
+  - Most expensive: Hunyuan 3.0 & CogView4 ($0.10 each)
 
 This systematic approach meant we could compare apples-to-apples: same prompt, same system prompt, same infrastructure, different models. The only variable was the model architecture itself.
 
@@ -263,6 +307,8 @@ This systematic approach meant we could compare apples-to-apples: same prompt, s
 **Prompt engineering hits architectural limits.** SD 3.5's CLIP truncation and Recraft's 1000-character limit aren't bugs—they're architectural constraints. You can't prompt-engineer around a hard token limit. Model choice matters.
 
 **File size ≠ quality.** HiDream produced 189 KB outputs. Hunyuan produced 1.6 MB outputs. For our use case, Hunyuan's larger file was worth it. Optimize for what matters (emotional accuracy), not what's easy to measure (compression ratio).
+
+**Cost ≠ quality either.** The absolute cheapest model (Janus-Pro, $0.0155 total) produced minimalist iconography that wasn't right. Seedream V3 ($0.03) was technically excellent. The most expensive models (Hunyuan, CogView4 at $0.10 each) delivered vastly different results despite identical pricing. Hunyuan cost 6.5× more than Janus and 3.3× more than Seedream—but delivered the exact expression we needed. Pricing structure (per-image vs per-megapixel vs per-compute-second) reveals target audience more than capability. Pay for precision when it matters; optimize for cost when it doesn't.
 
 **Autoregressive models are *different*.** Janus-Pro's minimalist halo interpretation wasn't wrong—it was a fundamentally different architectural approach to the same problem. Diffusion models and autoregressive models "think" differently about image generation. This shows up in output style (minimalist vs detailed) and generation time (60.4s vs 6-25s for diffusion). Architecture is destiny.
 
@@ -278,9 +324,9 @@ We upgraded Hexagram 24: Return in [8-Bit Oracle](https://app.8bitoracle.ai/en/h
 
 But we needed the *image* to match the concept. So we tested 12 diverse AI image generation models with the same detailed prompt: Proust eating the madeleine, tech-noir aesthetic, phosphor green thought bubble with childhood memories, that precise instant where past and present collapse together.
 
-After systematic testing via fal.ai (100% success rate, all outputs logged to database), we chose **Tencent's open-source Hunyuan Image 3.0**—not because it was fastest (it wasn't), not because it produced the smallest file (it didn't), but because it captured the exact expression we needed: eyes widening, contemplative upward gaze, that moment of involuntary memory returning.
+After systematic testing via fal.ai (100% success rate, all outputs logged to database), we chose **Tencent's open-source Hunyuan Image 3.0**—not because it was fastest (it wasn't), not because it produced the smallest file (it didn't), not because it was cheapest (at $0.10 it cost 6.5× more than Janus-Pro's $0.0155 and 3.3× more than Seedream V3's $0.03)—but because it captured the exact expression we needed: eyes widening, contemplative upward gaze, that moment of involuntary memory returning.
 
-Speed doesn't matter when you're generating a production asset once. File size doesn't matter when the image loads once and gets cached. What matters is *correctness*—not technical correctness, but narrative correctness. Getting the face right. Getting the emotion right. Getting the Return right.
+Speed doesn't matter when you're generating a production asset once. File size doesn't matter when the image loads once and gets cached. Cost doesn't matter when the difference is pennies and the asset ships to production. What matters is *correctness*—not technical correctness, but narrative correctness. Getting the face right. Getting the emotion right. Getting the Return right.
 
 The image is now live in 8-Bit Oracle's Hexagram 24 commentary. When users consult the oracle about cycles, returns, and things coming back around, they'll see Proust—experiencing his own return, his own involuntary memory, his own collapse of time.
 
