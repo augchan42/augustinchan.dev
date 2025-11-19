@@ -5,6 +5,7 @@
  *
  * This script copies:
  * - Blog posts (content/posts/*.mdx)
+ * - Public assets (public/ directory - images, etc.)
  * - Shared lib files (app/lib/posts.ts)
  * - Shared components (app/components/MDXContent.tsx)
  *
@@ -93,7 +94,19 @@ if (fs.existsSync(postsSource)) {
   console.log('⚠️  No posts directory found\n');
 }
 
-// 2. Sync lib/posts.ts with path adjustments
+// 2. Sync public assets (images, etc.)
+console.log('🖼️  Syncing public assets...');
+const publicSource = path.join(SOURCE_REPO, 'public');
+const publicTarget = path.join(TARGET_REPO, 'public');
+
+if (fs.existsSync(publicSource)) {
+  copyDirectory(publicSource, publicTarget);
+  console.log('✅ Copied public assets\n');
+} else {
+  console.log('⚠️  No public directory found\n');
+}
+
+// 3. Sync lib/posts.ts with path adjustments
 console.log('📚 Syncing lib/posts.ts...');
 const postsLibSource = path.join(SOURCE_REPO, 'app/lib/posts.ts');
 const postsLibTarget = path.join(TARGET_REPO, 'src/lib/posts.ts');
@@ -105,7 +118,7 @@ if (fs.existsSync(postsLibSource)) {
   console.log('⚠️  lib/posts.ts not found\n');
 }
 
-// 3. Sync MDXContent component with Digital Rain styling
+// 4. Sync MDXContent component with Digital Rain styling
 console.log('🎨 Syncing MDXContent component...');
 const mdxComponentSource = path.join(SOURCE_REPO, 'app/components/MDXContent.tsx');
 const mdxComponentTarget = path.join(TARGET_REPO, 'src/components/MDXContent.tsx');

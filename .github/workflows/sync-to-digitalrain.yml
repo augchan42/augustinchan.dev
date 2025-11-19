@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'content/posts/**'
+      - 'public/**'
       - 'app/lib/posts.ts'
       - 'app/components/MDXContent.tsx'
       - 'scripts/sync-to-digitalrain.js'
