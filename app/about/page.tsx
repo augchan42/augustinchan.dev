@@ -58,6 +58,48 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Open Source */}
+      <section style={{ marginBottom: '3rem' }}>
+        <h2 style={{ fontSize: '1.3em', marginBottom: '1.5rem', borderBottom: '2px solid var(--color-border-strong)', paddingBottom: '0.5rem' }}>
+          Open Source
+        </h2>
+
+        <div style={{
+          padding: '1.5rem',
+          backgroundColor: 'var(--color-background-surface)',
+          borderLeft: '4px solid var(--color-border-strong)',
+          marginBottom: '1.5rem'
+        }}>
+          <h3 style={{ marginTop: 0, fontSize: '1.1em' }}>
+            🌱 <a href="https://github.com/augchan42/seeded-iching-engine" target="_blank" rel="noopener noreferrer">seeded-iching-engine</a>
+          </h3>
+          <p style={{ margin: '0.5rem 0', color: 'var(--color-text-muted)', fontSize: '0.9em' }}>
+            Deterministic, replayable hexagram generation
+          </p>
+          <p style={{ marginBottom: 0 }}>
+            Seeded PRNG architecture extracted from 8-Bit Oracle. Same seed → same hexagram → forever.
+            Designed for verifiable compute and reproducible AI workflows.
+          </p>
+        </div>
+
+        <div style={{
+          padding: '1.5rem',
+          backgroundColor: 'var(--color-background-surface)',
+          borderLeft: '4px solid var(--color-border-strong)'
+        }}>
+          <h3 style={{ marginTop: 0, fontSize: '1.1em' }}>
+            🎤 <a href="https://github.com/augchan42/use-stt" target="_blank" rel="noopener noreferrer">use-stt</a>
+          </h3>
+          <p style={{ margin: '0.5rem 0', color: 'var(--color-text-muted)', fontSize: '0.9em' }}>
+            React hook for speech-to-text
+          </p>
+          <p style={{ marginBottom: 0 }}>
+            Lightweight React hook powering voice input in 8-Bit Oracle.
+            Browser-native speech recognition with simple API.
+          </p>
+        </div>
+      </section>
+
       {/* Philosophy */}
       <section style={{ marginBottom: '3rem' }}>
         <h2 style={{ fontSize: '1.3em', marginBottom: '1.5rem', borderBottom: '2px solid var(--color-border-strong)', paddingBottom: '0.5rem' }}>
