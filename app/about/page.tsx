@@ -85,7 +85,8 @@ export default function AboutPage() {
         <div style={{
           padding: '1.5rem',
           backgroundColor: 'var(--color-background-surface)',
-          borderLeft: '4px solid var(--color-border-strong)'
+          borderLeft: '4px solid var(--color-border-strong)',
+          marginBottom: '1.5rem'
         }}>
           <h3 style={{ marginTop: 0, fontSize: '1.1em' }}>
             🎤 <a href="https://github.com/augchan42/use-stt" target="_blank" rel="noopener noreferrer">use-stt</a>
@@ -96,6 +97,23 @@ export default function AboutPage() {
           <p style={{ marginBottom: 0 }}>
             Lightweight React hook powering voice input in 8-Bit Oracle.
             Browser-native speech recognition with simple API.
+          </p>
+        </div>
+
+        <div style={{
+          padding: '1.5rem',
+          backgroundColor: 'var(--color-background-surface)',
+          borderLeft: '4px solid var(--color-border-strong)'
+        }}>
+          <h3 style={{ marginTop: 0, fontSize: '1.1em' }}>
+            ⛓️ <a href="https://github.com/augchan42/bonsol/tree/feature/iching-sample" target="_blank" rel="noopener noreferrer">bonsol iching-sample</a>
+          </h3>
+          <p style={{ margin: '0.5rem 0', color: 'var(--color-text-muted)', fontSize: '0.9em' }}>
+            Verifiable I-Ching on Solana via RISC0 ZK proofs
+          </p>
+          <p style={{ marginBottom: 0 }}>
+            Fork of Bonsol demonstrating on-chain verifiable compute.
+            Offchain hexagram generation with cryptographic proof, settled on Solana.
           </p>
         </div>
       </section>
