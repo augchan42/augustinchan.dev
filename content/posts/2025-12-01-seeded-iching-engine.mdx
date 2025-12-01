@@ -1,0 +1,138 @@
+---
+title: "Why I Open-Sourced a Deterministic I-Ching Engine (Or: The Smallest Verifiable Compute You Can Build)"
+date: 2025/12/01
+description: "Extracting the deterministic core of 8-Bit Oracle into a standalone library, and why 'same seed, same hexagram, every time' matters more than you'd think for decentralized AI."
+tag: open-source, prng, determinism, verifiable-compute, i-ching, ethereum, decentralized-ai
+author: Aug
+---
+
+Here's the thing about randomness: it's usually a lie.
+
+When your programming language gives you `Math.random()`, you're not getting randomness—you're getting *pseudorandomness*, which is a fancy way of saying "a deterministic sequence that looks random if you don't know the starting point." The starting point is called a seed. Same seed, same sequence, every time, forever[^1].
+
+This property—determinism masquerading as randomness—is usually treated as a limitation. Something to work around. A reason to reach for "true" randomness from hardware entropy sources.
+
+But what if determinism is the *feature*?
+
+## The Problem I Was Solving
+
+[8-Bit Oracle](https://app.8bitoracle.ai) is my I-Ching divination app. Users ask questions, the system generates hexagrams, an LLM interprets the results. Standard oracle stuff, rendered in phosphor green tech-noir aesthetic because we're doing divination in 2025 and it should *look* like it.
+
+But here's a question that kept nagging: **if someone disputes their reading, how do we prove what happened?**
+
+Not "prove" in the sense of screenshots or database logs. Prove in the sense of: given this seed, this algorithm, these parameters—you will *always* get this hexagram. Run it yourself. Verify it. The computation is transparent.
+
+This is the difference between "trust me, the database says X" and "here's the seed, run the algorithm, you'll get X."
+
+The first is testimony. The second is proof.
+
+## Twenty-One Lines of Determinism
+
+The entire engine reduces to this:
+
+```typescript
+export function mulberry32(seed: number): () => number {
+  let state = seed >>> 0;
+
+  return function (): number {
+    state = (state + 0x6d2b79f5) >>> 0;
+    let t = state;
+    t = Math.imul(t ^ (t >>> 15), t | 1) >>> 0;
+    t = (t + Math.imul(t ^ (t >>> 7), t | 61)) >>> 0;
+    t = (t ^ (t >>> 14)) >>> 0;
+    return t / 0x100000000;
+  };
+}
+```
+
+That's Mulberry32—a 32-bit PRNG that passes statistical randomness tests while being fast enough to run anywhere[^2]. Given seed `42`, the first three outputs are always:
+
+```
+0.6018039032351226
+0.15717907925136387
+0.47605527378618717
+```
+
+Always. On any machine. In any JavaScript runtime. Forever.
+
+From there, generating an I-Ching hexagram is just applying those random numbers to probability distributions. The traditional yarrow stalk method produces unequal probabilities—Old Yin (6) appears 1/16 of the time, Young Yang (7) appears 5/16, and so on[^3]. Map six random numbers through these probabilities, you get six lines. Six lines make a hexagram. Same seed, same hexagram.
+
+## What I Actually Open-Sourced
+
+The repo is at [github.com/augchan42/seeded-iching-engine](https://github.com/augchan42/seeded-iching-engine). It contains:
+
+- **Seeded PRNG** (Mulberry32 + seed hashing)
+- **Entropy collection** (pluggable sources: Web Crypto, timing jitter, mouse movement)
+- **Deterministic line generation** (yarrow stalk and coin methods)
+- **All 64 hexagrams** with traditional names and characters
+- **Replay function** that reproduces any reading from its seed
+
+What I *didn't* open-source: the LLM orchestration, the advisor memory system, the UI, the business logic. The closed app stays closed. But the computational kernel—the part that says "this seed produces this hexagram"—is now public, verifiable, forkable.
+
+## Why This Matters Beyond Fortune-Telling
+
+Deterministic replay from a stored seed is useful for:
+
+**Transparent divination.** Any reading can be independently verified. No "the computer said so" black boxes.
+
+**Reproducible research.** Share a seed, share an experiment. Anyone can replicate your exact random sequence.
+
+**Agent systems.** When AI agents make "random" decisions, storing seeds lets you replay and debug their behavior.
+
+**Decentralized AI.** This is the one that matters for where the industry is going.
+
+If you're building AI systems that need to be *verifiable*—where multiple parties need to agree that a computation happened correctly—you need determinism. You need "given these inputs, you will always get these outputs." You need the ability to replay.
+
+Blockchains figured this out years ago. Smart contracts are deterministic because they have to be—every node needs to arrive at the same state. The verifiable compute movement is extending this to arbitrary computation. And at the smallest scale, a seeded PRNG is already a verifiable compute engine. Same seed → same output → anyone can check.
+
+## The Seed Format
+
+```typescript
+interface DivinationSeed {
+  seed: string;      // hex-encoded entropy
+  algorithm: string; // "yarrow-v1"
+  version: string;   // algorithm version
+  params?: {
+    variationPercent?: number;
+  };
+  createdAt: string;
+}
+```
+
+This is the entire state you need to store. One JSON object. From this, you can regenerate the exact hexagram, the exact changing lines, the exact transformation—forever, on any machine, without any external dependencies.
+
+That's what I mean by "kernel." It's the smallest possible unit of verifiable symbolic computation. Everything else—interpretation, UI, storage, memory—can be rebuilt around it.
+
+## Try It
+
+```bash
+git clone https://github.com/augchan42/seeded-iching-engine
+cd seeded-iching-engine
+npm install
+npm run generate  # creates seed.json + hexagram
+npm run replay    # reproduces exact same hexagram
+npm run replay    # still the same
+npm run replay    # always the same
+```
+
+The repo is MIT licensed. Fork it, extend it, use it for research. If you're building systems that need reproducible randomness—divination, simulation, games, agent systems, anything where "same input, same output" matters—this is a clean starting point.
+
+And if you're thinking about verifiable compute, decentralized AI, or transparent algorithmic systems: this is what the smallest version of that looks like. Twenty-one lines of PRNG, a probability distribution, and a seed you can store forever.
+
+Same seed, same hexagram, every time.
+
+---
+
+**Repository:** [github.com/augchan42/seeded-iching-engine](https://github.com/augchan42/seeded-iching-engine)
+
+**Production Use:** [8-Bit Oracle](https://app.8bitoracle.ai)
+
+**Stack:** TypeScript, zero dependencies
+
+---
+
+[^1]: This is why "random" number generators in games have been exploited for decades. Speedrunners manipulate seeds to get favorable "random" outcomes. Poker sites had their PRNGs reverse-engineered. The sequence isn't random—it's deterministic with an unknown starting point. Once you know the seed, you know the future.
+
+[^2]: Mulberry32 was designed by Tommy Ettinger to pass the PractRand and TestU01 statistical test suites while being extremely fast. The magic constant `0x6d2b79f5` and the specific bit-shift operations (`>>> 15`, `>>> 7`, `>>> 14`) were chosen through empirical testing to maximize randomness quality. It's not cryptographically secure—don't use it for secrets—but for simulation and game logic, it's excellent.
+
+[^3]: The yarrow stalk method's unequal probabilities (1/16, 5/16, 7/16, 3/16 for values 6, 7, 8, 9) create a slight bias toward Yin lines. This isn't a bug—it reflects traditional Chinese cosmological understanding that Yin (receptive, yielding) is the more common state. The three-coin method, by contrast, produces equal 1/8 and 3/8 probabilities. Different methods, different metaphysics, same deterministic implementation.

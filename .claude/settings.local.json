@@ -27,7 +27,8 @@
       "Read(//home/hosermage/projects/digitalrain-site/**)",
       "WebFetch(domain:digitalrain.studio)",
       "WebFetch(domain:github.com)",
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(git pull:*)"
     ],
     "deny": [],
     "ask": []
