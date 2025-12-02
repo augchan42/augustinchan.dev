@@ -89,21 +89,21 @@ export default function AboutPage() {
           marginBottom: '1.5rem'
         }}>
           <h3 style={{ marginTop: 0, fontSize: '1.1em' }}>
-            🎤 <a href="https://github.com/augchan42/use-stt" target="_blank" rel="noopener noreferrer">use-stt</a>
+            🖼️ <a href="https://github.com/augchan42/NFTer" target="_blank" rel="noopener noreferrer">NFTer</a>
           </h3>
           <p style={{ margin: '0.5rem 0', color: 'var(--color-text-muted)', fontSize: '0.9em' }}>
-            React hook for speech-to-text
+            NFT minting with smart contracts and AI integration
           </p>
           <p style={{ marginBottom: 0 }}>
-            Lightweight React hook powering voice input in 8-Bit Oracle.
-            Browser-native speech recognition with simple API.
+            Full-stack NFT platform demonstrating smart contract development, blockchain integration, and AI-powered features.
           </p>
         </div>
 
         <div style={{
           padding: '1.5rem',
           backgroundColor: 'var(--color-background-surface)',
-          borderLeft: '4px solid var(--color-border-strong)'
+          borderLeft: '4px solid var(--color-border-strong)',
+          marginBottom: '1.5rem'
         }}>
           <h3 style={{ marginTop: 0, fontSize: '1.1em' }}>
             ⛓️ <a href="https://github.com/augchan42/bonsol/tree/feature/iching-sample" target="_blank" rel="noopener noreferrer">bonsol iching-sample</a>
@@ -114,6 +114,23 @@ export default function AboutPage() {
           <p style={{ marginBottom: 0 }}>
             Fork of Bonsol demonstrating on-chain verifiable compute.
             Offchain hexagram generation with cryptographic proof, settled on Solana.
+          </p>
+        </div>
+
+        <div style={{
+          padding: '1.5rem',
+          backgroundColor: 'var(--color-background-surface)',
+          borderLeft: '4px solid var(--color-border-strong)'
+        }}>
+          <h3 style={{ marginTop: 0, fontSize: '1.1em' }}>
+            🎤 <a href="https://github.com/augchan42/use-stt" target="_blank" rel="noopener noreferrer">use-stt</a>
+          </h3>
+          <p style={{ margin: '0.5rem 0', color: 'var(--color-text-muted)', fontSize: '0.9em' }}>
+            React hook for speech-to-text
+          </p>
+          <p style={{ marginBottom: 0 }}>
+            Lightweight React hook powering voice input in 8-Bit Oracle.
+            Browser-native speech recognition with simple API.
           </p>
         </div>
       </section>
