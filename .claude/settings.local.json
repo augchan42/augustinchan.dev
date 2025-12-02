@@ -28,7 +28,8 @@
       "WebFetch(domain:digitalrain.studio)",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "Bash(git pull:*)"
+      "Bash(git pull:*)",
+      "Bash(mv:*)"
     ],
     "deny": [],
     "ask": []
