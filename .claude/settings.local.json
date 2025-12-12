@@ -30,7 +30,8 @@
       "WebFetch(domain:raw.githubusercontent.com)",
       "Bash(git pull:*)",
       "Bash(mv:*)",
-      "Skill(frontend-design:frontend-design)"
+      "Skill(frontend-design:frontend-design)",
+      "WebFetch(domain:vercel.link)"
     ],
     "deny": [],
     "ask": []
