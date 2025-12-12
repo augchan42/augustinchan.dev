@@ -1,0 +1,59 @@
+---
+title: Vibe-Coded Evals with LLM-as-a-Judge
+date: 2025/12/13
+description: Using Claude Code and OpenRouter infrastructure to rapidly build model evaluations with Claude Opus 4.5 as the judge
+tag: ai, evals, llm
+author: Aug
+---
+
+# Vibe-Coded Evals with LLM-as-a-Judge
+
+Building model evaluations the traditional way is tedious. You define metrics, write scoring rubrics, collect human annotations, and iterate endlessly. For [8-Bit Oracle](https://8bitoracle.ai), I needed something faster.
+
+## The Setup
+
+I combined **Claude Code** with **8-Bit Oracle's OpenRouter infrastructure** to "vibe code" an eval framework. The approach:
+
+1. Send domain-specific test prompts to candidate models via OpenRouter
+2. Collect structured responses with latency/cost metrics
+3. Have Claude Opus 4.5 evaluate outputs against quality criteria
+4. Aggregate results into tiered recommendations
+
+Since Claude Opus 4.5 is now the default model in Claude Code, it naturally became my judge.
+
+## LLM-as-a-Judge: Origins
+
+The "LLM-as-a-Judge" concept was formalized in the paper ["Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena"](https://arxiv.org/abs/2306.05685) by the LMSYS team at UC Berkeley (Zheng et al., June 2023). Their key finding: strong LLMs can achieve **>80% agreement** with human preferences — on par with human-human agreement.
+
+More recently, Andrej Karpathy's [LLM Council](https://github.com/karpathy/llm-council) project expanded on this. His system sends queries to multiple models, has them anonymously judge each other's responses, then synthesizes a final answer.
+
+Karpathy's observation: *"Models are surprisingly willing to select another LLM's response as superior to their own."*
+
+## Why Vibe Code Evals?
+
+Traditional benchmarks have limitations for domain-specific applications:
+
+- **MMLU/HumanEval** don't measure tarot reading quality
+- **Multi-language nuance** (Traditional vs Simplified Chinese, Thai) needs specialized evaluation
+- **Latency and cost** matter as much as quality for production use
+
+By having Claude Code orchestrate the eval loop, I could rapidly iterate on criteria while the Opus 4.5 judge maintained consistency.
+
+## Results
+
+After evaluating 20+ models across English, Chinese, and Thai:
+
+| Tier | Model | Cost/Request | Quality |
+|------|-------|--------------|---------|
+| Default | Qwen 235B | $0.002 | 7.5/10 |
+| Quality | Claude Haiku | $0.008 | 8/10 |
+| Speed | Gemini 2.5 Flash Lite | $0.0007 | 7/10 |
+| Budget | Grok 4.1 Fast | $0.001 | 7/10 |
+
+Full results: [MODEL_EVALUATION_TRACKER_PUBLIC.md](/evals/MODEL_EVALUATION_TRACKER_PUBLIC.md)
+
+## Caveats
+
+Karpathy's experiments revealed an interesting discrepancy — AI models preferred GPT-5.1, while he personally preferred Gemini. This suggests LLM judges may have shared biases: favoring verbosity, specific formatting, or rhetorical confidence that doesn't always align with human needs.
+
+LLM-as-a-Judge is a powerful tool for rapid iteration, but human validation remains essential for production decisions.
