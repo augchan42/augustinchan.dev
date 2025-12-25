@@ -1,0 +1,1154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://augustinchan.dev</id>
+    <title>Augustin Chan</title>
+    <updated>2025-12-25T11:06:41.076Z</updated>
+    <generator>Feed for Node.js</generator>
+    <author>
+        <name>Augustin Chan</name>
+        <email>aug@digitalrain.studio</email>
+        <uri>https://augustinchan.dev</uri>
+    </author>
+    <link rel="alternate" href="https://augustinchan.dev"/>
+    <link rel="self" href="https://augustinchan.dev/atom.xml"/>
+    <subtitle>Building systems that reason. Writing about AI, Web3, and software engineering.</subtitle>
+    <logo>https://augustinchan.dev/img/Xrn0Id68_400x400.jpg</logo>
+    <icon>https://augustinchan.dev/favicon.ico</icon>
+    <rights>Copyright 2025 Augustin Chan</rights>
+    <entry>
+        <title type="html"><![CDATA[Vibe-Coded Evals with LLM-as-a-Judge]]></title>
+        <id>https://augustinchan.dev/posts/2025-12-13-vibe-coded-evals-llm-as-judge</id>
+        <link href="https://augustinchan.dev/posts/2025-12-13-vibe-coded-evals-llm-as-judge"/>
+        <updated>2025-12-13T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Using Claude Code and OpenRouter infrastructure to rapidly build model evaluations with Claude Opus 4.5 as the judge]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="ai"/>
+        <category label="evals"/>
+        <category label="llm"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why I Open-Sourced a Deterministic I-Ching Engine (Or: The Smallest Verifiable Compute You Can Build)]]></title>
+        <id>https://augustinchan.dev/posts/2025-12-01-seeded-iching-engine</id>
+        <link href="https://augustinchan.dev/posts/2025-12-01-seeded-iching-engine"/>
+        <updated>2025-12-01T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Extracting the deterministic core of 8-Bit Oracle into a standalone library, and why 'same seed, same hexagram, every time' matters more than you'd think for decentralized AI.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="open-source"/>
+        <category label="prng"/>
+        <category label="determinism"/>
+        <category label="verifiable-compute"/>
+        <category label="i-ching"/>
+        <category label="ethereum"/>
+        <category label="decentralized-ai"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Testing Twelve AI Image Models with Marcel Proust's Madeleine (Or: How We Chose Hunyuan for Hexagram 24)]]></title>
+        <id>https://augustinchan.dev/posts/2025-11-18-proust-multimodel-comparison</id>
+        <link href="https://augustinchan.dev/posts/2025-11-18-proust-multimodel-comparison"/>
+        <updated>2025-11-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Upgrading 8-Bit Oracle's Hexagram 24: Return with Proust's famous involuntary memory scene, then systematically testing 12 diverse AI image models through fal.ai to find which one actually captures that precise moment when past and present collapse together.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="ai"/>
+        <category label="image-generation"/>
+        <category label="8-bit-oracle"/>
+        <category label="tech-noir"/>
+        <category label="proust"/>
+        <category label="testing"/>
+        <category label="architecture"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[On Going Legit on Twitter/X (Or: How I Learned to Stop Scraping and Love the Rate Limit)]]></title>
+        <id>https://augustinchan.dev/posts/2025-11-10-twitter-api-hell</id>
+        <link href="https://augustinchan.dev/posts/2025-11-10-twitter-api-hell"/>
+        <updated>2025-11-10T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A three-day journey through Twitter API v2, v1.1, OAuth, rate limits, and the gradual acceptance that you can't actually hack your way around free-tier constraints]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="api"/>
+        <category label="twitter"/>
+        <category label="debugging"/>
+        <category label="technical-debt"/>
+        <category label="scraping"/>
+        <category label="graphql"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[LLMs Love Markdown. CMSs Love Databases. I Built a WordPress Bridge Nobody Should Need.]]></title>
+        <id>https://augustinchan.dev/posts/2025-11-07-wordpress-rest-api-siteground-security-ssh-wpcli</id>
+        <link href="https://augustinchan.dev/posts/2025-11-07-wordpress-rest-api-siteground-security-ssh-wpcli"/>
+        <updated>2025-11-07T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A technical post-mortem on why WordPress's REST API is theoretically elegant but practically unusable for CI/CD, how SiteGround's security theater blocks legitimate automation, and why SSH + WP-CLI is the uncomfortable truth about 'modern' CMS workflows.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="wordpress"/>
+        <category label="devops"/>
+        <category label="ci-cd"/>
+        <category label="automation"/>
+        <category label="rest-api"/>
+        <category label="ssh"/>
+        <category label="wpcli"/>
+        <category label="siteground"/>
+        <category label="cms"/>
+        <category label="ai-agents"/>
+        <category label="markdown"/>
+        <category label="dfw-style"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Daily Hexagram: A Journey from Complexity to Simplicity]]></title>
+        <id>https://augustinchan.dev/posts/2025-10-28-binary-calendar-hexagram-simplicity</id>
+        <link href="https://augustinchan.dev/posts/2025-10-28-binary-calendar-hexagram-simplicity"/>
+        <updated>2025-10-28T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[How we learned to stop worrying and love the binary calendar. On deleting databases, removing cron jobs, and discovering that the oracle was encoded in the date all along.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="architecture"/>
+        <category label="simplicity"/>
+        <category label="i-ching"/>
+        <category label="8-bit-oracle"/>
+        <category label="engineering"/>
+        <category label="dfw-style"/>
+        <category label="binary"/>
+        <category label="algorithms"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Memory Systems and the Graph That Wasn't: On Not Using Neo4j]]></title>
+        <id>https://augustinchan.dev/posts/2025-10-28-memory-systems-and-the-graph-that-wasnt</id>
+        <link href="https://augustinchan.dev/posts/2025-10-28-memory-systems-and-the-graph-that-wasnt"/>
+        <updated>2025-10-28T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[What we actually ship in 8-Bit Oracle today: JSONB conversations, hexagram context, and Postgres views — plus why we didn't adopt Neo4j, MemMachine, or mem0 (yet).]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="architecture"/>
+        <category label="ai"/>
+        <category label="memory-systems"/>
+        <category label="postgres"/>
+        <category label="8-bit-oracle"/>
+        <category label="dfw-style"/>
+        <category label="engineering"/>
+        <category label="databases"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Memory Systems Deep Dive: Technical Appendix]]></title>
+        <id>https://augustinchan.dev/posts/2025-10-28-memory-systems-appendix</id>
+        <link href="https://augustinchan.dev/posts/2025-10-28-memory-systems-appendix"/>
+        <updated>2025-10-28T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Complete technical comparison of MemMachine vs mem0, PostgreSQL graph alternatives (recursive CTEs, ltree, adjacency lists), and detailed implementation strategies for AI agent memory systems.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="architecture"/>
+        <category label="ai"/>
+        <category label="memory-systems"/>
+        <category label="postgres"/>
+        <category label="technical-deep-dive"/>
+        <category label="neo4j"/>
+        <category label="vector-databases"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Tech Noir, Joy Division, and the Crushing Anxiety of Optimizing for Search Engines That Might Not Exist in Three Years]]></title>
+        <id>https://augustinchan.dev/posts/2025-10-24-tech-noir-seo-anxiety-2025</id>
+        <link href="https://augustinchan.dev/posts/2025-10-24-tech-noir-seo-anxiety-2025"/>
+        <updated>2025-10-24T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[On replacing Wilhelm with Unknown Pleasures, cultural anchoring vs keyword stuffing, and whether we're all just shouting into the void while ChatGPT eats our lunch. Also: footnotes.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="seo"/>
+        <category label="geo"/>
+        <category label="tech-noir"/>
+        <category label="i-ching"/>
+        <category label="meta-commentary"/>
+        <category label="anxiety"/>
+        <category label="cultural-anchoring"/>
+        <category label="ai-search"/>
+        <category label="dfw-style"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[When LLM Reasoning Becomes the Pattern - Meta-Classification Failure Modes]]></title>
+        <id>https://augustinchan.dev/posts/2025-09-27-llm-reasoning-pattern-classification-failure-modes</id>
+        <link href="https://augustinchan.dev/posts/2025-09-27-llm-reasoning-pattern-classification-failure-modes"/>
+        <updated>2025-09-27T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Hard constraints beat soft self-regulation when an LLM's reasoning converges to a template.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="llm"/>
+        <category label="ai"/>
+        <category label="pattern-recognition"/>
+        <category label="reasoning"/>
+        <category label="constraints"/>
+        <category label="twitter"/>
+        <category label="content-generation"/>
+        <category label="failure-modes"/>
+        <category label="meta-patterns"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Evolutionary ADRs: Writing Architecture Decision Records from First Principles]]></title>
+        <id>https://augustinchan.dev/posts/2025-09-21-evolutionary-adrs-first-principles</id>
+        <link href="https://augustinchan.dev/posts/2025-09-21-evolutionary-adrs-first-principles"/>
+        <updated>2025-09-21T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Why creating ADRs during development, not before it, leads to more honest and valuable documentation of your architectural decisions.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="Architecture"/>
+        <category label=""/>
+        <category label="ADR"/>
+        <category label=""/>
+        <category label="Software-Design"/>
+        <category label=""/>
+        <category label="Documentation"/>
+        <category label=""/>
+        <category label="Development-Process"/>
+        <category label=""/>
+        <category label="First-Principles"/>
+        <category label=""/>
+        <category label="Technical-Writing"/>
+        <category label=""/>
+        <category label="Software-Engineering"/>
+        <category label=""/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Trusting Your Instincts: When AI Suggests Complex Solutions]]></title>
+        <id>https://augustinchan.dev/posts/2025-09-14-trusting-instincts-ai-architecture</id>
+        <link href="https://augustinchan.dev/posts/2025-09-14-trusting-instincts-ai-architecture"/>
+        <updated>2025-09-14T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A debugging session reveals why your gut feeling about 'two sets of items' was right - and how to guide AI toward simpler, better solutions.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="ai-assistance"/>
+        <category label="react"/>
+        <category label="state-management"/>
+        <category label="debugging"/>
+        <category label="architecture"/>
+        <category label="single-source-of-truth"/>
+        <category label="ai-guidance"/>
+        <category label="software-engineering"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[From Mimicry to Authenticity: Systematic Voice Evolution in DSPy]]></title>
+        <id>https://augustinchan.dev/posts/2025-09-02-dspy-voice-evolution-authenticity</id>
+        <link href="https://augustinchan.dev/posts/2025-09-02-dspy-voice-evolution-authenticity"/>
+        <updated>2025-09-02T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Replace style copying with principled search: explore a multi-dimensional voice space and use Pareto-optimal selection to shape an original AI voice.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="dspy"/>
+        <category label="ai"/>
+        <category label="voice-evolution"/>
+        <category label="gepa-optimization"/>
+        <category label="authenticity"/>
+        <category label="mimicry"/>
+        <category label="pareto-optimization"/>
+        <category label="voice-lattice"/>
+        <category label="ai-content-generation"/>
+        <category label="technical-deep-dive"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Locale Migration Strategy: When Adding Beats Replacing]]></title>
+        <id>https://augustinchan.dev/posts/2025-08-19-locale-migration-strategy-decision</id>
+        <link href="https://augustinchan.dev/posts/2025-08-19-locale-migration-strategy-decision"/>
+        <updated>2025-08-19T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A technical deep-dive into how we avoided a risky database migration by choosing an additive strategy for adding Simplified Chinese support to our Traditional Chinese implementation.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="internationalization"/>
+        <category label="database-migration"/>
+        <category label="risk-management"/>
+        <category label="production-deployment"/>
+        <category label="locale-strategy"/>
+        <category label="technical-decision-making"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Claude Code: From 30% to 50% Better Than Cursor Agent Mode]]></title>
+        <id>https://augustinchan.dev/posts/2025-08-11-claude-code-productivity-gains</id>
+        <link href="https://augustinchan.dev/posts/2025-08-11-claude-code-productivity-gains"/>
+        <updated>2025-08-11T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[My experience with Claude Code's productivity gains, the double-edged sword of rapid development, and lessons learned from over-engineering features.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="claude-code"/>
+        <category label="ai-coding"/>
+        <category label="productivity"/>
+        <category label="development-workflow"/>
+        <category label="refactoring"/>
+        <category label="llm-tools"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Mem0's Aggressive `infer=True` Behavior: When LLM Filtering Goes Too Far]]></title>
+        <id>https://augustinchan.dev/posts/2025-08-03-mem0-aggressive-infer-behavior</id>
+        <link href="https://augustinchan.dev/posts/2025-08-03-mem0-aggressive-infer-behavior"/>
+        <updated>2025-08-03T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Exploring why Mem0's default LLM prompts are overly restrictive, causing the `infer=True` mode to filter out too much content. Includes root cause analysis and practical solutions for less aggressive memory management.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="mem0"/>
+        <category label="llm"/>
+        <category label="memory-management"/>
+        <category label="ai"/>
+        <category label="python"/>
+        <category label="prompt-engineering"/>
+        <category label="fact-extraction"/>
+        <category label="similarity-detection"/>
+        <category label="developer-experience"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Getting Browser Tools MCP Server Working with Claude Code: A Simple 2-Step Solution]]></title>
+        <id>https://augustinchan.dev/posts/2025-08-02-configuring-browser-tools-mcp-claude-code</id>
+        <link href="https://augustinchan.dev/posts/2025-08-02-configuring-browser-tools-mcp-claude-code"/>
+        <updated>2025-08-02T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Quick guide to configure browser-tools-mcp AgentDeskAI with Claude Code - solving connection issues and getting your MCP server properly integrated.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="Claude"/>
+        <category label=""/>
+        <category label="MCP"/>
+        <category label=""/>
+        <category label="Browser-Tools"/>
+        <category label=""/>
+        <category label="AgentDeskAI"/>
+        <category label=""/>
+        <category label="Development-Tools"/>
+        <category label=""/>
+        <category label="AI-Assisted-Coding"/>
+        <category label=""/>
+        <category label="Configuration"/>
+        <category label=""/>
+        <category label="Troubleshooting"/>
+        <category label=""/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[DSPy + OpenRouter: Why the Standard Integration Falls Short (And How to Fix It)]]></title>
+        <id>https://augustinchan.dev/posts/2025-07-08-dspy-openrouter-integration</id>
+        <link href="https://augustinchan.dev/posts/2025-07-08-dspy-openrouter-integration"/>
+        <updated>2025-07-08T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[The standard DSPy OpenRouter integration lacks failover and proper app attribution. Here's how to fix it with custom headers to get automatic model failover and your own app name on OpenRouter leaderboards.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="dspy"/>
+        <category label="openrouter"/>
+        <category label="llm"/>
+        <category label="ai"/>
+        <category label="python"/>
+        <category label="model-failover"/>
+        <category label="litellm"/>
+        <category label="api-integration"/>
+        <category label="developer-experience"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Integrating RevenueCat Web Billing in React/Next.js: A Practical Guide]]></title>
+        <id>https://augustinchan.dev/posts/2025-06-11-revenuecat-web-billing-integration</id>
+        <link href="https://augustinchan.dev/posts/2025-06-11-revenuecat-web-billing-integration"/>
+        <updated>2025-06-11T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A step-by-step guide to integrating RevenueCat Web Billing in a plain React/Next.js app. Covers account setup, SDK usage, code samples, and key gotchas for a smooth subscription experience.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="revenuecat"/>
+        <category label="stripe"/>
+        <category label="react"/>
+        <category label="nextjs"/>
+        <category label="web-billing"/>
+        <category label="subscriptions"/>
+        <category label="payments"/>
+        <category label="frontend"/>
+        <category label="developer-experience"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Cache Me If You Can: Getting Service Worker Update Toasts to Play Nice with New Jekyll Layouts]]></title>
+        <id>https://augustinchan.dev/posts/2025-05-19-pwa-cache-toast-jekyll-adventures</id>
+        <link href="https://augustinchan.dev/posts/2025-05-19-pwa-cache-toast-jekyll-adventures"/>
+        <updated>2025-05-19T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A dive into debugging service worker caching and update notifications for new pages in a Jekyll site, ensuring the 'Content Refresh' toast works as expected.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="jekyll"/>
+        <category label="service-worker"/>
+        <category label="pwa"/>
+        <category label="javascript"/>
+        <category label="webdev"/>
+        <category label="caching"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Exploring 'Futures Thinking': A Design Dive for 8-Bit Oracle]]></title>
+        <id>https://augustinchan.dev/posts/2025-05-18-8-bit-oracle-futures-thinking</id>
+        <link href="https://augustinchan.dev/posts/2025-05-18-8-bit-oracle-futures-thinking"/>
+        <updated>2025-05-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A technical exploration of 'Futures Thinking,' a potential experimental feature for 8-Bit Oracle, looking at a Triple Hex Mode and AI-driven scenario mapping.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="8-Bit Oracle"/>
+        <category label=""/>
+        <category label="I-Ching"/>
+        <category label=""/>
+        <category label="AI"/>
+        <category label=""/>
+        <category label="Futures Thinking"/>
+        <category label=""/>
+        <category label="Divination"/>
+        <category label=""/>
+        <category label="Experimental Feature"/>
+        <category label=""/>
+        <category label="Development Log"/>
+        <category label=""/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Android Passkeys: Frontend Adventures with CredentialManager and Jetpack Compose]]></title>
+        <id>https://augustinchan.dev/posts/2025-05-16-android-passkeys-frontend-adventures</id>
+        <link href="https://augustinchan.dev/posts/2025-05-16-android-passkeys-frontend-adventures"/>
+        <updated>2025-05-16T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Building the Android frontend for FIDO2 passkeys: tackling CredentialManager, migrating DataStore, and the joys of debugging in Jetpack Compose.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="android"/>
+        <category label="kotlin"/>
+        <category label="jetpack compose"/>
+        <category label="passkeys"/>
+        <category label="fido2"/>
+        <category label="webauthn"/>
+        <category label="datastore"/>
+        <category label="credentialmanager"/>
+        <category label="frontend"/>
+        <category label="nia"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[FIDO2 Passkeys for Android: Backend Challenges in Python]]></title>
+        <id>https://augustinchan.dev/posts/2025-05-14-challenges-with-passkey-android</id>
+        <link href="https://augustinchan.dev/posts/2025-05-14-challenges-with-passkey-android"/>
+        <updated>2025-05-14T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A developer's journey through the challenges of implementing FIDO2 passkeys for an Android app using Python, covering assetlinks.json, data serialization, and Base64URL encoding.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="python"/>
+        <category label="fido2"/>
+        <category label="passkeys"/>
+        <category label="webauthn"/>
+        <category label="backend"/>
+        <category label="android"/>
+        <category label="security"/>
+        <category label="fastapi"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Deploying a CosmWasm Smart Contract on the Stargaze Testnet]]></title>
+        <id>https://augustinchan.dev/posts/2025-03-27-getting-up-to-speed-with-cosmos-and-stargaze</id>
+        <link href="https://augustinchan.dev/posts/2025-03-27-getting-up-to-speed-with-cosmos-and-stargaze"/>
+        <updated>2025-03-27T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A developer's guide to deploying a CosmWasm smart contract on the Stargaze testnet, covering environment setup, starsd CLI usage, contract uploading, instantiation, and Rust version considerations.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="rust"/>
+        <category label="cosmwasm"/>
+        <category label="smart contracts"/>
+        <category label="starsd"/>
+        <category label="cosmos"/>
+        <category label="stargaze"/>
+        <category label="testnet"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Revolutionizing Verifiable Compute on Solana: Key Bonsol Enhancements]]></title>
+        <id>https://augustinchan.dev/posts/2025-03-08-bonsol-verifiable-compute-enhancements</id>
+        <link href="https://augustinchan.dev/posts/2025-03-08-bonsol-verifiable-compute-enhancements"/>
+        <updated>2025-03-08T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Deep dive into recent Bonsol framework improvements: a new I Ching sample dApp, RISC0_DEV_MODE integration for faster development, and custom S3 URL support for artifact flexibility.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="Bonsol"/>
+        <category label=""/>
+        <category label="Solana"/>
+        <category label=""/>
+        <category label="RISC0"/>
+        <category label=""/>
+        <category label="ZK"/>
+        <category label=""/>
+        <category label="Verifiable-Compute"/>
+        <category label=""/>
+        <category label="Rust"/>
+        <category label=""/>
+        <category label="Blockchain"/>
+        <category label=""/>
+        <category label="Developer-Tools"/>
+        <category label=""/>
+        <category label="S3"/>
+        <category label=""/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[DKG OriginTrail Integration - Consensus HK 2025 Hackathon Win]]></title>
+        <id>https://augustinchan.dev/posts/2025-02-20-dkg-origintrail-hackathon</id>
+        <link href="https://augustinchan.dev/posts/2025-02-20-dkg-origintrail-hackathon"/>
+        <updated>2025-02-20T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Integrated OriginTrail DKG with Eliza AI and a custom divination backend, enabling on-chain persistence of divinations via a Telegram bot.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="DKG"/>
+        <category label=""/>
+        <category label="OriginTrail"/>
+        <category label=""/>
+        <category label="AI"/>
+        <category label=""/>
+        <category label="Blockchain"/>
+        <category label=""/>
+        <category label="Hackathon"/>
+        <category label=""/>
+        <category label="Telegram"/>
+        <category label=""/>
+        <category label="JSON-LD"/>
+        <category label=""/>
+        <category label="SPARQL"/>
+        <category label=""/>
+        <category label="NodeJS"/>
+        <category label=""/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Brainstorming a New Theory of Self-Directed Learning for AI, with AI]]></title>
+        <id>https://augustinchan.dev/posts/2025-01-17-brainstorming-a-novel-theory-with-ai</id>
+        <link href="https://augustinchan.dev/posts/2025-01-17-brainstorming-a-novel-theory-with-ai"/>
+        <updated>2025-01-17T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[An exploration of using the I-Ching's King Wen sequence as a potential framework for self-directed learning in AGI. Details the thought process, key insights, and implications for AI development, including a link to a research paper.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="king-wen-sequence"/>
+        <category label="i-ching"/>
+        <category label="self-directed-learning"/>
+        <category label="memory"/>
+        <category label="agi"/>
+        <category label="artificial-general-intelligence"/>
+        <category label="meta-learning"/>
+        <category label="information-theory"/>
+        <category label="ancient-wisdom"/>
+        <category label="ai-research"/>
+        <category label="zenodo"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Key Contributions to ai16z Eliza AI Project (Nov 2024)]]></title>
+        <id>https://augustinchan.dev/posts/2024-11-15-eliza-ai16z-contribution</id>
+        <link href="https://augustinchan.dev/posts/2024-11-15-eliza-ai16z-contribution"/>
+        <updated>2024-11-15T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Detailing significant enhancements to the ai16z Eliza AI project, focusing on local-first capabilities, model optimization, and backend stability.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="AI"/>
+        <category label="LLM"/>
+        <category label="Embeddings"/>
+        <category label="Python"/>
+        <category label="Ollama"/>
+        <category label="Claude-3-Haiku"/>
+        <category label="Postgres"/>
+        <category label="Open-Source"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Zustand: A Weapon for Efficient User State Management in React]]></title>
+        <id>https://augustinchan.dev/posts/2024-09-01-zustand-state-management</id>
+        <link href="https://augustinchan.dev/posts/2024-09-01-zustand-state-management"/>
+        <updated>2024-09-01T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[An overview of Zustand as an efficient state management library for React, highlighting its benefits over traditional methods (refs, Context API) for managing user state, simplifying code, and minimizing re-renders.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="zustand"/>
+        <category label="react"/>
+        <category label="state-management"/>
+        <category label="react-state-management"/>
+        <category label="global-state"/>
+        <category label="react-hooks"/>
+        <category label="performance-optimization"/>
+        <category label="re-renders"/>
+        <category label="typescript"/>
+        <category label="frontend-development"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Optimizing React Authentication: Minimizing Re-renders and Improving Performance]]></title>
+        <id>https://augustinchan.dev/posts/2024-08-30-minimizing-re-renders</id>
+        <link href="https://augustinchan.dev/posts/2024-08-30-minimizing-re-renders"/>
+        <updated>2024-08-30T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A guide to minimizing re-renders and optimizing performance in React/Next.js applications with authentication. Covers combining state, memoizing context with useMemo, tracking state changes with useRef, debouncing, and optimizing useEffect dependencies.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="react"/>
+        <category label="nextjs"/>
+        <category label="react-performance"/>
+        <category label="nextjs-optimization"/>
+        <category label="re-renders"/>
+        <category label="state-management"/>
+        <category label="react-hooks"/>
+        <category label="usestate"/>
+        <category label="usememo"/>
+        <category label="useref"/>
+        <category label="useeffect"/>
+        <category label="context-api"/>
+        <category label="authentication"/>
+        <category label="supabase"/>
+        <category label="debounce"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Conditional Rendering in Next.js: Hiding Footer on Specific Pages]]></title>
+        <id>https://augustinchan.dev/posts/2024-06-21-conditional-rendering</id>
+        <link href="https://augustinchan.dev/posts/2024-06-21-conditional-rendering"/>
+        <updated>2024-06-21T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A guide to conditionally rendering components, like a footer, in a Next.js 14 (App Router) application by bridging server and client components using React Context API and usePathname.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="nextjs"/>
+        <category label="react"/>
+        <category label="nextjs-app-router"/>
+        <category label="server-components"/>
+        <category label="client-components"/>
+        <category label="conditional-rendering"/>
+        <category label="react-context"/>
+        <category label="usepathname"/>
+        <category label="react-hooks"/>
+        <category label="layout-management"/>
+        <category label="frontend-development"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Integrating with Shadcn: Tips and Insights for Seamless UI Component Integration]]></title>
+        <id>https://augustinchan.dev/posts/2024-06-08-integrating-shadcn</id>
+        <link href="https://augustinchan.dev/posts/2024-06-08-integrating-shadcn"/>
+        <updated>2024-06-08T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A developer's experience integrating Shadcn UI components into a Next.js project. Covers project preparation, handling opinionated styling (dark theme, New York style), managing global CSS, and an example root layout incorporating ThemeProvider and Toaster.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="shadcn-ui"/>
+        <category label="ui-components"/>
+        <category label="react"/>
+        <category label="nextjs"/>
+        <category label="tailwindcss"/>
+        <category label="radix-ui"/>
+        <category label="frontend-development"/>
+        <category label="component-libraries"/>
+        <category label="theme-provider"/>
+        <category label="css-styling"/>
+        <category label="developer-experience"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Securing SSH: A Detailed Look at Fail2Ban Configuration and Rule Management]]></title>
+        <id>https://augustinchan.dev/posts/2024-06-03-securing-ssh</id>
+        <link href="https://augustinchan.dev/posts/2024-06-03-securing-ssh"/>
+        <updated>2024-06-03T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A detailed guide to troubleshooting and configuring Fail2Ban with UFW for robust SSH security. Covers iptables rule order, jail.local setup, persistent bans, and ensuring proper cleanup of rules on service restart.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="security"/>
+        <category label="fail2ban"/>
+        <category label="ufw"/>
+        <category label="ssh"/>
+        <category label="iptables"/>
+        <category label="linux-security"/>
+        <category label="server-security"/>
+        <category label="firewall"/>
+        <category label="intrusion-detection"/>
+        <category label="log-monitoring"/>
+        <category label="ssh-hardening"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Navigating UI Framework Transitions: From Bootstrap to Shadcn]]></title>
+        <id>https://augustinchan.dev/posts/2024-05-31-ui-frameworks</id>
+        <link href="https://augustinchan.dev/posts/2024-05-31-ui-frameworks"/>
+        <updated>2024-05-31T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A developer's journey through UI framework choices, from Bootstrap to Next.js with Shadcn/ui. Discusses the pros and cons of component libraries like Shadcn (built on Radix UI and Tailwind CSS) versus traditional UI frameworks, and touches on project MVP plans.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="ui-frameworks"/>
+        <category label="component-libraries"/>
+        <category label="shadcn-ui"/>
+        <category label="tailwindcss"/>
+        <category label="radix-ui"/>
+        <category label="nextjs"/>
+        <category label="react"/>
+        <category label="bootstrap"/>
+        <category label="frontend-development"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Navigating Client vs Server-Side Authentication in Web Development]]></title>
+        <id>https://augustinchan.dev/posts/2024-05-07-client-vs-server-side-auth</id>
+        <link href="https://augustinchan.dev/posts/2024-05-07-client-vs-server-side-auth"/>
+        <updated>2024-05-07T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Explores client-side vs. server-side authentication using Supabase with Next.js 14 (App Router). Covers Google OAuth2 (client-side flow with createBrowserClient) and Magic Link (server-side flow with createServerClient), and clarifies Supabase Auth-UI usage.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="supabase"/>
+        <category label="nextjs"/>
+        <category label="authentication"/>
+        <category label="client-side-auth"/>
+        <category label="server-side-auth"/>
+        <category label="oauth2"/>
+        <category label="magic-link"/>
+        <category label="supabase-ssr"/>
+        <category label="supabase-auth-ui"/>
+        <category label="auth-helpers"/>
+        <category label="javascript"/>
+        <category label="typescript"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Implementing Auth and Database for 8-Bit Oracle]]></title>
+        <id>https://augustinchan.dev/posts/2024-05-05-getting-down-to-business</id>
+        <link href="https://augustinchan.dev/posts/2024-05-05-getting-down-to-business"/>
+        <updated>2024-05-05T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Details on setting up authentication and database for the 8-Bit Oracle project using Next.js, Supabase (with Auth-UI for OAuth2), and Tailwind CSS. Discusses choices like Supabase over Firebase and future consideration of Web3Auth.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="supabase"/>
+        <category label="authentication"/>
+        <category label="oauth2"/>
+        <category label="web3auth"/>
+        <category label="supabase-auth-ui"/>
+        <category label="nextjs"/>
+        <category label="postgresql"/>
+        <category label="tailwindcss"/>
+        <category label="backend-development"/>
+        <category label="project-update"/>
+        <category label="beta-signup"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Claude vs GPT4 for Coding]]></title>
+        <id>https://augustinchan.dev/posts/2024-04-19-claude-vs-gpt4-coding-assistants</id>
+        <link href="https://augustinchan.dev/posts/2024-04-19-claude-vs-gpt4-coding-assistants"/>
+        <updated>2024-04-19T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A developer's comparison of using Claude Opus and GPT-4 (via Cursor.sh) as AI coding assistants, particularly when working with Next.js App Router vs. Pages Router and handling framework updates.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="ai-coding-assistants"/>
+        <category label="claude"/>
+        <category label="gpt-4"/>
+        <category label="ai-pair-programming"/>
+        <category label="nextjs"/>
+        <category label="react"/>
+        <category label="cursor-sh"/>
+        <category label="llm"/>
+        <category label="code-generation"/>
+        <category label="developer-tools"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Create an Interactive Typing Effect in React with Skip Animation Feature]]></title>
+        <id>https://augustinchan.dev/posts/2024-04-17-smooth-typing-effect-in-react</id>
+        <link href="https://augustinchan.dev/posts/2024-04-17-smooth-typing-effect-in-react"/>
+        <updated>2024-04-17T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A developer's notes and tips on implementing a smooth, multi-paragraph typing effect in React with a skip animation feature. Covers state management, DOM manipulation alternatives, event handling, and internationalization with react-i18next.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="react"/>
+        <category label="typing-effect"/>
+        <category label="animation"/>
+        <category label="react-hooks"/>
+        <category label="useeffect"/>
+        <category label="usestate"/>
+        <category label="usecallback"/>
+        <category label="dom-manipulation"/>
+        <category label="event-handling"/>
+        <category label="internationalization"/>
+        <category label="react-i18next"/>
+        <category label="frontend-development"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Exploring Divination Techniques: Chainlink VRF vs. Traditional Randomness Methods]]></title>
+        <id>https://augustinchan.dev/posts/2024-04-15-using-chainlink-vrf-for-divination</id>
+        <link href="https://augustinchan.dev/posts/2024-04-15-using-chainlink-vrf-for-divination"/>
+        <updated>2024-04-15T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[An analysis of using Chainlink VRF for I-Ching divination, comparing it to traditional methods and other randomness generation techniques like PRNGs and client-side randomness. Discusses pros, cons, and includes JavaScript examples for hexagram generation with changing lines.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="chainlink-vrf"/>
+        <category label="i-ching"/>
+        <category label="divination"/>
+        <category label="randomness"/>
+        <category label="blockchain"/>
+        <category label="smart-contracts"/>
+        <category label="cryptography"/>
+        <category label="javascript"/>
+        <category label="prng"/>
+        <category label="csprng"/>
+        <category label="hexagrams"/>
+        <category label="spiritual-technology"/>
+        <category label="yin-yang"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Solving Webpack Issues: Eliminating Double Script Loading and FOUC]]></title>
+        <id>https://augustinchan.dev/posts/2024-03-23-webpack-strangeness</id>
+        <link href="https://augustinchan.dev/posts/2024-03-23-webpack-strangeness"/>
+        <updated>2024-03-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Troubleshooting common Webpack issues, including double script loading due to manual and Webpack config imports, and resolving Flash of Unstyled Content (FOUC) by correctly setting production mode with cross-env and configuring MiniCssExtractPlugin.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="webpack"/>
+        <category label="javascript-bundling"/>
+        <category label="fouc"/>
+        <category label="frontend-optimization"/>
+        <category label="webpack-configuration"/>
+        <category label="css-loading"/>
+        <category label="production-build"/>
+        <category label="cross-env"/>
+        <category label="mini-css-extract-plugin"/>
+        <category label="troubleshooting"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[React's useEffect Firing Twice in Dev? The HMR Culprit and a Simple Check]]></title>
+        <id>https://augustinchan.dev/posts/2024-03-09-react-state-updates-and-js-timing-functions</id>
+        <link href="https://augustinchan.dev/posts/2024-03-09-react-state-updates-and-js-timing-functions"/>
+        <updated>2024-03-09T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A quick developer tip: If your React useEffect hook seems to run twice in Next.js development mode, Hot Module Reloading (HMR) might be the reason. Here's why and how to verify.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="react"/>
+        <category label="useeffect"/>
+        <category label="nextjs"/>
+        <category label="hmr"/>
+        <category label="hot-module-reloading"/>
+        <category label="debugging"/>
+        <category label="react-development"/>
+        <category label="javascript"/>
+        <category label="frontend-development"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Fortune-Telling NFTs: Weaving I-Ching Wisdom with Blockchain Technology]]></title>
+        <id>https://augustinchan.dev/posts/2024-03-04-fortune-telling-nfts</id>
+        <link href="https://augustinchan.dev/posts/2024-03-04-fortune-telling-nfts"/>
+        <updated>2024-03-04T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A project idea to create Fortune-Telling NFTs by integrating the ancient wisdom of the I-Ching (Yin/Yang, Trigrams, Hexagrams) with modern blockchain technology. I explore the cultural and personal motivations, the envisioned fortune-telling process, and potential Web3 integrations.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="nft"/>
+        <category label="blockchain"/>
+        <category label="i-ching"/>
+        <category label="taoism"/>
+        <category label="yin-yang"/>
+        <category label="hexagrams"/>
+        <category label="trigrams"/>
+        <category label="generative-ai"/>
+        <category label="solana"/>
+        <category label="ethereum"/>
+        <category label="digital-divination"/>
+        <category label="web3"/>
+        <category label="fortune-telling"/>
+        <category label="chinese-culture"/>
+        <category label="spirituality"/>
+        <category label="cultural-heritage"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Brainstorming an AI-Powered Photo Critic Service]]></title>
+        <id>https://augustinchan.dev/posts/2024-02-29-brainstorming-ai-driven-photo-critic</id>
+        <link href="https://augustinchan.dev/posts/2024-02-29-brainstorming-ai-driven-photo-critic"/>
+        <updated>2024-02-29T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[My initial thoughts on designing an AI service that can analyze and critique uploaded photos. I explore a multi-stage approach using CNNs, CLIP, and LLMs for metadata extraction, image understanding, and generating constructive feedback.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="ai"/>
+        <category label="photo-critic"/>
+        <category label="multi-modal"/>
+        <category label="computer-vision"/>
+        <category label="image-analysis"/>
+        <category label="cnn"/>
+        <category label="clip"/>
+        <category label="llm"/>
+        <category label="retrieval-augmented-generation"/>
+        <category label="image-captioning"/>
+        <category label="aesthetic-evaluation"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Cracking AWS Network Issues: EC2 Docker to RDS Postgres Connectivity]]></title>
+        <id>https://augustinchan.dev/posts/2024-02-28-diagnosing-aws-ec2-to-rds-network-issues</id>
+        <link href="https://augustinchan.dev/posts/2024-02-28-diagnosing-aws-ec2-to-rds-network-issues"/>
+        <updated>2024-02-28T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A step-by-step guide to diagnosing and fixing network connection problems between a Dockerized Spring Boot app on AWS EC2 and an RDS Postgres database. Learn to use nslookup, nc, psql for troubleshooting, and how to configure Docker DNS for private AWS VPC name resolution.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="aws"/>
+        <category label="ec2"/>
+        <category label="rds"/>
+        <category label="postgres"/>
+        <category label="networking"/>
+        <category label="docker"/>
+        <category label="spring-boot"/>
+        <category label="dns"/>
+        <category label="aws-vpc"/>
+        <category label="security-groups"/>
+        <category label="troubleshooting"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Rapid Spring Boot: Notes on JWT Authentication and JPA Data Persistence]]></title>
+        <id>https://augustinchan.dev/posts/2024-02-28-spring-auth-and-persistence</id>
+        <link href="https://augustinchan.dev/posts/2024-02-28-spring-auth-and-persistence"/>
+        <updated>2024-02-28T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[My developer notes on quickly getting to grips with JWT authentication and data persistence in Spring Boot 3. I cover my experiences with Spring Security, the power of JPA annotations for entity management, stateless sessions with JWT, and BCrypt password encryption, contrasting it with older Java EE approaches.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="spring-boot"/>
+        <category label="spring-security"/>
+        <category label="spring-data-jpa"/>
+        <category label="jwt"/>
+        <category label="bcrypt"/>
+        <category label="java-persistence-api"/>
+        <category label="jpa"/>
+        <category label="authentication"/>
+        <category label="authorization"/>
+        <category label="api-security"/>
+        <category label="java"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AI for Family Stories: Transcribing, Mapping, and Visualizing Our Histories]]></title>
+        <id>https://augustinchan.dev/posts/2024-02-13-brainstorming-transcription</id>
+        <link href="https://augustinchan.dev/posts/2024-02-13-brainstorming-transcription"/>
+        <updated>2024-02-13T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Some brainstorming on using AI to transcribe family stories shared at gatherings. I'm thinking about detecting narrators, mapping complex family relationships, and even visualizing our family history as an interactive graph.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="ai-transcription"/>
+        <category label="family-storytelling"/>
+        <category label="genealogy"/>
+        <category label="narrator-detection"/>
+        <category label="relationship-mapping"/>
+        <category label="voice-recognition"/>
+        <category label="family-history"/>
+        <category label="knowledge-graph"/>
+        <category label="cultural-heritage"/>
+        <category label="audio-to-text"/>
+        <category label="ai-storytelling"/>
+        <category label="voice-biometrics"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building a Smarter AI Agent with Haystack 1.x: My Journey with RAG and Custom Pipelines]]></title>
+        <id>https://augustinchan.dev/posts/2024-02-01-optimizing-rag-on-haystack</id>
+        <link href="https://augustinchan.dev/posts/2024-02-01-optimizing-rag-on-haystack"/>
+        <updated>2024-02-01T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[My experience implementing Retrieval Augmented Generation (RAG) and AI Agents with Haystack 1.x. I cover conversational memory, creating custom data pipelines using FAISS DocumentStore, integrating Google Search, and the challenges of incrementally indexing new knowledge.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="retrieval-augmented-generation"/>
+        <category label="rag"/>
+        <category label="haystack-framework"/>
+        <category label="ai-agents"/>
+        <category label="faiss"/>
+        <category label="vector-database"/>
+        <category label="google-search-integration"/>
+        <category label="llm"/>
+        <category label="nlp"/>
+        <category label="custom-pipelines"/>
+        <category label="data-indexing"/>
+        <category label="conversational-ai"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Exploring Haystack: Building Advanced NLP Applications with LLMs and Vector Search]]></title>
+        <id>https://augustinchan.dev/posts/2024-01-21-playing-with-haystack</id>
+        <link href="https://augustinchan.dev/posts/2024-01-21-playing-with-haystack"/>
+        <updated>2024-01-21T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[My practical tips and experiences from working with the Haystack LLM framework. I cover version differences (1.x vs. 2.x beta), the benefits of developing with a forked repository, managing Python dependencies for projects like this, and how to contribute back to open-source.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="haystack-framework"/>
+        <category label="llm"/>
+        <category label="nlp"/>
+        <category label="vector-search"/>
+        <category label="retrieval-augmented-generation"/>
+        <category label="python-development"/>
+        <category label="open-source"/>
+        <category label="git"/>
+        <category label="chatbot-development"/>
+        <category label="document-search"/>
+        <category label="dependency-management"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Speed Up GPT-J-6B: From Minutes to Seconds with GGML Conversion]]></title>
+        <id>https://augustinchan.dev/posts/2023-11-26-huggingface-gpt-j-6b-is-slow</id>
+        <link href="https://augustinchan.dev/posts/2023-11-26-huggingface-gpt-j-6b-is-slow"/>
+        <updated>2023-11-26T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A guide on dramatically improving GPT-J-6B inference speed. I'll show you how I converted a Hugging Face model from its standard format to GGML, slashing wait times from minutes to seconds on my own machine. Covers the conversion process, memory needs, and running the optimized model.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="gpt-j"/>
+        <category label="llm"/>
+        <category label="inference-speed"/>
+        <category label="huggingface"/>
+        <category label="ggml"/>
+        <category label="gguf"/>
+        <category label="model-conversion"/>
+        <category label="performance-optimization"/>
+        <category label="python"/>
+        <category label="local-llm"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Challenge of Finding Uncensored AI Models]]></title>
+        <id>https://augustinchan.dev/posts/2023-11-26-its-hard-to-find-an-uncensored-model</id>
+        <link href="https://augustinchan.dev/posts/2023-11-26-its-hard-to-find-an-uncensored-model"/>
+        <updated>2023-11-26T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Exploring the difficulties in finding truly uncensored AI models. I discuss the influence of OpenAI's data and look at methods for fine-tuning base models to remove built-in limitations or refusals, mentioning my experiences with some specific models.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="uncensored-ai"/>
+        <category label="ai-model-training"/>
+        <category label="huggingface-models"/>
+        <category label="openai"/>
+        <category label="gguf"/>
+        <category label="ai-ethics"/>
+        <category label="data-censorship"/>
+        <category label="llm"/>
+        <category label="model-finetuning"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AI Model Formats Explained: Demystifying Llama.cpp, GGUF, GGML, and Transformers]]></title>
+        <id>https://augustinchan.dev/posts/2023-11-26-spectacular-reddit-post-on-huggingface</id>
+        <link href="https://augustinchan.dev/posts/2023-11-26-spectacular-reddit-post-on-huggingface"/>
+        <updated>2023-11-26T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A breakdown of a helpful Reddit discussion on AI model formats like GGUF, GGML, and tools such as Llama.cpp and Hugging Face Transformers. I add my own notes on GGML quantization and summarize the key takeaways for navigating this complex landscape.]]></summary>
+        <author>
+            <name>Augustin Chan</name>
+            <email>aug@digitalrain.studio</email>
+            <uri>https://augustinchan.dev</uri>
+        </author>
+        <category label="ai-model-formats"/>
+        <category label="llama-cpp"/>
+        <category label="gguf"/>
+        <category label="ggml"/>
+        <category label="huggingface-transformers"/>
+        <category label="model-quantization"/>
+        <category label="safetensors"/>
+        <category label="gptq"/>
+        <category label="llm"/>
+        <category label="ai-tools"/>
+        <category label="local-llama"/>
+        <category label="reddit-discussion"/>
+    </entry>
+</feed>
