@@ -1,11 +1,6 @@
-'use client'
-
-import { MDXProvider } from '@mdx-js/react'
-import { serialize } from 'next-mdx-remote/serialize'
-import { MDXRemote } from 'next-mdx-remote'
+import { compileMDX } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
-import { useEffect, useState } from 'react'
 
 interface MDXContentProps {
   content: string
@@ -58,37 +53,21 @@ const components = {
   ),
 }
 
-export default function MDXContent({ content }: MDXContentProps) {
-  const [mdxSource, setMdxSource] = useState<any>(null)
-
-  useEffect(() => {
-    async function compileMDX() {
-      try {
-        const mdxSource = await serialize(content, {
-          mdxOptions: {
-            remarkPlugins: [remarkGfm],
-            rehypePlugins: [rehypeHighlight],
-            format: 'mdx',
-          },
-        })
-        setMdxSource(mdxSource)
-      } catch (error) {
-        console.error('Failed to compile MDX:', error)
-      }
-    }
-
-    compileMDX()
-  }, [content])
-
-  if (!mdxSource) {
-    return <div>Loading...</div>
-  }
+export default async function MDXContent({ content }: MDXContentProps) {
+  const { content: mdxContent } = await compileMDX({
+    source: content,
+    options: {
+      mdxOptions: {
+        remarkPlugins: [remarkGfm],
+        rehypePlugins: [rehypeHighlight],
+      },
+    },
+    components,
+  })
 
   return (
-    <MDXProvider components={components}>
-      <div style={{ maxWidth: '800px' }}>
-        <MDXRemote {...mdxSource} components={components} />
-      </div>
-    </MDXProvider>
+    <div style={{ maxWidth: '800px' }}>
+      {mdxContent}
+    </div>
   )
 }
