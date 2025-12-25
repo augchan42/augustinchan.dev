@@ -31,7 +31,9 @@
       "Bash(git pull:*)",
       "Bash(mv:*)",
       "Skill(frontend-design:frontend-design)",
-      "WebFetch(domain:vercel.link)"
+      "WebFetch(domain:vercel.link)",
+      "Bash(ls:*)",
+      "Bash(tree:*)"
     ],
     "deny": [],
     "ask": []
