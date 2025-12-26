@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Augustin Chan - Resume 2025 (Head of Engineering)</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 12pt;
+      line-height: 1.45;
+      color: #333;
+      max-width: 8.5in;
+      margin: 0 auto;
+      padding: 0.5in;
+      background: #fff;
+    }
+    @media print { body { padding: 0; font-size: 11pt; } }
+    a { color: #444; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header {
+      text-align: center;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid #333;
+    }
+    h1 { font-size: 24pt; font-weight: 700; letter-spacing: 2px; margin-bottom: 0.2rem; }
+    .title { font-size: 13pt; color: #555; margin-bottom: 0.5rem; }
+    .contact { font-size: 11pt; color: #444; line-height: 1.6; }
+
+    section { margin-bottom: 0.9rem; }
+    h2 {
+      font-size: 14pt; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1px; border-bottom: 1px solid #333;
+      padding-bottom: 0.2rem; margin-bottom: 0.5rem;
+    }
+    h3 { font-size: 12pt; font-weight: 700; margin-bottom: 0.15rem; }
+    h4 { font-size: 12pt; font-weight: 600; color: #444; margin-bottom: 0.15rem; }
+
+    .job { margin-bottom: 0.7rem; }
+    .job-header {
+      display: flex; justify-content: space-between; align-items: baseline;
+      flex-wrap: wrap; margin-bottom: 0.1rem;
+    }
+    .job-title, .company { font-weight: 700; }
+    .location, .dates { color: #555; font-size: 11pt; }
+
+    ul { margin-left: 1.25rem; margin-bottom: 0.3rem; }
+    li { margin-bottom: 0.12rem; }
+
+    .summary { text-align: justify; font-size: 12pt; }
+
+    .competencies {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0.35rem 1rem; font-size: 11pt;
+    }
+    .competency { margin-bottom: 0.2rem; }
+    .competency-title {
+      font-weight: 600; display: block; margin-bottom: 0.1rem;
+    }
+    .competency-items { color: #444; }
+
+    .highlight-box {
+      background: #f9f9f9; border-left: 3px solid #333;
+      padding: 0.5rem 0.75rem; margin: 0.5rem 0; font-size: 11pt;
+    }
+    .highlight-title {
+      font-weight: 700; margin-bottom: 0.25rem;
+    }
+
+    .subsection { margin-top: 0.4rem; margin-bottom: 0.4rem; }
+    .subsection-title { font-weight: 600; font-size: 11pt; margin-bottom: 0.2rem; }
+
+    .clients-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.2rem 1rem;
+      font-size: 11pt; margin-left: 1.25rem;
+    }
+    .client-item { margin-bottom: 0.1rem; }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>AUGUSTIN CHAN</h1>
+  <div class="title">Head of Engineering | Full-Stack Technical Leader</div>
+  <div class="contact">
+    Hong Kong | +852 6385 7807 | <a href="mailto:aug@digitalrain.studio">aug@digitalrain.studio</a><br>
+    <a href="https://augustinchan.dev">augustinchan.dev</a> |
+    <a href="https://github.com/augchan42">github.com/augchan42</a> |
+    <a href="https://linkedin.com/in/auchan">linkedin.com/in/auchan</a>
+  </div>
+</header>
+
+<section>
+  <h2>Summary</h2>
+  <p class="summary">
+    Technology leader with <strong>20+ years</strong> building and scaling enterprise platforms across <strong>insurance, financial services, manufacturing, and aviation</strong>. Served as regional architect and technical mentor delivering MDM solutions to global enterprises including AXA, Cathay Pacific, Samsung, and Capital Group. Now building production GenAI platforms with multi-model orchestration, DSPy workflows, and mobile applications (iOS/Android). Known for architectural mentorship, enabling teams through clear technical guidance rather than micromanagement, and delivering measurable performance improvements (200% gains in distributed matching systems). Pragmatic approach: right-size solutions to actual problems, create independent work streams, and let strong contributors excel.
+  </p>
+</section>
+
+<section>
+  <h2>Core Competencies</h2>
+  <div class="competencies">
+    <div class="competency">
+      <span class="competency-title">GenAI & LLM Platforms</span>
+      <span class="competency-items">Multi-model evaluation (15+ models), DSPy orchestration, RAG pipelines, prompt engineering, model failover chains, streaming responses, cost/latency optimization</span>
+    </div>
+
+    <div class="competency">
+      <span class="competency-title">Full-Stack Development</span>
+      <span class="competency-items">React, Next.js, TypeScript, Python, FastAPI, Node.js, iOS (Swift), Android (Jetpack Compose), PostgreSQL, Redis, WebSockets</span>
+    </div>
+
+    <div class="competency">
+      <span class="competency-title">Enterprise Architecture</span>
+      <span class="competency-items">Distributed systems, Kubernetes, Docker, AWS, performance tuning, multi-threaded batch processing, API design, data modeling</span>
+    </div>
+
+    <div class="competency">
+      <span class="competency-title">Technical Leadership</span>
+      <span class="competency-items">Architectural mentorship, cross-team coordination, stakeholder management, pragmatic delivery practices, TDD, CICD pipelines, vendor evaluation, knowledge transfer, pre-sales engineering</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Industry Experience Highlights</h2>
+
+  <div class="highlight-box">
+    <div class="highlight-title">AXA Insurance — Customer MDM Platform (Multi-Country Rollout)</div>
+    <p><strong>Challenge:</strong> Transform policy-centric legacy systems to customer-centric MDM across multiple countries.</p>
+    <p><strong>Solution:</strong> Phased implementation—MDM Registry (proof of concept, lower license cost) followed by full MDM with modular business rules architecture. Country-specific configurations for IDs and address formats. Hong Kong served as the exemplar for global rollout.</p>
+    <p><strong>Results:</strong> Conservative matching strategy (exact matches, steward review for fuzzy candidates) ensured data quality. Provided knowledge transfer to Philippines operations team in Makati after HK team transition.</p>
+  </div>
+
+  <div class="highlight-box">
+    <div class="highlight-title">Enterprise Client Portfolio</div>
+    <div class="clients-grid">
+      <span class="client-item"><strong>Insurance:</strong> AXA</span>
+      <span class="client-item"><strong>Financial:</strong> Capital Group (LA)</span>
+      <span class="client-item"><strong>Aviation:</strong> Cathay Pacific</span>
+      <span class="client-item"><strong>Automotive:</strong> Renault</span>
+      <span class="client-item"><strong>Manufacturing:</strong> Samsung</span>
+      <span class="client-item"><strong>Trade/Gov:</strong> HKTDC</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>GenAI Platform Experience</h2>
+
+  <div class="highlight-box">
+    <div class="highlight-title">Model Evaluation & Production AI Systems</div>
+    <p><strong>Multi-Model Orchestration:</strong> Evaluation framework testing 15+ LLMs across EN/ZH/TH plus 12+ image generation models (FLUX, Hunyuan, Imagen, etc.). Built A/B traffic router with automatic failover, defined cost-quality Pareto frontier.</p>
+    <p><strong>DSPy Workflows:</strong> Systematic prompt optimization with GEPA (Genetic-Pareto) search, MCP agent orchestration, structured AI outputs with observability and research paper ingestion (Semantic Scholar API).</p>
+    <p><strong>Production Deployment:</strong> Next.js + FastAPI stack, pgvector semantic search, WebSocket real-time updates, Supabase/PostgreSQL, Vercel Edge Functions, comprehensive test coverage (pytest, Vitest).</p>
+  </div>
+</section>
+
+<section>
+  <h2>Professional Experience</h2>
+
+  <div class="job">
+    <div class="job-header">
+      <span><span class="job-title">CTO</span> — <span class="company">Digital Rain Studios</span></span>
+      <span class="dates">Nov 2023 - Present</span>
+    </div>
+    <div class="location">Hong Kong</div>
+    <ul>
+      <li><strong>8-Bit Oracle</strong> (<a href="https://app.8bitoracle.ai">app.8bitoracle.ai</a>) — Multi-language AI platform with 15+ model evaluation, A/B routing, streaming responses, mobile apps (iOS/Android)</li>
+      <li><strong>Content Engine</strong> — Autonomous content system with DSPy optimization, dynamic context budgeting, pgvector semantic search, research paper ingestion</li>
+      <li><strong>Mobile:</strong> Six Lines iOS app (Swift/TestFlight), PeepsApp Android scaffolding (Jetpack Compose)</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-header">
+      <span><span class="job-title">Development Architect (Regional)</span> — <span class="company">Informatica</span></span>
+      <span class="dates">Jun 2015 - Nov 2023</span>
+    </div>
+    <div class="location">Hong Kong (APJ Region)</div>
+    <ul>
+      <li>Served as <strong>regional technical advisor</strong> across APJ, mentoring delivery teams and providing architectural guidance for MDM implementations at AXA, Cathay Pacific, Samsung, Renault, Capital Group, HKTDC</li>
+      <li>Architected <strong>200% performance improvement</strong> to MDM fuzzy match engine via linear scaling, distributed caching (Infinispan), and multi-threaded batch optimization</li>
+      <li>Key contributor to Informatica MDM product codebase; delivered L3 production fixes directly into core product</li>
+      <li>Cloud MDM experience with <strong>Kubernetes</strong> for dynamic scaling; advocate for pragmatic architecture—right-sizing solutions based on actual bottleneck analysis rather than following trends</li>
+      <li>Conducted design reviews, knowledge transfer sessions, and root cause analysis; enabled teams to work independently through clear technical guidance</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-header">
+      <span><span class="job-title">Senior Consultant / Technical Delivery Manager</span> — <span class="company">Informatica</span></span>
+      <span class="dates">Aug 2011 - Jun 2015</span>
+    </div>
+    <div class="location">Hong Kong</div>
+    <ul>
+      <li>Led <strong>first MDM implementation in APAC</strong> (2011); established regional delivery practices</li>
+      <li>Delivered MDM projects for major airline, insurance company, and quasi-government agencies</li>
+      <li>Specialized in data modeling, match/merge tuning including Chinese fuzzy search algorithms</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-header">
+      <span><span class="job-title">Senior Consultant / Pre-Sales Engineer</span> — <span class="company">Dun & Bradstreet</span> (via Purisma acquisition)</span>
+      <span class="dates">Jul 2006 - Aug 2011</span>
+    </div>
+    <div class="location">Hong Kong & California</div>
+    <ul>
+      <li>Remote consulting for hosted MDM customers; expert troubleshooting and technical escalations</li>
+      <li>Established MDM software appliance deployment processes using VMWare</li>
+      <li>Pre-sales engineering contributing to Purisma's growth leading to D&B acquisition</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-header">
+      <span class="job-title">Prior Technical Roles</span>
+      <span class="dates">1996 - 2006</span>
+    </div>
+    <p style="font-size: 11pt;">EAI, CRM integration, and database technologies at Blackstone Technology Group, Vitria Technology, WorldChain, Sybase, and Prolifics/JYACC.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Technical Skills</h2>
+  <div style="font-size: 11pt;">
+    <p><strong>GenAI/ML:</strong> DSPy Framework, LLM Integration (Claude, GPT, DeepSeek via OpenRouter), RAG Pipelines (LlamaIndex, Haystack), Multi-Model Evaluation & Failover, Prompt Engineering, Streaming Responses</p>
+    <p style="margin-top: 0.2rem;"><strong>Frontend:</strong> React, Next.js 15 (App Router, RSC), TypeScript, Tailwind CSS, Zustand, Real-Time UI (WebSockets)</p>
+    <p style="margin-top: 0.2rem;"><strong>Mobile:</strong> iOS (Swift), Android (Jetpack Compose), PWA</p>
+    <p style="margin-top: 0.2rem;"><strong>Backend:</strong> Python, FastAPI, Node.js, Java, SQL, WebSockets, API Design</p>
+    <p style="margin-top: 0.2rem;"><strong>Data/Infrastructure:</strong> PostgreSQL (pgvector), Redis, Elasticsearch, Infinispan, Docker, Kubernetes, AWS, Vercel</p>
+    <p style="margin-top: 0.2rem;"><strong>Testing/DevOps:</strong> pytest, Vitest, API Contract Testing, MCP (Model Context Protocol), CICD, Git</p>
+  </div>
+</section>
+
+<section>
+  <h2>Speaking & Recognition</h2>
+  <div style="font-size: 11pt;">
+    <p><strong>Consensus HK Hackathon Winner</strong> (Feb 2025) — AI agent project; <a href="https://www.coindesk.com/consensus-hong-kong-2025-coverage/2025/02/27/consensus-hackathon-winners-ai-agents-gaming-trading-payments-and-nfts">featured by CoinDesk</a></p>
+    <p style="margin-top: 0.2rem;"><strong>Speaker:</strong> Taipei Blockchain Week (Dec 2024), WOW Summit Panel, AI+Power HK</p>
+    <p style="margin-top: 0.2rem;"><strong>Open Source:</strong> Active GitHub contributor — AI libraries, framework integrations</p>
+  </div>
+</section>
+
+<section>
+  <h2>Education</h2>
+  <p><strong>B.S. Cognitive Science</strong> (Computation) — University of California, San Diego</p>
+  <p style="margin-top: 0.2rem;">Bronx High School of Science</p>
+</section>
+
+</body>
+</html>
