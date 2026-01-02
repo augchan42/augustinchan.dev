@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Augustin Chan - Solution Architect</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 12pt;
+      line-height: 1.4;
+      color: #333;
+      max-width: 8.5in;
+      margin: 0 auto;
+      padding: 0.5in;
+      background: #fff;
+    }
+    @media print { body { padding: 0; font-size: 11pt; } }
+    a { color: #444; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header {
+      text-align: center;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid #333;
+    }
+    h1 { font-size: 24pt; font-weight: 700; letter-spacing: 2px; margin-bottom: 0.2rem; }
+    .title { font-size: 12pt; color: #555; margin-bottom: 0.5rem; }
+    .contact { font-size: 10pt; color: #444; line-height: 1.6; }
+
+    section { margin-bottom: 0.9rem; }
+    h2 {
+      font-size: 14pt; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1px; border-bottom: 1px solid #333;
+      padding-bottom: 0.2rem; margin-bottom: 0.5rem;
+    }
+    h3 { font-size: 12pt; font-weight: 700; margin-bottom: 0.15rem; }
+    h4 { font-size: 11pt; font-weight: 600; color: #444; margin-bottom: 0.15rem; }
+
+    .job { margin-bottom: 0.7rem; }
+    .job-header {
+      display: flex; justify-content: space-between; align-items: baseline;
+      flex-wrap: wrap; margin-bottom: 0.1rem;
+    }
+    .job-title, .company { font-weight: 700; }
+    .location, .dates { color: #555; font-size: 11pt; }
+
+    ul { margin-left: 1.25rem; margin-bottom: 0.3rem; }
+    li { margin-bottom: 0.15rem; }
+
+    .summary { text-align: justify; font-size: 12pt; }
+
+    .skills-grid {
+      display: grid; grid-template-columns: 140px 1fr;
+      gap: 0.3rem 1rem; font-size: 11pt;
+    }
+    .skill-category { font-weight: 600; color: #444; }
+
+    .highlight-box {
+      background: #f9f9f9; border-left: 3px solid #333;
+      padding: 0.5rem 0.75rem; margin: 0.5rem 0; font-size: 11pt;
+    }
+    .highlight-title {
+      font-weight: 700; margin-bottom: 0.25rem;
+    }
+
+    .subsection { margin-top: 0.4rem; margin-bottom: 0.4rem; }
+    .subsection-title { font-weight: 600; font-size: 11pt; margin-bottom: 0.2rem; }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>AUGUSTIN CHAN</h1>
+  <div class="title">Solution Architect | Enterprise Platforms & Distributed Systems</div>
+  <div class="contact">
+    Hong Kong | +852 6385 7807 | <a href="mailto:aug@digitalrain.studio">aug@digitalrain.studio</a><br>
+    <a href="https://augustinchan.dev">augustinchan.dev</a> |
+    <a href="https://github.com/augchan42">github.com/augchan42</a> |
+    <a href="https://linkedin.com/in/auchan">linkedin.com/in/auchan</a>
+  </div>
+</header>
+
+<section>
+  <h2>Professional Summary</h2>
+  <p class="summary">
+    Solution Architect with <strong>20+ years</strong> designing and delivering enterprise-scale software platforms. Deep expertise in <strong>distributed systems architecture</strong>, including containerized microservices (Kubernetes), event streaming (Kafka), and enterprise application servers (JBoss, WebSphere). Former Development Architect at Informatica, where I architected the <strong>next-generation MDM SaaS platform on Kubernetes</strong>, delivered <strong>200% performance improvements</strong> to distributed matching engines, and provided solution architecture for global enterprises including airlines, insurance companies, and financial institutions. Proven track record translating complex technical strategies into documented solutions, driving cross-team alignment, and establishing architectural patterns that scale. Currently CTO of Digital Rain Studios, building modern full-stack platforms with real-time capabilities.
+  </p>
+</section>
+
+<section>
+  <h2>Technical Skills</h2>
+  <div class="skills-grid">
+    <span class="skill-category">Containers & Cloud</span>
+    <span>Kubernetes, Docker, Cloud-Native Architecture, Microservices Patterns, Container Orchestration, Vercel Edge Functions, AWS</span>
+
+    <span class="skill-category">Streaming & Messaging</span>
+    <span>Apache Kafka, WebSockets, Real-Time Event Processing, Message Queue Architecture, Pub/Sub Patterns</span>
+
+    <span class="skill-category">Application Servers</span>
+    <span>JBoss EAP, IBM WebSphere, Distributed Caching (Infinispan, Redis), Linear Scaling, High Availability</span>
+
+    <span class="skill-category">Databases</span>
+    <span>PostgreSQL, Oracle, MS SQL Server, MySQL, Redis, Elasticsearch, Data Modeling, Query Optimization</span>
+
+    <span class="skill-category">Languages & Frameworks</span>
+    <span>Java, Python, TypeScript/JavaScript, Spring Boot, FastAPI, React, Next.js (App Router, RSC)</span>
+
+    <span class="skill-category">Architecture</span>
+    <span>Solution Architecture, System Design, API Design (REST), Integration Patterns, Performance Tuning, Distributed Systems</span>
+
+    <span class="skill-category">DevOps & Tools</span>
+    <span>Git, GitHub, CI/CD, Docker, pytest, JMeter, Profiling & Performance Analysis, VMWare</span>
+
+    <span class="skill-category">Data & Integration</span>
+    <span>Master Data Management (MDM), ETL, Data Quality, Fuzzy Matching, Entity Resolution, EAI Patterns</span>
+  </div>
+</section>
+
+<section>
+  <h2>Solution Architecture Experience</h2>
+
+  <div class="highlight-box">
+    <div class="highlight-title">Next-Generation MDM SaaS Platform — Kubernetes Architecture</div>
+    <p><strong>Challenge:</strong> Architect cloud-native version of enterprise MDM product for SaaS deployment.</p>
+    <p><strong>Solution:</strong> Containerized microservices architecture on Kubernetes with dynamic scaling, service discovery, and orchestrated deployments.</p>
+    <p><strong>Technologies:</strong> Kubernetes, Docker, distributed caching, RESTful APIs, enterprise Java.</p>
+  </div>
+
+  <div class="highlight-box">
+    <div class="highlight-title">Distributed Matching Engine — 200% Performance Improvement</div>
+    <p><strong>Challenge:</strong> Fuzzy matching engine bottlenecked on single-node processing for enterprise-scale data.</p>
+    <p><strong>Solution:</strong> Architected linear scaling across servers/threads using distributed caching (Infinispan), hotspot management, and multi-threaded batch job optimization spanning multiple nodes.</p>
+    <p><strong>Results:</strong> 200% performance improvement; contributed directly to core product codebase.</p>
+  </div>
+
+  <div class="highlight-box">
+    <div class="highlight-title">Enterprise MDM Implementations — Global Customers</div>
+    <p><strong>Scope:</strong> End-to-end solution architecture for major airline (passenger data), insurance company (policy holder), quasi-government agency (citizen records), and financial institutions.</p>
+    <p><strong>Responsibilities:</strong> Requirements gathering, data modeling, technology decisions, integration patterns, performance tuning, production deployment, L3 escalation support.</p>
+    <p><strong>Platforms:</strong> JBoss EAP, IBM WebSphere, Oracle, MS SQL Server, Kafka for event streaming.</p>
+  </div>
+
+  <div class="highlight-box">
+    <div class="highlight-title">ContentMind — Modern Full-Stack Platform Architecture</div>
+    <p><strong>Architecture:</strong> Full-stack monorepo with Next.js 15 (App Router, RSC), FastAPI backend, PostgreSQL, WebSocket-based real-time updates.</p>
+    <p><strong>Patterns:</strong> Microservices, API standardization, real-time event streaming, comprehensive testing (pytest, Vitest), rate-limit-aware scheduling.</p>
+    <p><strong>Delivery:</strong> First production release in ~10 weeks with monitoring, failover, and observability.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Professional Experience</h2>
+
+  <div class="job">
+    <div class="job-header">
+      <span><span class="job-title">CTO & Founder</span> — <span class="company">Digital Rain Studios</span></span>
+      <span class="dates">Nov 2023 - Present</span>
+    </div>
+    <div class="location">Hong Kong</div>
+    <ul>
+      <li>Architected and developed full-stack platforms using modern technologies: Next.js, FastAPI, PostgreSQL, Redis, real-time WebSockets</li>
+      <li>Designed microservices architecture with clear component separation, API contracts, and integration patterns</li>
+      <li>Established development practices: comprehensive testing, CI/CD, documentation, code reviews</li>
+      <li>Delivered production systems with monitoring, error handling, and performance optimization</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-header">
+      <span><span class="job-title">Development Architect (Regional)</span> — <span class="company">Informatica</span></span>
+      <span class="dates">Jun 2015 - Nov 2023</span>
+    </div>
+    <div class="location">Hong Kong — APJ Regional Role</div>
+    <ul>
+      <li><strong>Solution architecture leadership:</strong> Regional technical advisor across APJ; provided architectural guidance for enterprises including Samsung, Renault, Capital Group, major financial institutions</li>
+      <li><strong>Next-gen platform:</strong> Contributed to architecture of Kubernetes-based MDM SaaS platform with containerized microservices</li>
+      <li><strong>Performance architecture:</strong> Designed distributed matching engine achieving 200% improvement via multi-threaded optimization, Infinispan caching, and linear scaling</li>
+      <li><strong>Technology decisions:</strong> Evaluated and recommended technology options; established patterns for JBoss EAP, WebSphere, Kafka integration</li>
+      <li><strong>Cross-team collaboration:</strong> Worked with product managers, development teams, and DevOps to ensure deployment strategy alignment</li>
+      <li><strong>Technical escalation:</strong> L3 escalation point for complex architectural issues; delivered fixes directly to core product</li>
+      <li><strong>Documentation:</strong> Created architectural documentation, design patterns, and implementation guidelines</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-header">
+      <span><span class="job-title">Senior Consultant / Technical Delivery Manager</span> — <span class="company">Informatica</span></span>
+      <span class="dates">Aug 2011 - Jun 2015</span>
+    </div>
+    <div class="location">Hong Kong</div>
+    <ul>
+      <li><strong>First MDM implementation in Asia Pacific (2011):</strong> Led end-to-end solution architecture and delivery</li>
+      <li><strong>Enterprise deployments:</strong> Solution architecture for JBoss and WebSphere environments across multiple database platforms (Oracle, MS SQL Server)</li>
+      <li><strong>Data architecture:</strong> Complex data modeling, match/merge algorithms, Chinese fuzzy search implementation</li>
+      <li>Managed technical delivery aspects including integration patterns, performance tuning, and production cutover</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-header">
+      <span><span class="job-title">Senior Consultant / Pre-Sales Engineer</span> — <span class="company">Dun & Bradstreet</span> (via Purisma acquisition)</span>
+      <span class="dates">Jul 2006 - Aug 2011</span>
+    </div>
+    <div class="location">Hong Kong & California</div>
+    <ul>
+      <li>Solution architecture for hosted MDM platform deployments across global customers</li>
+      <li>Pre-sales engineering: technical proposals, architecture presentations, proof-of-concept implementations</li>
+      <li>Established software appliance deployment processes using VMWare virtualization</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-header">
+      <span class="job-title">Prior Technical Experience</span>
+      <span class="dates">1996 - 2006</span>
+    </div>
+    <p style="font-size: 11pt;">Solution architecture and development roles at Blackstone Technology Group, Vitria Technology (EAI), WorldChain, Sybase, and Prolifics. Deep experience in enterprise integration patterns, Java/C++, database technologies, and client-facing technical delivery.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Education</h2>
+  <p><strong>B.S. Cognitive Science</strong> (Specialization in Computation) — University of California, San Diego</p>
+</section>
+
+<section>
+  <h2>Languages</h2>
+  <p style="font-size: 11pt;">English (Native) | Cantonese (Conversational) | Mandarin (Basic)</p>
+</section>
+
+</body>
+</html>

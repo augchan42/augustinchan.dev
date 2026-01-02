@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Augustin Chan - Tech Lead, Web3 Incubator</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 12pt;
+      line-height: 1.4;
+      color: #333;
+      max-width: 8.5in;
+      margin: 0 auto;
+      padding: 0.5in;
+      background: #fff;
+    }
+    @media print { body { padding: 0; font-size: 11pt; } }
+    a { color: #444; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header {
+      text-align: center;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid #333;
+    }
+    h1 { font-size: 24pt; font-weight: 700; letter-spacing: 2px; margin-bottom: 0.2rem; }
+    .title { font-size: 12pt; color: #555; margin-bottom: 0.5rem; }
+    .contact { font-size: 10pt; color: #444; line-height: 1.6; }
+
+    section { margin-bottom: 0.9rem; }
+    h2 {
+      font-size: 14pt; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1px; border-bottom: 1px solid #333;
+      padding-bottom: 0.2rem; margin-bottom: 0.5rem;
+    }
+    h3 { font-size: 12pt; font-weight: 700; margin-bottom: 0.15rem; }
+    h4 { font-size: 11pt; font-weight: 600; color: #444; margin-bottom: 0.15rem; }
+
+    .job { margin-bottom: 0.7rem; }
+    .job-header {
+      display: flex; justify-content: space-between; align-items: baseline;
+      flex-wrap: wrap; margin-bottom: 0.1rem;
+    }
+    .job-title, .company { font-weight: 700; }
+    .location, .dates { color: #555; font-size: 11pt; }
+
+    ul { margin-left: 1.25rem; margin-bottom: 0.3rem; }
+    li { margin-bottom: 0.15rem; }
+
+    .summary { text-align: justify; font-size: 12pt; }
+
+    .skills-grid {
+      display: grid; grid-template-columns: 130px 1fr;
+      gap: 0.3rem 1rem; font-size: 11pt;
+    }
+    .skill-category { font-weight: 600; color: #444; }
+
+    .highlight-box {
+      background: #f9f9f9; border-left: 3px solid #333;
+      padding: 0.5rem 0.75rem; margin: 0.5rem 0; font-size: 11pt;
+    }
+    .highlight-title {
+      font-weight: 700; margin-bottom: 0.25rem;
+    }
+
+    .subsection { margin-top: 0.4rem; margin-bottom: 0.4rem; }
+    .subsection-title { font-weight: 600; font-size: 11pt; margin-bottom: 0.2rem; }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>AUGUSTIN CHAN</h1>
+  <div class="title">Tech Lead | Web3 & AI | Multi-Portfolio Technical Leadership</div>
+  <div class="contact">
+    Hong Kong | +852 6385 7807 | <a href="mailto:aug@digitalrain.studio">aug@digitalrain.studio</a><br>
+    <a href="https://augustinchan.dev">augustinchan.dev</a> |
+    <a href="https://github.com/augchan42">github.com/augchan42</a> |
+    <a href="https://linkedin.com/in/auchan">linkedin.com/in/auchan</a>
+  </div>
+</header>
+
+<section>
+  <h2>Professional Summary</h2>
+  <p class="summary">
+    Hands-on technical leader with <strong>20+ years</strong> in software engineering and <strong>10+ years in technical leadership</strong>, combining deep <strong>Web3/blockchain expertise</strong> with enterprise-scale <strong>AI and distributed systems</strong> experience. Currently CTO of Digital Rain Studios, building multi-chain crypto platforms with wallet integrations (EVM/Solana), NFT access control, and AI-powered features. Former Development Architect at Informatica, where I led technical execution across a <strong>portfolio of enterprise projects</strong> spanning APJ, mentored engineering teams, and drove architectural decisions. Proven ability to juggle multiple projects, contribute hands-on code while leading teams, and deliver complex solutions from ideation to production. <strong>Consensus HK Hackathon Winner</strong> (AI Agents category).
+  </p>
+</section>
+
+<section>
+  <h2>Technical Skills</h2>
+  <div class="skills-grid">
+    <span class="skill-category">Blockchain</span>
+    <span>Solana, EVM Chains, Sui (Move), Smart Contracts, Multi-Chain Wallet Integration (ethers.js, web3.js, @mysten/dapp-kit, Solana wallet adapters), NFT Standards, DeFi Protocols, ZK Proofs (Bonsol)</span>
+
+    <span class="skill-category">Languages</span>
+    <span>TypeScript/JavaScript, Python, Rust (Bonsol contributor), Java, Move, SQL</span>
+
+    <span class="skill-category">AI & Data</span>
+    <span>LLM Integration (Claude, GPT), DSPy Workflows, Multi-Agent Orchestration, RAG Pipelines, Apache Kafka, Streaming Data, Real-Time Systems</span>
+
+    <span class="skill-category">Backend</span>
+    <span>Node.js, FastAPI, Spring Boot, Microservices, API Design, PostgreSQL, Redis, Elasticsearch, Distributed Caching</span>
+
+    <span class="skill-category">Frontend</span>
+    <span>React, Next.js (App Router, RSC), Tailwind CSS, Real-Time WebSockets, Mobile-Responsive Design</span>
+
+    <span class="skill-category">Infrastructure</span>
+    <span>Kubernetes, Docker, Vercel Edge, AWS, CI/CD, GitHub Actions, Monitoring & Observability</span>
+
+    <span class="skill-category">Architecture</span>
+    <span>Solution Architecture, System Design, Scalable Systems, High-Throughput Processing, Integration Patterns</span>
+  </div>
+</section>
+
+<section>
+  <h2>Web3 & Blockchain Portfolio</h2>
+
+  <div class="highlight-box">
+    <div class="highlight-title"><a href="https://8bitoracle.ai" style="color: inherit;">8-Bit Oracle</a> — Multi-Chain AI Platform</div>
+    <p><strong>Architecture:</strong> Next.js 14 (App Router, RSC), Supabase (PostgreSQL), Vercel Edge Functions, real-time streaming.</p>
+    <p><strong>Wallet Integration:</strong> Multi-chain support (EVM + Solana) using ethers.js/web3.js and Solana wallet adapters; NFT-based feature gating, token-controlled access tiers.</p>
+    <p><strong>AI:</strong> Sophisticated prompt engineering for Claude API, streaming responses, token monitoring, cost optimization.</p>
+    <p><strong>Crypto:</strong> Cryptographically secure RNG using Web Crypto API, validated via 1M+ iterations.</p>
+    <p><strong>Open Source:</strong> Core engine released as <a href="https://github.com/augchan42/seeded-iching-engine" style="color: #555;">seeded-iching-engine</a>.</p>
+  </div>
+
+  <div class="highlight-box">
+    <div class="highlight-title"><a href="https://github.com/augchan42/NFTer" style="color: inherit;">NFTer</a> — Sui Blockchain NFT Platform (Open Source)</div>
+    <p><strong>Smart Contracts:</strong> Move language on Sui blockchain for AI-generated NFT minting.</p>
+    <p><strong>Wallet Integration:</strong> @mysten/dapp-kit, @mysten/sui, Slush wallet adapter for seamless Sui wallet connection.</p>
+    <p><strong>Features:</strong> Walrus decentralized storage, on-chain metadata, royalty configuration, token-gated workflows.</p>
+  </div>
+
+  <div class="highlight-box">
+    <div class="highlight-title"><a href="https://github.com/augchan42/bonsol/tree/feature/iching-sample" style="color: inherit;">8BitOracle I-Ching on Bonsol</a> — Rust Solana Program with ZK Proofs</div>
+    <p><strong>Technology:</strong> Rust smart contract on Solana using Bonsol (RISC Zero) for zero-knowledge proof verification.</p>
+    <p><strong>Implementation:</strong> On-chain hexagram storage via PDAs, ZK-verified callback handling, proof validation against image IDs, timestamp tracking.</p>
+    <p><strong>Architecture:</strong> Initialize and Callback instructions, rent-exempt account management, extensive validation and logging.</p>
+  </div>
+
+  <div class="highlight-box">
+    <div class="highlight-title"><a href="https://x.com/pixdotpink" style="color: inherit;">Pix</a> — Autonomous AI Agent (Consensus HK 2025 Winner)</div>
+    <p>AI-powered Twitter agent with OriginTrail DKG integration. <a href="https://www.coindesk.com/consensus-hong-kong-2025-coverage/2025/02/27/consensus-hackathon-winners-ai-agents-gaming-trading-payments-and-nfts">Featured by CoinDesk</a>.</p>
+  </div>
+</section>
+
+<section>
+  <h2>AI & Data Platform Experience</h2>
+
+  <div class="highlight-box">
+    <div class="highlight-title">ContentMind — Autonomous AI Content Intelligence Engine</div>
+    <p><strong>Architecture:</strong> Full-stack monorepo: Next.js 15, FastAPI, PostgreSQL, Kafka-style event streaming, WebSocket real-time updates.</p>
+    <p><strong>AI:</strong> DSPy framework with structured signatures, multi-agent orchestration, 15+ LLMs evaluated, intelligent failover chains.</p>
+    <p><strong>Delivery:</strong> First production release in ~10 weeks with comprehensive testing (pytest, Vitest), monitoring, and observability.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Professional Experience</h2>
+
+  <div class="job">
+    <div class="job-header">
+      <span><span class="job-title">CTO & Founder</span> — <span class="company">Digital Rain Studios</span></span>
+      <span class="dates">Nov 2023 - Present</span>
+    </div>
+    <div class="location">Hong Kong</div>
+    <ul>
+      <li><strong>Hands-on technical leadership:</strong> Write production code daily while setting technical direction and architecture</li>
+      <li><strong>Multi-chain development:</strong> Built platforms integrating Solana, EVM chains, and Sui with wallet connectivity and NFT systems</li>
+      <li><strong>AI integration:</strong> Developed advanced AI pipelines with LLM orchestration, RAG frameworks, and real-time streaming</li>
+      <li><strong>Full-stack delivery:</strong> End-to-end ownership from architecture through deployment, monitoring, and iteration</li>
+      <li><strong>Open source contributor:</strong> Rust (Bonsol), Move (NFTer), TypeScript libraries</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-header">
+      <span><span class="job-title">Development Architect (Regional)</span> — <span class="company">Informatica</span></span>
+      <span class="dates">Jun 2015 - Nov 2023</span>
+    </div>
+    <div class="location">Hong Kong — APJ Regional Role</div>
+    <ul>
+      <li><strong>Multi-project portfolio leadership:</strong> Technical advisor across APJ region, overseeing execution for enterprises including Samsung, Renault, Capital Group, and major financial institutions</li>
+      <li><strong>Engineering mentorship:</strong> Guided and mentored development teams across multiple concurrent projects</li>
+      <li><strong>Hands-on architecture:</strong> Contributed directly to core product codebase while leading architectural decisions</li>
+      <li><strong>High-throughput systems:</strong> Architected <strong>200% performance improvement</strong> to distributed matching engine using Kafka, Infinispan caching, and multi-threaded optimization</li>
+      <li><strong>Kubernetes:</strong> Contributed to next-generation MDM SaaS platform architecture on Kubernetes</li>
+      <li><strong>Technical escalation:</strong> L3 escalation point for complex technical challenges across the portfolio</li>
+      <li><strong>Hiring & team building:</strong> Evaluated candidates and contributed to building high-performing regional teams</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-header">
+      <span><span class="job-title">Senior Consultant / Technical Delivery Manager</span> — <span class="company">Informatica</span></span>
+      <span class="dates">Aug 2011 - Jun 2015</span>
+    </div>
+    <div class="location">Hong Kong</div>
+    <ul>
+      <li><strong>First MDM implementation in Asia Pacific (2011):</strong> Led end-to-end technical delivery</li>
+      <li><strong>Financial services:</strong> Delivered solutions for major airline, insurance company, and quasi-government agencies</li>
+      <li>Managed complex integrations across JBoss, WebSphere, Oracle, and MS SQL Server environments</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-header">
+      <span><span class="job-title">Senior Consultant / Pre-Sales Engineer</span> — <span class="company">Dun & Bradstreet</span> (via Purisma acquisition)</span>
+      <span class="dates">Jul 2006 - Aug 2011</span>
+    </div>
+    <div class="location">Hong Kong & California</div>
+    <ul>
+      <li>Technical leadership for hosted MDM platform deployments across global financial services customers</li>
+      <li>Pre-sales engineering contributing to Purisma's growth leading to D&B acquisition</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-header">
+      <span class="job-title">Prior Technical Experience</span>
+      <span class="dates">1996 - 2006</span>
+    </div>
+    <p style="font-size: 11pt;">Engineering roles at Blackstone Technology Group, Vitria Technology (EAI), WorldChain, Sybase, and Prolifics. Foundation in enterprise integration, high-performance systems, and client-facing technical delivery.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Recognition & Speaking</h2>
+  <div style="font-size: 11pt;">
+    <p><strong>Consensus HK Hackathon Winner</strong> (Feb 2025) — AI Agents category; <a href="https://www.coindesk.com/consensus-hong-kong-2025-coverage/2025/02/27/consensus-hackathon-winners-ai-agents-gaming-trading-payments-and-nfts">featured by CoinDesk</a></p>
+    <p style="margin-top: 0.2rem;"><strong>Speaker:</strong> Taipei Blockchain Week (Dec 2024), WOW Summit Panel, AI+Power HK Demo</p>
+    <p style="margin-top: 0.2rem;"><strong>Collaborations:</strong> OriginTrail, Bonsol (Solana ZK infrastructure)</p>
+  </div>
+</section>
+
+<section>
+  <h2>Education</h2>
+  <p><strong>B.S. Cognitive Science</strong> (Specialization in Computation) — University of California, San Diego</p>
+</section>
+
+<section>
+  <h2>Languages</h2>
+  <p style="font-size: 11pt;">English (Native) | Cantonese (Conversational) | Mandarin (Basic)</p>
+</section>
+
+</body>
+</html>
