@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Augustin Chan - Technical Lead, Data & AI</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 12pt;
+      line-height: 1.4;
+      color: #333;
+      max-width: 8.5in;
+      margin: 0 auto;
+      padding: 0.5in;
+      background: #fff;
+    }
+    @media print { body { padding: 0; font-size: 11pt; } }
+    a { color: #444; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header {
+      text-align: center;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid #333;
+    }
+    h1 { font-size: 24pt; font-weight: 700; letter-spacing: 2px; margin-bottom: 0.2rem; }
+    .title { font-size: 12pt; color: #555; margin-bottom: 0.5rem; }
+    .contact { font-size: 10pt; color: #444; line-height: 1.6; }
+
+    section { margin-bottom: 0.9rem; }
+    h2 {
+      font-size: 14pt; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1px; border-bottom: 1px solid #333;
+      padding-bottom: 0.2rem; margin-bottom: 0.5rem;
+    }
+    h3 { font-size: 12pt; font-weight: 700; margin-bottom: 0.15rem; }
+    h4 { font-size: 11pt; font-weight: 600; color: #444; margin-bottom: 0.15rem; }
+
+    .job { margin-bottom: 0.7rem; }
+    .job-header {
+      display: flex; justify-content: space-between; align-items: baseline;
+      flex-wrap: wrap; margin-bottom: 0.1rem;
+    }
+    .job-title, .company { font-weight: 700; }
+    .location, .dates { color: #555; font-size: 11pt; }
+
+    ul { margin-left: 1.25rem; margin-bottom: 0.3rem; }
+    li { margin-bottom: 0.15rem; }
+
+    .summary { text-align: justify; font-size: 12pt; }
+
+    .competencies {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0.4rem 1rem; font-size: 11pt;
+    }
+    .competency { margin-bottom: 0.2rem; }
+    .competency-title { font-weight: 600; display: block; margin-bottom: 0.1rem; }
+    .competency-items { color: #444; }
+
+    .highlight-box {
+      background: #f9f9f9; border-left: 3px solid #333;
+      padding: 0.5rem 0.75rem; margin: 0.5rem 0; font-size: 11pt;
+    }
+    .highlight-title { font-weight: 700; margin-bottom: 0.25rem; }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>AUGUSTIN CHAN</h1>
+  <div class="title">Technical Lead | Data & AI Engineering | LLM Governance</div>
+  <div class="contact">
+    Hong Kong | +852 6385 7807 | <a href="mailto:aug@digitalrain.studio">aug@digitalrain.studio</a><br>
+    <a href="https://augustinchan.dev">augustinchan.dev</a> |
+    <a href="https://github.com/augchan42">github.com/augchan42</a> |
+    <a href="https://linkedin.com/in/auchan">linkedin.com/in/auchan</a>
+  </div>
+</header>
+
+<section>
+  <h2>Executive Summary</h2>
+  <p class="summary">
+    Senior technology leader with <strong>20+ years</strong> bridging technical architecture and business strategy in enterprise environments. Currently building production LLM systems with multi-agent orchestration, model evaluation frameworks, and governance-first design. Former Development Architect at Informatica, serving as <strong>regional technical lead across Asia-Pacific</strong> — setting technical direction, mentoring delivery teams, and translating complex requirements into scalable architectures for global enterprises. Deep expertise in <strong>data quality, matching algorithms, and trust/survivorship rules</strong> — directly applicable to LLM governance, PII identification, and compliance. Track record of articulating architectural decisions to executive stakeholders and building cross-functional alignment. <strong>Consensus HK Hackathon Winner</strong> (AI Agents, Feb 2025). Hong Kong based.
+  </p>
+</section>
+
+<section>
+  <h2>Core Competencies</h2>
+  <div class="competencies">
+    <div class="competency">
+      <span class="competency-title">LLM & AI Engineering</span>
+      <span class="competency-items">Multi-agent orchestration, prompt engineering, embedding models (RAG pipelines), model evaluation (LLM-as-judge), structured AI workflows (DSPy), Claude/GPT/open-source model integration</span>
+    </div>
+
+    <div class="competency">
+      <span class="competency-title">Matching & NLP Foundations</span>
+      <span class="competency-items">SSA-NAME3 matching engine, custom population development, bigram/trigram tokenization, CJK language matching, blocking strategies (keys/ranges), confidence scoring, entity resolution</span>
+    </div>
+
+    <div class="competency">
+      <span class="competency-title">Technical Leadership</span>
+      <span class="competency-items">Technical direction-setting, architecture reviews, team mentoring, agile delivery, cross-functional alignment, stakeholder communication</span>
+    </div>
+
+    <div class="competency">
+      <span class="competency-title">Governance & Security</span>
+      <span class="competency-items">Data quality frameworks, pattern matching, classification rules, compliance-first design, audit trails, explainable outputs</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>LLM & AI Systems — Production Experience</h2>
+
+  <div class="highlight-box">
+    <div class="highlight-title">ContentMind — Multi-Agent AI Platform with Governance</div>
+    <p><strong>Model Evaluation Framework:</strong> Systematic evaluation of 15+ LLMs using consistent test suites, LLM-as-judge methodology, and performance benchmarking for production selection.</p>
+    <p><strong>Multi-Agent Orchestration:</strong> DSPy framework with structured AI signatures, intelligent failover chains, and coordinated workflows with audit trails.</p>
+    <p><strong>Production Monitoring:</strong> Rate-limit-aware scheduling, error handling, logging, and observability for production reliability.</p>
+    <p><strong>Stack:</strong> Python (FastAPI), Next.js, PostgreSQL, WebSockets, comprehensive testing (pytest, Vitest).</p>
+  </div>
+
+  <div class="highlight-box">
+    <div class="highlight-title">8-Bit Oracle — Conversational AI with Compliance Design</div>
+    <p><strong>Embedding & Retrieval:</strong> RAG pipeline with semantic search, context management, and structured prompt engineering for controlled outputs.</p>
+    <p><strong>Governance-Ready:</strong> Token monitoring, cost tracking, audit logging, and explainable response generation.</p>
+    <p><strong>Multi-Language:</strong> Full i18n (EN/ZH/ZH-CN/TH) — applicable to multi-jurisdictional compliance requirements.</p>
+  </div>
+
+  <div class="highlight-box">
+    <div class="highlight-title">Pix — Autonomous AI Agent (Consensus HK 2025 Winner)</div>
+    <p>Autonomous agent with multi-turn reasoning, external system integration, and decision logging. <a href="https://www.coindesk.com/consensus-hong-kong-2025-coverage/2025/02/27/consensus-hackathon-winners-ai-agents-gaming-trading-payments-and-nfts">Featured by CoinDesk</a>.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Professional Experience</h2>
+
+  <div class="job">
+    <div class="job-header">
+      <span><span class="job-title">CTO & Founder</span> — <span class="company">Digital Rain Studios</span></span>
+      <span class="dates">Nov 2023 - Present</span>
+    </div>
+    <div class="location">Hong Kong</div>
+    <ul>
+      <li><strong>Technical direction:</strong> Define architecture and technical standards for AI-powered platforms; hands-on engineering in Python, TypeScript, SQL</li>
+      <li><strong>LLM governance:</strong> Built model evaluation frameworks with systematic benchmarking and production monitoring</li>
+      <li><strong>Solution design:</strong> Translate business requirements into scalable architectures with security and compliance considerations</li>
+      <li><strong>Thought leadership:</strong> 40+ published articles on AI architecture and engineering at <a href="https://augustinchan.dev">augustinchan.dev</a></li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-header">
+      <span><span class="job-title">Development Architect (Regional Technical Lead)</span> — <span class="company">Informatica</span></span>
+      <span class="dates">Jun 2015 - Nov 2023</span>
+    </div>
+    <div class="location">Hong Kong — APJ Regional Role</div>
+    <ul>
+      <li><strong>Technical leadership across APJ:</strong> Set technical direction for regional delivery teams; conducted architecture reviews; mentored engineers on complex implementations</li>
+      <li><strong>Enterprise data architecture:</strong> Designed solutions for data modeling, matching algorithms, and trust/survivorship rules — handling millions of records for Samsung, Renault, Capital Group, major financial institutions</li>
+      <li><strong>Fuzzy matching & NLP foundations:</strong> Expert-level work with SSA-NAME3 matching engine — custom population development, bigram/trigram tokenization for CJK languages, blocking strategies (keys/ranges) for scalable matching. Built on SDK; contributed to core performance optimization.</li>
+      <li><strong>PII & classification:</strong> Name matching is PII detection. Deep experience with confidence scoring, threshold tuning, and match/merge decisioning — directly applicable to document classification and entity resolution.</li>
+      <li><strong>Stakeholder communication:</strong> Primary technical contact for Asia-Pacific; translated complex architectural decisions to business stakeholders; built trust across departments</li>
+      <li><strong>Performance optimization:</strong> Architected 200% performance improvement through workload distribution and distributed caching</li>
+      <li><strong>Security & compliance:</strong> Worked with enterprise security teams; understood audit requirements for regulated industries</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-header">
+      <span><span class="job-title">Senior Consultant / Technical Delivery Manager</span> — <span class="company">Informatica</span></span>
+      <span class="dates">Aug 2011 - Jun 2015</span>
+    </div>
+    <div class="location">Hong Kong</div>
+    <ul>
+      <li><strong>First MDM implementation in Asia Pacific (2011):</strong> Established regional delivery methodology</li>
+      <li><strong>Agile delivery:</strong> Led project planning, risk assessment, and cross-functional coordination</li>
+      <li><strong>Regulated industries:</strong> Delivered solutions for airline, insurance company, and government agency — all with compliance requirements</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-header">
+      <span><span class="job-title">Senior Consultant / Pre-Sales Engineer</span> — <span class="company">Dun & Bradstreet</span> (via Purisma acquisition)</span>
+      <span class="dates">Jul 2006 - Aug 2011</span>
+    </div>
+    <div class="location">Hong Kong & California</div>
+    <ul>
+      <li>Technical leadership for pre-sales; solution design; customer workshops</li>
+      <li>Contributed to startup growth leading to D&B acquisition</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-header">
+      <span class="job-title">Prior Technical Experience</span>
+      <span class="dates">1996 - 2006</span>
+    </div>
+    <p style="font-size: 11pt;">Engineering and consulting at Blackstone Technology Group, Vitria Technology, WorldChain, Sybase, Prolifics. Foundation in enterprise software, integration, and data technologies.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Technical Skills</h2>
+  <div style="font-size: 11pt;">
+    <p><strong>AI/LLM:</strong> Multi-Agent Orchestration, Prompt Engineering, Embedding Models, RAG Pipelines, Model Evaluation, DSPy, Claude/GPT/Open-Source Models</p>
+    <p style="margin-top: 0.2rem;"><strong>Languages:</strong> Python, TypeScript, Java, SQL</p>
+    <p style="margin-top: 0.2rem;"><strong>Data:</strong> PostgreSQL, Elasticsearch, Redis, Data Modeling, MDM, Fuzzy Matching, NoSQL patterns</p>
+    <p style="margin-top: 0.2rem;"><strong>Infrastructure:</strong> Docker, Vercel, Supabase, API Design, Distributed Systems, CI/CD</p>
+  </div>
+</section>
+
+<section>
+  <h2>Education & Recognition</h2>
+  <p><strong>B.S. Cognitive Science</strong> (Specialization in Computation) — University of California, San Diego</p>
+  <p style="margin-top: 0.3rem; font-size: 11pt;"><strong>Consensus HK Hackathon Winner</strong> (Feb 2025) — AI Agents category; <a href="https://www.coindesk.com/consensus-hong-kong-2025-coverage/2025/02/27/consensus-hackathon-winners-ai-agents-gaming-trading-payments-and-nfts">featured by CoinDesk</a></p>
+</section>
+
+</body>
+</html>
