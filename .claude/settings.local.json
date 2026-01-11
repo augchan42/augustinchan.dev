@@ -34,7 +34,8 @@
       "WebFetch(domain:vercel.link)",
       "Bash(ls:*)",
       "WebFetch(domain:tether.recruitee.com)",
-      "WebFetch(domain:web3.career)"
+      "WebFetch(domain:web3.career)",
+      "Bash(grep:*)"
     ],
     "deny": [],
     "ask": []
