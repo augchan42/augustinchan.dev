@@ -1,0 +1,196 @@
+---
+title: "Whisper Cantonese Transcription: Force zh, Not yue"
+date: 2026/01/13
+description: "Counter-intuitive finding: forcing Cantonese (yue) on Whisper causes decoder collapse. Force Chinese (zh) instead for coherent, searchable transcripts—even for Cantonese content."
+tag: whisper, cantonese, transcription, ai, speech-to-text, yt-dlp, chinese, nlp
+author: Aug
+---
+
+**Abstract:**
+Whisper's `language='yue'` (Cantonese) option sounds like the right choice for Cantonese audio. It isn't. Forcing `yue` causes decoder collapse—repetition loops, garbage tokens, unusable output. Force `zh` (Chinese) instead, then bias toward Traditional via initial prompt. You get coherent, searchable transcripts without upgrading to larger models.
+
+**Estimated reading time:** _6 minutes_
+
+I've been running a content pipeline that transcribes Cantonese YouTube videos using Whisper via yt-dlp. The natural assumption was that forcing `language='yue'` would produce the best results for Cantonese content. After systematic testing, I discovered the opposite is true.
+
+## The Setup
+
+My transcription pipeline uses faster-whisper integrated with yt-dlp for YouTube content. The content in question: Cantonese videos about I-Ching (易經) and Chinese metaphysics—domain-specific vocabulary that's challenging even for native speakers to transcribe accurately.[^1]
+
+[^1]: Terms like 離卦 (Li hexagram), 九運 (Nine Cycles), and 畜牝牛吉 (from the hexagram text) aren't exactly everyday vocabulary.
+
+### How the Pipeline Works
+
+yt-dlp doesn't have built-in Whisper support—it handles the download, while transcription happens separately:
+
+1. **yt-dlp** downloads the video and extracts audio (typically to WAV or MP3)
+2. **faster-whisper** loads the Whisper model and transcribes the audio
+3. **Your code** glues them together
+
+[faster-whisper](https://github.com/SYSTRAN/faster-whisper) is a CTranslate2 port of OpenAI's Whisper that's ~4x faster than the original PyTorch implementation. When you specify a model size like `"base"` or `"medium"`, it automatically downloads the pre-converted model from [Hugging Face Hub](https://huggingface.co/Systran)—no manual setup required:
+
+```python
+from faster_whisper import WhisperModel
+
+# First run downloads ~145MB from Hugging Face
+model = WhisperModel("base", device="cpu", compute_type="int8")
+
+# Transcribe with language forcing
+segments, info = model.transcribe(
+    "audio.wav",
+    language="zh",  # Force Chinese; bias Traditional via prompt
+    initial_prompt="以下為粵語講解"
+)
+```
+
+The CTranslate2 backend handles CPU/GPU detection automatically—`float16` for CUDA, `int8` for CPU with AVX2, `float32` fallback for older CPUs.
+
+I tested four configurations on the same ~13 minute video:
+
+1. **Base model + forced zh** (Chinese)
+2. **Base model + auto-detect**
+3. **Base model + forced yue** (Cantonese)
+4. **Medium model + forced yue** (to test if more capacity helps)
+
+## The Results
+
+| Configuration | Quality | Usability | Verdict |
+|--------------|---------|-----------|---------|
+| **Base + forced zh** | Best | Coherent, consistent homophones | **Use this** |
+| Base + auto-detect | Usable | Chaotic homophones (火星藍蝦!) | Acceptable fallback |
+| Base + forced yue | Failed | Decoder collapse, token spam | **Avoid** |
+| Medium + forced yue | Failed | Same decoder collapse | **Still avoid** |
+
+The surprising result: forcing the "correct" language code produces the worst output. And upgrading to a larger model doesn't fix it—the medium model with forced `yue` collapses just as badly as base.
+
+## What Decoder Collapse Looks Like
+
+When you force `yue`, the transcript deteriorates—but the failure mode varies by model size.
+
+**Medium + forced yue** opens with immediate garbage:
+```
+[00:00 --> 00:17] ；﹫﹖﹐﹑﹙淪﹐﹖﹑﹍﹏紐﹎﹊﹏﹏﹏﹏﹌﹚﹇﹀﹏﹗﹖﹋﹏﹏﹏﹏﹀﹕﹑﹎﹎﹒ﹲ﹣﵌ Pero si Fabio﹌...
+```
+
+**Base + forced yue** starts coherently but progressively degrades:
+```
+[00:00 --> 00:30] 我地研究易經有個講法 叫做七係變化之母）﹖﹖﹖﹖﹖﹖﹖﹖﹖﹖...
+[02:00 --> 02:09] In the past, it was only said in the book of Ecclesiastes...
+[12:38 --> ...] 而, 而, 而, 而, 而, 而, 而,
+```
+
+The base model's English intrusion at 02:00 is particularly telling—the decoder is grasping for any output mode that works.
+
+Three failure signatures across both:
+
+**1. Language lock backfires**
+The model doesn't write romanized Cantonese—it tries to output written Chinese while constrained to a "Cantonese" output space. Confidence drops, garbage tokens follow.
+
+**2. Token repetition loops**
+Single characters or words repeat endlessly (而而而…, ﹖﹖﹖…). Once this starts, the transcript is unrecoverable.
+
+**3. Random language switching**
+The decoder sometimes escapes into English or other languages mid-stream, desperately seeking a stable output mode.
+
+Here's automated detection for these failures:
+
+```python
+def is_transcript_failed(text: str) -> bool:
+    # Repeated word loops ("Dead Dead Dead…")
+    if re.search(r'(\b\w+\b)(\s+\1){3,}', text):
+        return True
+    # Repeated single letters ("L L L…")
+    if re.search(r'([A-Z])\s+(\1\s+){3,}', text):
+        return True
+    # Long runs of single character ("雖雖雖雖…")
+    if re.search(r'(.)\1{5,}', text):
+        return True
+    return False
+```
+
+For more robust detection, you can also check compression ratio (too repetitive to be real) and average log probability—Whisper uses these internally. Low confidence + sudden language flips are strong indicators of decoder distress.
+
+**A note on confounds**: Repetition loops are a [known general Whisper issue](https://github.com/openai/whisper/discussions/2442), often triggered by silence, music, or bad segmentation. VAD (voice activity detection) and better chunking can help. In my tests, the `yue` failures persisted under the same audio/segmentation conditions where `zh` succeeded—so language forcing appears to be the primary factor, not chunking.
+
+## Why zh Works Better Than yue
+
+This seems backwards until you consider how Cantonese actually works:
+
+1. **Written standard**: Cantonese speakers typically write in Standard Written Chinese, not romanized Cantonese. Written Cantonese (粵語白話文) exists and is widely used informally—HK forums, chat, subtitles—but it's not the formal standard, and Whisper wasn't trained on much of it.
+
+2. **Training data**: Whisper was trained on vastly more `zh` text than `yue`. It's a well-worn path.
+
+3. **Model confidence**: When you force `zh`, the model confidently outputs written Chinese. When you force `yue`, it tries to reconcile spoken Cantonese with written output and fails.
+
+4. **Uneven `yue` support**: Some Whisper checkpoints don't properly support the Cantonese language token. There are [reports of `yue` behaving oddly](https://github.com/SYSTRAN/faster-whisper/issues/1228) across model variants—forcing an under-supported token can shove decoding into a ditch.
+
+**A note on Simplified vs Traditional**: Whisper's `zh` is generic Chinese—it doesn't distinguish `zh-HK` or `zh-TW`. Output tends toward Simplified or Traditional depending on prompt bias. For Traditional output, use a Chinese initial prompt or post-process with [OpenCC](https://github.com/BYVoid/OpenCC).
+
+The `zh` transcripts aren't perfect—you'll see homophone errors throughout. But forced `zh` gives you *consistent* errors: 易經 (I-Ching) becomes 液晶 (liquid crystal) every time, 河圖 becomes 河途 throughout. Auto-detect is more chaotic—the same word might become 疫經, 疫情, or 逆境 depending on context, and you get gems like 火星男孩 (Mars Boy) becoming 火星藍蝦 (Mars Blue Shrimp).
+
+The forced `zh` output is coherent:
+
+```
+[00:32 --> 00:35] 叫做河出途 洛出書
+[00:35 --> 00:37] 那隻所謂龍馬
+[00:37 --> 00:39] 或者那隻所謂神龜
+[00:39 --> 00:41] 其實是太空飛船
+```
+
+Homophones aside, you can follow the argument. You can search it, summarize it, extract key points. Compare to the `yue` output from the same timestamp—garbage tokens and decoder collapse. The homophones are fixable with simple find-replace; the `yue` output is unsalvageable.
+
+## Implementation
+
+If you're using yt-dlp with Whisper, the fix is straightforward:
+
+```python
+# BEFORE (problematic)
+language = 'yue' if channel.language == 'yue' else None
+
+# AFTER (recommended)
+language = 'zh' if channel.language in ('yue', 'zh') else None
+```
+
+For faster-whisper directly:
+
+```python
+segments, info = model.transcribe(
+    audio_path,
+    language='zh',  # Force Chinese; prompt biases toward Traditional
+    initial_prompt="以下為粵語講解易經：離卦、九運、元亨利貞"  # Domain hints
+)
+```
+
+The initial prompt is optional but helps with domain-specific vocabulary. It biases the decoder toward correct terms without forcing a language mode that breaks it.
+
+## Cost Savings
+
+The original plan was to upgrade from `base` to `medium` for Cantonese channels. That's no longer necessary:
+
+| Model | RAM | Speed | Needed? |
+|-------|-----|-------|---------|
+| base | ~145MB | Fast | **Yes** |
+| medium | ~1.5GB | ~4x slower | No |
+| large-v3 | ~3GB | ~10x slower | No |
+
+Base + forced `zh` achieves good quality without the compute overhead.
+
+## Key Takeaways
+
+1. **Don't force `yue` for Cantonese content**—it causes decoder collapse
+2. **Force `zh` instead**—produces coherent, searchable transcripts
+3. **Base model is sufficient**—no need to upgrade to medium/large
+4. **Use initial prompts** for domain-specific vocabulary hints
+5. **Post-process for common errors**—液晶→易經, 河途→河圖
+
+The counter-intuitive lesson: the "correct" language code isn't always the right choice. Whisper's training distribution matters more than linguistic accuracy.
+
+---
+
+## References
+
+- [faster-whisper](https://github.com/SYSTRAN/faster-whisper) - CTranslate2 port of Whisper (~4x faster)
+- [Hugging Face Whisper models](https://huggingface.co/Systran) - Pre-converted CTranslate2 models
+- [Whisper model comparison](https://github.com/openai/whisper#available-models-and-languages) - Official model sizes
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp) - Video/audio downloader
+- [youtube-faster-whisper](https://github.com/faker2048/youtube-faster-whisper) - CLI wrapper combining both
