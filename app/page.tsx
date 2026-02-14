@@ -1,28 +1,14 @@
 import Link from 'next/link'
-import { getAllPosts, getPostBySlug } from './lib/posts'
-import { featuredCardStyles, cardStyles, buttonPrimaryStyles, buttonSecondaryStyles, tagStyles, headingStyles, textStyles } from './lib/styles'
-
-function formatDateUTC(dateStr: string) {
-  const [y, m, d] = dateStr.split('-').map(Number)
-  const dt = new Date(Date.UTC(y, m - 1, d))
-  return dt.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    timeZone: 'UTC'
-  })
-}
 
 export default function HomePage() {
-  // Structured data for Person schema
   const personSchema = {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: 'Augustin Chan',
     url: 'https://augustinchan.dev',
     image: 'https://augustinchan.dev/img/Xrn0Id68_400x400.jpg',
-    jobTitle: 'Software Engineer & Founder',
-    description: 'Building systems that reason. Founder of Digital Rain Studios, creator of 8-Bit Oracle.',
+    jobTitle: 'CTO & Founder, Digital Rain Studios',
+    description: 'Building production AI systems including skill-based generative pipelines, cross-platform AI bots, and on-device ML applications.',
     sameAs: [
       'https://x.com/aug_digitalrain',
       'https://x.com/augchan42',
@@ -41,12 +27,28 @@ export default function HomePage() {
     },
   }
 
-  // Get featured post
-  const featuredPost = getPostBySlug('2025-09-02-dspy-voice-evolution-authenticity')
+  const sectionHeadingStyle = {
+    fontSize: '1em',
+    fontWeight: 700 as const,
+    margin: '2.5rem 0 1rem',
+    color: 'var(--color-text-primary, #1f1e1d)',
+  }
 
-  // Get recent posts (excluding featured)
-  const allPosts = getAllPosts()
-  const recentPosts = allPosts.filter(p => p.slug !== '2025-09-02-dspy-voice-evolution-authenticity').slice(0, 5)
+  const linkItemStyle = {
+    marginBottom: '0.6rem',
+    lineHeight: '1.6',
+  }
+
+  const linkStyle = {
+    color: 'var(--color-text-primary, #1f1e1d)',
+    textDecoration: 'underline',
+    textUnderlineOffset: '3px',
+    textDecorationColor: 'var(--color-text-muted, #87867f)',
+  }
+
+  const yearStyle = {
+    color: 'var(--color-text-muted, #87867f)',
+  }
 
   return (
     <>
@@ -55,165 +57,125 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
       />
       <div>
-      <p style={{ fontSize: '1.1em', marginBottom: '3rem' }}>
-        Building systems that reason. Writing about AI, Web3, and software engineering.
-      </p>
-
-      {/* Featured Post */}
-      {featuredPost && (
-        <article style={{
-          marginBottom: '4rem',
-          ...featuredCardStyles,
-        }}>
-          <div style={{
-            fontSize: '0.85em',
-            fontWeight: 'bold',
-            ...textStyles.muted,
-            textTransform: 'uppercase',
-            letterSpacing: '0.05em',
-            marginBottom: '1rem'
-          }}>
-            Featured Post
-          </div>
-          <h2 style={headingStyles.primary}>
-            <Link
-              href={`/posts/${featuredPost.slug}`}
-              style={{
-                textDecoration: 'none',
-                ...textStyles.primary,
-              }}
-            >
-              {featuredPost.title}
-            </Link>
-          </h2>
-          <div style={{
-            ...textStyles.small,
-            marginBottom: '1rem'
-          }}>
-            {formatDateUTC(featuredPost.date)}
-            {featuredPost.readingTimeMinutes && (
-              <>
-                {' • '}
-                {featuredPost.readingTimeMinutes} min read
-              </>
-            )}
-          </div>
-          {featuredPost.description && (
-            <p style={{
-              fontSize: '1.1em',
-              ...textStyles.secondary,
-              lineHeight: '1.6',
-              marginBottom: '1rem'
-            }}>
-              {featuredPost.description}
-            </p>
-          )}
-          <Link
-            href={`/posts/${featuredPost.slug}`}
-            style={buttonPrimaryStyles}
-          >
-            Read Full Post →
-          </Link>
-        </article>
-      )}
-
-      {/* Recent Posts */}
-      <section style={{ marginBottom: '4rem' }}>
-        <h2 style={headingStyles.secondary}>Recent Posts</h2>
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 'var(--card-gap, 1.5rem)',
-        }}>
-          {recentPosts.map(post => {
-            const tags = post.tag
-              ? post.tag.split(',').map(t => t.trim()).filter(Boolean).slice(0, 4)
-              : []
-
-            return (
-              <article key={post.slug} style={cardStyles}>
-                <h3 style={{ fontSize: '1.3em', marginBottom: '0.5rem' }}>
-                  <Link
-                    href={`/posts/${post.slug}`}
-                    style={{
-                      textDecoration: 'none',
-                      ...textStyles.primary,
-                    }}
-                  >
-                    {post.title}
-                  </Link>
-                </h3>
-                <div style={{
-                  ...textStyles.small,
-                  marginBottom: post.description || tags.length > 0 ? '0.75rem' : '0'
-                }}>
-                  {formatDateUTC(post.date)}
-                  {post.readingTimeMinutes && (
-                    <>
-                      {' • '}
-                      {post.readingTimeMinutes} min read
-                    </>
-                  )}
-                </div>
-                {post.description && (
-                  <p style={{
-                    ...textStyles.secondary,
-                    fontSize: '0.95em',
-                    lineHeight: '1.5',
-                    margin: tags.length > 0 ? '0 0 0.75rem 0' : '0'
-                  }}>
-                    {post.description}
-                  </p>
-                )}
-                {tags.length > 0 && (
-                  <div style={{
-                    display: 'flex',
-                    gap: '0.5rem',
-                    flexWrap: 'wrap',
-                    marginTop: '0.5rem'
-                  }}>
-                    {tags.map(tag => (
-                      <span key={tag} style={tagStyles}>
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </article>
-            )
-          })}
+        {/* Bio */}
+        <div style={{ marginBottom: '2.5rem', lineHeight: '1.7' }}>
+          <p style={{ marginBottom: '1rem' }}>
+            Augustin Chan is the CTO and founder of{' '}
+            <a href="https://digitalrain.studio/" target="_blank" rel="noopener noreferrer" style={linkStyle}>
+              Digital Rain Studios
+            </a>
+            , building production AI systems including skill-based generative pipelines, cross-platform AI bots, and on-device ML applications.
+          </p>
+          <p style={{ marginBottom: '1rem' }}>
+            Previously, Augustin served as Development Architect at Informatica for 12 years, leading enterprise architecture for Fortune 500 customers across APAC, MENA, and Europe. Before that, he was a Senior Consultant at Dun &amp; Bradstreet.
+          </p>
+          <p>
+            Augustin holds a B.S. in Cognitive Science with Specialization in Computation from UC San Diego.
+          </p>
         </div>
-        <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-          <Link href="/blog" style={buttonSecondaryStyles}>
-            View All Posts →
-          </Link>
-        </div>
-      </section>
 
-      {/* Condensed About */}
-      <section style={{
-        marginTop: '4rem',
-        paddingTop: '2rem',
-        borderTop: '2px solid var(--color-border-default, #ddd)'
-      }}>
-        <h2 style={headingStyles.tertiary}>About</h2>
-        <p>
-          I'm a builder specializing in AI-powered experiences and Web3 through <a href="https://digitalrain.studio/" target="_blank" rel="noopener noreferrer">Digital Rain Studios</a>.
-          Currently working on <a href="https://8bitoracle.ai" target="_blank" rel="noopener noreferrer">8-Bit Oracle</a> (tech-noir I-Ching) and the <a href="https://qdayanon.com" target="_blank" rel="noopener noreferrer">QDayAnon Content Engine</a> (AI research platform).
+        {/* Essays */}
+        <div style={sectionHeadingStyle}>Essays</div>
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+          <li style={linkItemStyle}>
+            <Link href="/posts/2026-02-14-teaching-taste-to-agents-yilin-image-pipeline" style={linkStyle}>
+              Teaching Taste to an Agent
+            </Link>{' '}
+            <span style={yearStyle}>(2026)</span>
+          </li>
+          <li style={linkItemStyle}>
+            <Link href="/posts/2026-01-25-junzi-alignment-initial-weights-hypothesis" style={linkStyle}>
+              The Junzi Hypothesis
+            </Link>{' '}
+            <span style={yearStyle}>(2026)</span>
+          </li>
+          <li style={linkItemStyle}>
+            <Link href="/posts/2025-12-01-seeded-iching-engine" style={linkStyle}>
+              Seeded I-Ching Engine
+            </Link>{' '}
+            <span style={yearStyle}>(2025)</span>
+          </li>
+          <li style={linkItemStyle}>
+            <Link href="/posts/2025-10-28-memory-systems-and-the-graph-that-wasnt" style={linkStyle}>
+              Memory Systems and the Graph That Wasn't
+            </Link>{' '}
+            <span style={yearStyle}>(2025)</span>
+          </li>
+          <li style={linkItemStyle}>
+            <Link href="/posts/2025-09-27-llm-reasoning-pattern-classification-failure-modes" style={linkStyle}>
+              LLM Reasoning Patterns and Failure Modes
+            </Link>{' '}
+            <span style={yearStyle}>(2025)</span>
+          </li>
+          <li style={linkItemStyle}>
+            <Link href="/posts/2025-09-02-dspy-voice-evolution-authenticity" style={linkStyle}>
+              DSPy, Voice, and the Evolution of Authenticity
+            </Link>{' '}
+            <span style={yearStyle}>(2025)</span>
+          </li>
+        </ul>
+
+        {/* Short posts */}
+        <div style={sectionHeadingStyle}>Short posts</div>
+        <p style={linkItemStyle}>
+          <Link href="/blog" style={linkStyle}>Full archive</Link>
         </p>
-        <p>
-          I build everything AI-assisted and write about the technical challenges along the way.
-          Find me on <a href="https://x.com/aug_digitalrain" target="_blank" rel="noopener noreferrer">X</a> or <a href="https://github.com/augchan42/" target="_blank" rel="noopener noreferrer">GitHub</a>.
+
+        {/* Projects */}
+        <div style={sectionHeadingStyle}>Projects</div>
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+          <li style={linkItemStyle}>
+            <a href="https://8bitoracle.ai" target="_blank" rel="noopener noreferrer" style={linkStyle}>
+              8-Bit Oracle
+            </a>
+          </li>
+          <li style={linkItemStyle}>
+            <a href="https://qdayanon.com" target="_blank" rel="noopener noreferrer" style={linkStyle}>
+              QDayAnon Research Platform
+            </a>
+          </li>
+          <li style={linkItemStyle}>
+            <a href="https://github.com/augchan42/pbc-consensus-hk-2026" target="_blank" rel="noopener noreferrer" style={linkStyle}>
+              Plum Blossom Computer
+            </a>{' '}
+            <span style={yearStyle}>(Consensus HK 2026)</span>
+          </li>
+          <li style={linkItemStyle}>
+            <a href="https://github.com/augchan42/seeded-iching-engine" target="_blank" rel="noopener noreferrer" style={linkStyle}>
+              seeded-iching-engine
+            </a>{' '}
+            <span style={yearStyle}>(GitHub)</span>
+          </li>
+        </ul>
+
+        {/* Speaking */}
+        <div style={sectionHeadingStyle}>Speaking</div>
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+          <li style={linkItemStyle}>
+            <a href="https://youtu.be/SUXmMym8chk?si=PFfMz97gxkxa5WG8" target="_blank" rel="noopener noreferrer" style={linkStyle}>
+              5-minute group divination demo
+            </a>
+            {' '}— AI Tinkerers HK <span style={yearStyle}>(2025)</span>
+          </li>
+          <li style={linkItemStyle}>
+            <a href="https://www.youtube.com/watch?v=MBI8GY9xGPY" target="_blank" rel="noopener noreferrer" style={linkStyle}>
+              AI Agent technology discussion
+            </a>
+            {' '}— with fullvaluedan <span style={yearStyle}>(2025)</span>
+          </li>
+          <li style={linkItemStyle}>
+            <a href="https://www.youtube.com/watch?v=8N3PqINBBeY" target="_blank" rel="noopener noreferrer" style={linkStyle}>
+              8-Bit Oracle deep-dive
+            </a>
+            {' '}— with Eddylive <span style={yearStyle}>(2024)</span>
+          </li>
+        </ul>
+
+        {/* Consulting */}
+        <div style={sectionHeadingStyle}>Consulting</div>
+        <p style={linkItemStyle}>
+          People App, Travelbox
         </p>
-        <div style={{ marginTop: '1.5rem' }}>
-          <Link href="/about" style={{
-            ...buttonSecondaryStyles,
-            border: '1px solid var(--color-button-secondary-border, #333)',
-          }}>
-            More About Me →
-          </Link>
-        </div>
-      </section>
       </div>
     </>
   )

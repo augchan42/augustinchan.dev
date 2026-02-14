@@ -42,7 +42,7 @@ export default function AboutPage() {
           borderLeft: '4px solid var(--color-border-strong)'
         }}>
           <h3 style={{ marginTop: 0, fontSize: '1.1em' }}>
-            🧬 <a href="https://qdayanon.com" target="_blank" rel="noopener noreferrer">QDayAnon Content Engine</a>
+            🧬 <a href="https://qdayanon.com" target="_blank" rel="noopener noreferrer">QDayAnon Research Platform</a>
           </h3>
           <p style={{ margin: '0.5rem 0', color: 'var(--color-text-muted)', fontSize: '0.9em' }}>
             AI research platform for quantum computing content
@@ -229,7 +229,7 @@ export default function AboutPage() {
             OpenRouter, use-stt, Shadcn/Radix UI, Tailwind, Recharts, next-intl, next-pwa
           </p>
 
-          <h3>QDayAnon Content Engine</h3>
+          <h3>QDayAnon Research Platform</h3>
           <p style={{ fontSize: '0.9em', color: 'var(--color-text-muted)', marginBottom: 0 }}>
             FastAPI, Next.js 15, PostgreSQL, DSPy, WebSocket, MCP Protocol,
             multi-dimensional voice lattices, Pareto optimization
