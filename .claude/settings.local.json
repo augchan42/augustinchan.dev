@@ -35,7 +35,8 @@
       "Bash(ls:*)",
       "WebFetch(domain:tether.recruitee.com)",
       "WebFetch(domain:web3.career)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "WebFetch(domain:www.sweetspot.so)"
     ],
     "deny": [],
     "ask": []
