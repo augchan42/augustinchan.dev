@@ -9,7 +9,7 @@ export default function AboutPage() {
       <h1 style={{ fontSize: '1.25em', marginBottom: '1rem' }}>Greetings</h1>
 
       <p style={{ fontSize: '1.1em', color: 'var(--color-text-secondary)', marginBottom: '3rem' }}>
-        I build products from scratch in uncharted territory. Founder of <a href="https://digitalrain.studio/" target="_blank" rel="noopener noreferrer">Digital Rain Studios</a>.
+        I build products from scratch in uncharted territory. Founder of <a href="https://digitalrain.studio/" target="_blank" rel="noopener noreferrer">Digital Rain Technologies</a>.
       </p>
 
       {/* Current Work */}

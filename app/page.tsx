@@ -7,7 +7,7 @@ export default function HomePage() {
     name: 'Augustin Chan',
     url: 'https://augustinchan.dev',
     image: 'https://augustinchan.dev/img/Xrn0Id68_400x400.jpg',
-    jobTitle: 'CTO & Founder, Digital Rain Studios',
+    jobTitle: 'CTO & Founder, Digital Rain Technologies',
     description: 'Building production AI systems including skill-based generative pipelines, cross-platform AI bots, and on-device ML applications.',
     sameAs: [
       'https://x.com/aug_digitalrain',
@@ -22,7 +22,7 @@ export default function HomePage() {
     },
     worksFor: {
       '@type': 'Organization',
-      name: 'Digital Rain Studios',
+      name: 'Digital Rain Technologies',
       url: 'https://digitalrain.studio',
     },
   }
@@ -62,7 +62,7 @@ export default function HomePage() {
           <p style={{ marginBottom: '1rem' }}>
             Augustin Chan is the CTO and founder of{' '}
             <a href="https://digitalrain.studio/" target="_blank" rel="noopener noreferrer" style={linkStyle}>
-              Digital Rain Studios
+              Digital Rain Technologies
             </a>
             , building production AI systems including skill-based generative pipelines, cross-platform AI bots, and on-device ML applications.
           </p>
