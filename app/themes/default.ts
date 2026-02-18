@@ -5,45 +5,45 @@ export const defaultTheme: Theme = {
   displayName: 'Classic Clean',
 
   colors: {
-    background: '#fffff8',
-    backgroundSurface: '#fafafa',
-    backgroundAccent: '#f0f0f0',
+    background: '#d5cfc0',       // warm-brown
+    backgroundSurface: '#ddd8ca', // warm-brown-light
+    backgroundAccent: '#c9c2b1',  // warm-brown-dark
 
     text: {
-      primary: '#000',
-      secondary: '#555',
-      muted: '#666',
-      accent: '#2a623d',
+      primary: '#1f1e1d',        // slate-dark
+      secondary: '#5e5d59',      // slate-light
+      muted: '#87867f',          // cloud-dark
+      accent: '#3d3d3a',         // slate-medium
     },
 
     border: {
-      default: '#ddd',
-      strong: '#333',
-      accent: '#2a623d',
+      default: '#d1cfc5',        // cloud-light
+      strong: '#1f1e1d',         // slate-dark
+      accent: '#3d3d3a',         // slate-medium
     },
 
     button: {
       primary: {
-        bg: '#333',
-        text: '#fff',
-        border: '#333',
+        bg: '#1f1e1d',           // slate-dark
+        text: '#faf9f5',         // ivory-light
+        border: '#1f1e1d',       // slate-dark
       },
       secondary: {
         bg: 'transparent',
-        text: '#333',
-        border: '#333',
+        text: '#1f1e1d',         // slate-dark
+        border: '#1f1e1d',       // slate-dark
       },
     },
 
     code: {
-      bg: '#f0f0f0',
-      text: '#000',
-      border: '#ddd',
+      bg: '#c9c2b1',             // ivory-dark
+      text: '#1f1e1d',           // slate-dark
+      border: '#d1cfc5',         // cloud-light
     },
 
     tag: {
-      bg: '#e0e0e0',
-      text: '#555',
+      bg: '#c9c2b1',             // ivory-dark
+      text: '#5e5d59',           // slate-light
     },
   },
 

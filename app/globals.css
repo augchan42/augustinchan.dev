@@ -5,8 +5,8 @@ html, body {
   font-family: var(--font-family-base, "MS Sans Serif", sans-serif);
   font-size: var(--font-size-base, 20px);
   line-height: var(--line-height-base, 1.6);
-  background-color: var(--color-background, #fffff8);
-  color: var(--color-text-primary, #000);
+  background-color: var(--color-background, #d5cfc0);
+  color: var(--color-text-primary, #1f1e1d);
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -34,7 +34,7 @@ p {
 
 /* Links */
 a {
-  color: var(--color-text-accent, #2a623d);
+  color: var(--color-text-accent, #3d3d3a);
   text-decoration: none;
   transition: var(--transition, all 0.2s ease);
 }
@@ -54,16 +54,16 @@ a:hover {
   display: block;
   overflow-x: auto;
   padding: 0.5em;
-  background: var(--color-code-bg, #f0f0f0) !important;
-  color: var(--color-code-text, #000) !important;
-  border: 1px solid var(--color-code-border, #ddd);
+  background: var(--color-code-bg, #c9c2b1) !important;
+  color: var(--color-code-text, #1f1e1d) !important;
+  border: 1px solid var(--color-code-border, #d1cfc5);
   border-radius: var(--border-radius, 8px);
   font-family: var(--font-family-code, monospace);
 }
 
 /* Ensure all syntax elements inherit theme text color by default */
 .hljs * {
-  color: var(--color-code-text, #000);
+  color: var(--color-code-text, #1f1e1d);
 }
 
 .hljs-comment,
